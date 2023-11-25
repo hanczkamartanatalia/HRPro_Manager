@@ -12,7 +12,7 @@ using Website.Data;
 namespace Website.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231115181853_Init")]
+    [Migration("20231125182908_Init")]
     partial class Init
     {
         /// <inheritdoc />

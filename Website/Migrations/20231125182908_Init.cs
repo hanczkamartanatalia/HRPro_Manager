@@ -140,8 +140,8 @@ namespace Website.Migrations
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Id_User = table.Column<int>(type: "int", nullable: false),
-                    Id_Role = table.Column<int>(type: "int", nullable: false)
+                    Id_User = table.Column<int>(type: "int", nullable: true),
+                    Id_Role = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
