@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Database.Entities
+namespace Website.Entities
 {
-    public class Role :IdentityRole<int>
+    public class Role : Entity
     {
-
+        public string Name { get; set; } = default!;
     }
 }
