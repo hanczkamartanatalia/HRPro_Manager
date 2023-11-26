@@ -31,5 +31,9 @@ public class AppDbContext : DbContext
                 .Property(e => e.Rate)
                 .HasColumnType("money");
 
+        modelBuilder.Entity<LoginData>()
+                .HasIndex(ld => ld.Login)
+                .IsUnique();
+
     }
 }
