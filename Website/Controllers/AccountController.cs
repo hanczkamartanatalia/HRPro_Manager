@@ -12,6 +12,10 @@ namespace Website.Controllers
         {
             return View();
         }
+        public IActionResult ProcessLogin()
+        {
+            return RedirectToAction("Index");
+        }
 
     }
 }
