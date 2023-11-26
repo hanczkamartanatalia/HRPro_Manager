@@ -2,12 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Website.Database;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace Website.Service
 {
     public static class EntityService<T> where T : Entities.Entity
     {
-        private static readonly AppDbContext _context;
+        private static readonly AppDbContext _context = null!;
 
         public static T GetById(int id)
         {
@@ -33,7 +35,21 @@ namespace Website.Service
             throw new NotImplementedException();
         }
 
+        public static T GetBy(string _fieldName, string _value)
+        {
+            PropertyInfo property = typeof(T).GetProperty(_fieldName);
 
+            if (property == null)
+            {
+                throw new ArgumentException($"Field with name {_fieldName} does not exist in class {typeof(T).Name}.");
+            }
+
+            var entity = _context.Set<T>().FirstOrDefault(x => property.GetValue(x).ToString() == _value);
+            if (entity == null) { throw new ArgumentNullException($"{nameof(entity)}"); }
+
+            return entity as T;
+
+        }
 
     }
 }

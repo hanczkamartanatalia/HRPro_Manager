@@ -1,11 +1,21 @@
-﻿namespace Website.Service.AccountService
+﻿using Website.Entities;
+
+namespace Website.Service.AccountService
 {
     public static class LoginService
     {
-
         public static bool Login(string login, string password)
         {
-            throw new NotImplementedException();
+            try
+            {
+                LoginData loginData = EntityService<LoginData>.GetBy("Login", login);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;            
         }
         public static bool Logout()
         {
