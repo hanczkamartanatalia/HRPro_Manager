@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Website.Database;
 
@@ -11,9 +12,11 @@ using Website.Database;
 namespace Website.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231127192742_change-pwd-field-in-the-database")]
+    partial class changepwdfieldinthedatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,6 +198,9 @@ namespace Website.Migrations
 
                     b.Property<TimeSpan>("WorkingHours")
                         .HasColumnType("time");
+
+                    b.Property<bool?>("isAccept")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

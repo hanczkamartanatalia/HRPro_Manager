@@ -9,7 +9,7 @@ namespace Website.Service
 {
     public static class EntityService<T> where T : Entities.Entity
     {
-        private static readonly AppDbContext _context = null!;
+
 
         public static T GetById(int id)
         {
@@ -18,16 +18,22 @@ namespace Website.Service
                 throw new ArgumentException("Incorrect value. Id should be greater than 0.", nameof(id));
             }
 
-            T entity = _context.Set<T>().FirstOrDefault(x => EF.Property<int>(x, "Id") == id);
+            using (AppDbContext _context = new AppDbContext())
+            {
+                T entity = _context.Set<T>().FirstOrDefault(x => EF.Property<int>(x, "Id") == id);
 
-            if (entity == null) { throw new ArgumentNullException($"{nameof(entity)}"); }
+                if (entity == null) { throw new ArgumentNullException($"{nameof(entity)}"); }
 
-            return entity;
+                return entity;
+            }  
         }
 
         public static List<T> GetAll() 
         {
-            return _context.Set<T>().ToList();
+            using (AppDbContext _context = new AppDbContext())
+            {
+                return _context.Set<T>().ToList();
+            }  
         }
 
         public static void RemoveById(int _id)
@@ -43,11 +49,13 @@ namespace Website.Service
             {
                 throw new ArgumentException($"Field with name {_fieldName} does not exist in class {typeof(T).Name}.");
             }
+            using (AppDbContext _context = new AppDbContext())
+            {
+                var entity = _context.Set<T>().FirstOrDefault(x => property.GetValue(x).ToString() == _value);
+                if (entity == null) { throw new ArgumentNullException($"{nameof(entity)}"); }
 
-            var entity = _context.Set<T>().FirstOrDefault(x => property.GetValue(x).ToString() == _value);
-            if (entity == null) { throw new ArgumentNullException($"{nameof(entity)}"); }
-
-            return entity as T;
+                return entity as T;
+            }
 
         }
 
