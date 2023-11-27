@@ -49,15 +49,22 @@ namespace Website.Service
             {
                 throw new ArgumentException($"Field with name {_fieldName} does not exist in class {typeof(T).Name}.");
             }
+
             using (AppDbContext _context = new AppDbContext())
             {
-                var entity = _context.Set<T>().FirstOrDefault(x => property.GetValue(x).ToString() == _value);
-                if (entity == null) { throw new ArgumentNullException($"{nameof(entity)}"); }
+                var entities = _context.Set<T>().AsEnumerable();
+
+                var entity = entities.FirstOrDefault(x => property.GetValue(x)?.ToString() == _value);
+
+                if (entity == null)
+                {
+                    throw new ArgumentNullException($"{nameof(entity)}");
+                }
 
                 return entity as T;
             }
-
         }
+
 
     }
 }

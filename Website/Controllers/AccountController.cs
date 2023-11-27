@@ -7,10 +7,13 @@ namespace Website.Controllers
 {
     public class AccountController : Controller
     {
+        LoginData loginDb;
+
         public IActionResult Index()
         {
-            LoginData loggedInUser = TempData["LoggedInUser"] as LoginData;
-            return View(loggedInUser);
+            // gubi mój obiekt
+            // tutaj loginDb = null
+            return View(loginDb);
         }
         public IActionResult Login()
         {
@@ -20,12 +23,11 @@ namespace Website.Controllers
         {
             try
             {
-                LoginData loginDb = LoginService.Login(model.Login, model.Password);
-                TempData["LoggedInUser"] = loginDb;
+                loginDb = LoginService.Login(model.Login, model.Password);
                 HttpContext.Session.SetInt32("ID", loginDb.Id);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
                 return RedirectToAction("Login");
             }
