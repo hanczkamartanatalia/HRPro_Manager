@@ -9,7 +9,7 @@ namespace Website.Entities;
 public class User : Entity
 {
     [MaxLength(20)]
-    public string Namee { get; set; } = default!;
+    public string Name { get; set; } = default!;
     [MaxLength(20)]
     public string LastName { get; set; } = default!;
     [MaxLength(20)]

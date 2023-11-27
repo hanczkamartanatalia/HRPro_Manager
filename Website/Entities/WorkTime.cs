@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,9 @@ namespace Website.Entities
         public User User { get; set; } = default!;
 
 
-
+        [DataType(DataType.Date)]
         public DateTime WorkingDay { get; set; } = default!;
         public TimeSpan WorkingHours { get; set; } = default!;
-        public bool? isAccept { get; set; }
+        
     }
 }
