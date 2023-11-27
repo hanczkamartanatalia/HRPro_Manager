@@ -15,11 +15,10 @@ namespace Website.Service.AccountService
             }
         }
 
-        public static bool isCorrect(string _inputPass, string _dbPass)
+        public static void isCorrect(string _inputPass, string _dbPass)
         {
             string dbPassHash = HashPassword(_dbPass);
-            if(dbPassHash == _inputPass) return true;
-            else return false;
+            if(dbPassHash != _inputPass) throw new Exception("Incorrect password.");
         }
 
        
