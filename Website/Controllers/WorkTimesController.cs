@@ -45,7 +45,7 @@ namespace Website.Controllers
             return View(workTime);
         }
 
-        // GET: WorkTimes/Create for admin
+        // GET: WorkTimes/Create for admin and manager 
         public IActionResult Create()
         {
            
@@ -59,10 +59,29 @@ namespace Website.Controllers
 
             return View();
         }
+        public IActionResult CreateUser()
+        {
+            return View();
+        }
+        //WorkTimes/createUser for user
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateUser(DateTime WorkingDay, TimeSpan WorkingHours)
+        {
+            var workTime = new WorkTime
+            {
+                Id_User = 5, //tutaj dodac id usera, który jest zalogowany
+                WorkingDay = WorkingDay,
+                WorkingHours = WorkingHours,
+            };
+
+            _context.Add(workTime);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
 
         // POST: WorkTimes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id_User,WorkingDay,WorkingHours,Id")] WorkTime workTime)
