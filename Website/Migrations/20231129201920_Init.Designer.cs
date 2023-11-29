@@ -12,8 +12,8 @@ using Website.Database;
 namespace Website.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231129191801_INIT")]
-    partial class INIT
+    [Migration("20231129201920_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace Website.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Id_Category")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id_User")
                         .HasColumnType("int");
 
@@ -43,6 +46,8 @@ namespace Website.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id_Category");
 
                     b.HasIndex("Id_User");
 
@@ -63,7 +68,7 @@ namespace Website.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Website.Entities.Employment", b =>
@@ -225,11 +230,19 @@ namespace Website.Migrations
 
             modelBuilder.Entity("Website.Entities.Application", b =>
                 {
+                    b.HasOne("Website.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("Id_Category")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Website.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("Id_User")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });

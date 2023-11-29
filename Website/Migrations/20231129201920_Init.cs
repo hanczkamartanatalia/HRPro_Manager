@@ -6,18 +6,31 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Website.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Positions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +43,7 @@ namespace Website.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,9 +56,9 @@ namespace Website.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,12 +72,19 @@ namespace Website.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Id_User = table.Column<int>(type: "int", nullable: false),
+                    Id_Category = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Applications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Applications_Categories_Id_Category",
+                        column: x => x.Id_Category,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Applications_Users_Id_User",
                         column: x => x.Id_User,
@@ -113,7 +133,7 @@ namespace Website.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Login = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Id_User = table.Column<int>(type: "int", nullable: false),
                     Id_Role = table.Column<int>(type: "int", nullable: false)
@@ -143,8 +163,7 @@ namespace Website.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Id_User = table.Column<int>(type: "int", nullable: false),
                     WorkingDay = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    WorkingHours = table.Column<TimeSpan>(type: "time", nullable: false),
-                    isAccept = table.Column<bool>(type: "bit", nullable: true)
+                    WorkingHours = table.Column<decimal>(type: "decimal(4,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,6 +175,11 @@ namespace Website.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applications_Id_Category",
+                table: "Applications",
+                column: "Id_Category");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Applications_Id_User",
@@ -188,6 +212,12 @@ namespace Website.Migrations
                 column: "Id_User");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LoginData_Login",
+                table: "LoginData",
+                column: "Login",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_WorkTimes_Id_User",
                 table: "WorkTimes",
                 column: "Id_User");
@@ -207,6 +237,9 @@ namespace Website.Migrations
 
             migrationBuilder.DropTable(
                 name: "WorkTimes");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "Positions");

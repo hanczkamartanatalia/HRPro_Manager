@@ -15,6 +15,11 @@ namespace Website.Entities
         [ForeignKey(nameof(Id_User))]
         public User User { get; set; } = default!;
 
+        [ForeignKey(nameof(Category))]
+        public int Id_Category { get; set; } = default!;
+        [ForeignKey(nameof(Id_Category))]
+        public Category Category { get; set; } = default!;
+
         public DateTime StartDate { get; set; } = default!;
         public DateTime EndDate { get; set; } = default!;
     }
