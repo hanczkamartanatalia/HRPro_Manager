@@ -20,7 +20,12 @@ namespace Website.Entities
 
         [DataType(DataType.Date)]
         public DateTime WorkingDay { get; set; } = default!;
-        public TimeSpan WorkingHours { get; set; } = default!;
         
+        public decimal WorkingHours { get; set; } = default!;
+        [ForeignKey(nameof(Category))]
+        public int Id_Category { get; set; } = default!;
+        [ForeignKey(nameof(Id_Category))]
+        public Category Category { get; set; } = default!;
+
     }
 }

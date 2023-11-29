@@ -13,7 +13,9 @@ public class AppDbContext : DbContext
     public DbSet<Position> Positions { get; set; }
     public DbSet<WorkTime> WorkTimes { get; set; }
     public DbSet<LoginData> LoginData { get; set; }
-    
+    public DbSet<Category> Category { get; set; }
+ 
+
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -35,6 +37,10 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<LoginData>()
                 .HasIndex(ld => ld.Login)
                 .IsUnique();
+
+        modelBuilder.Entity<WorkTime>()
+            .Property(wt => wt.WorkingHours)
+            .HasColumnType("decimal(4,2)");
 
     }
 }
