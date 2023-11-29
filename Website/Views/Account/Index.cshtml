@@ -1,7 +1,3 @@
-﻿@page
+﻿@model Website.Entities.LoginData
 
-@using Microsoft.AspNetCore.Http
-@model Website.Entities.LoginData
-
-
-<p> @Model.Login</p>
+@Html.DisplayTextFor(model => model.Login)

@@ -7,27 +7,28 @@ namespace Website.Controllers
 {
     public class AccountController : Controller
     {
-        LoginData loginDb;
-
-        public IActionResult Index()
+        public IActionResult Index(LoginData loginDb)
         {
-            // gubi mój obiekt
-            // tutaj loginDb = null
+
+            if (loginDb == null)
+            {
+                return RedirectToAction("Login");
+            }
             return View(loginDb);
         }
         public IActionResult Login()
         {
             return View();
         }
+
         public IActionResult ProcessLogin(LoginData model)
         {
             try
             {
-                loginDb = LoginService.Login(model.Login, model.Password);
-                HttpContext.Session.SetInt32("ID", loginDb.Id);
-                return RedirectToAction("Index");
+                LoginData loginDb = LoginService.Login(model.Login, model.Password);
+                return RedirectToAction("Index", loginDb);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return RedirectToAction("Login");
             }
