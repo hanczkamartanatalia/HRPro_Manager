@@ -7,8 +7,9 @@ namespace Website.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Index(LoginData loginDb)
+        public IActionResult Index()
         {
+            LoginData loginDb = TempData["LoginData"] as LoginData ?? new LoginData();
 
             if (loginDb == null)
             {
@@ -21,12 +22,14 @@ namespace Website.Controllers
             return View();
         }
 
+        [HttpPost]
         public IActionResult ProcessLogin(LoginData model)
         {
             try
             {
                 LoginData loginDb = LoginService.Login(model.Login, model.Password);
-                return RedirectToAction("Index", loginDb);
+                TempData["LoginData"] = loginDb;
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
