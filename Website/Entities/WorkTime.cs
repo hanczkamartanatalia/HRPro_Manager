@@ -17,11 +17,9 @@ namespace Website.Entities
         [ForeignKey(nameof(Id_User))]
         public User User { get; set; } = default!;
 
-
         [DataType(DataType.Date)]
         public DateTime WorkingDay { get; set; } = default!;
-        
-        public decimal WorkingHours { get; set; } = default!;
+        public TimeSpan WorkingHours { get; set; } = default!;
         [ForeignKey(nameof(Category))]
         public int Id_Category { get; set; } = default!;
         [ForeignKey(nameof(Id_Category))]

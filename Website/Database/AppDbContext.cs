@@ -38,9 +38,9 @@ public class AppDbContext : DbContext
                 .HasIndex(ld => ld.Login)
                 .IsUnique();
 
-        modelBuilder.Entity<WorkTime>()
-            .Property(wt => wt.WorkingHours)
-            .HasColumnType("decimal(4,2)");
+       // modelBuilder.Entity<WorkTime>()
+         //   .Property(wt => wt.WorkingHours)
+        //    .HasColumnType("decimal(4,2)");
 
     }
 }

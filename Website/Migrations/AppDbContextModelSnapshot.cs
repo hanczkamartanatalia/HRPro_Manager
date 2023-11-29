@@ -46,6 +46,23 @@ namespace Website.Migrations
                     b.ToTable("Applications");
                 });
 
+            modelBuilder.Entity("Website.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("Website.Entities.Employment", b =>
                 {
                     b.Property<int>("Id")
@@ -187,6 +204,9 @@ namespace Website.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Id_Category")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id_User")
                         .HasColumnType("int");
 
@@ -197,6 +217,8 @@ namespace Website.Migrations
                         .HasColumnType("time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id_Category");
 
                     b.HasIndex("Id_User");
 
@@ -260,11 +282,19 @@ namespace Website.Migrations
 
             modelBuilder.Entity("Website.Entities.WorkTime", b =>
                 {
+                    b.HasOne("Website.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("Id_Category")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Website.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("Id_User")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });

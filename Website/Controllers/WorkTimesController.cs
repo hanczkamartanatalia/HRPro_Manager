@@ -66,7 +66,7 @@ namespace Website.Controllers
         //WorkTimes/createUser for user
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateUser(DateTime WorkingDay, decimal WorkingHours)
+        public async Task<IActionResult> CreateUser(DateTime WorkingDay, TimeSpan WorkingHours)
         {
             var workTime = new WorkTime
             {
