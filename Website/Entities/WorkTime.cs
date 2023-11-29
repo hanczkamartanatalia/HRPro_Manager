@@ -17,7 +17,6 @@ namespace Website.Entities
         [ForeignKey(nameof(Id_User))]
         public User User { get; set; } = default!;
 
-
         [DataType(DataType.Date)]
         public DateTime WorkingDay { get; set; } = default!;
         
