@@ -12,13 +12,8 @@ using Website.Database;
 namespace Website.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-<<<<<<<< HEAD:Website/Migrations/20231129201920_Init.Designer.cs
-    [Migration("20231129201920_Init")]
+    [Migration("20231130080019_Init")]
     partial class Init
-========
-    [Migration("20231129194831_update4")]
-    partial class update4
->>>>>>>> 590aded81eb4aebe571732df59080b3ad030c7f6:Website/Migrations/20231129194831_update4.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,21 +212,16 @@ namespace Website.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Id_Category")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id_User")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("WorkingDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("WorkingHours")
-                        .HasColumnType("time");
+                    b.Property<decimal>("WorkingHours")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id_Category");
 
                     b.HasIndex("Id_User");
 
@@ -303,19 +293,11 @@ namespace Website.Migrations
 
             modelBuilder.Entity("Website.Entities.WorkTime", b =>
                 {
-                    b.HasOne("Website.Entities.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("Id_Category")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Website.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("Id_User")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
