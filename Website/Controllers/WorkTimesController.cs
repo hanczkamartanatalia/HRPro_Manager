@@ -25,6 +25,15 @@ namespace Website.Controllers
             var appDbContext = _context.WorkTimes.Include(w => w.User);
             return View(await appDbContext.ToListAsync());
         }
+        public async Task<IActionResult> IndexUser()
+        {
+            // ustaw pozniej id zalogowanego usera
+            var userWorkTimes = await _context.WorkTimes
+                .Where(w => w.Id_User == 1)
+                .ToListAsync();
+
+            return View(userWorkTimes);
+        }
 
         // GET: WorkTimes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -70,7 +79,7 @@ namespace Website.Controllers
         {
             var workTime = new WorkTime
             {
-                Id_User = 5, //tutaj dodac id usera, który jest zalogowany
+                Id_User = 1, //tutaj dodac id usera, który jest zalogowany
                 WorkingDay = WorkingDay,
                 WorkingHours = WorkingHours,
             };
@@ -78,20 +87,19 @@ namespace Website.Controllers
             _context.Add(workTime);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(IndexUser));
         }
 
         // POST: WorkTimes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id_User,WorkingDay,WorkingHours,Id")] WorkTime workTime)
+        public async Task<IActionResult> Create([Bind("Id_User,WorkingDay,WorkingHours")] WorkTime workTime)
         {
-            if (ModelState.IsValid)
-            {
+            
                 _context.Add(workTime);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+            
             ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
             return View(workTime);
         }
