@@ -120,6 +120,21 @@ namespace Website.Controllers
             ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
             return View(workTime);
         }
+        public async Task<IActionResult> EditUser(int? id)
+        {
+            if (id == null || _context.WorkTimes == null)
+            {
+                return NotFound();
+            }
+
+            var workTime = await _context.WorkTimes.FindAsync(id);
+            if (workTime == null)
+            {
+                return NotFound();
+            }
+            ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
+            return View(workTime);
+        }
 
         // POST: WorkTimes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -133,8 +148,7 @@ namespace Website.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            
                 try
                 {
                     _context.Update(workTime);
@@ -152,7 +166,38 @@ namespace Website.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
+           
+            ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
+            return View(workTime);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUser(int id, [Bind("Id_User,WorkingDay,WorkingHours,Id")] WorkTime workTime)
+        {
+            if (id != workTime.Id)
+            {
+                return NotFound();
             }
+
+
+            try
+            {
+                _context.Update(workTime);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!WorkTimeExists(workTime.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(IndexUser));
+
             ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
             return View(workTime);
         }
