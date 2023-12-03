@@ -12,15 +12,11 @@ namespace Website.Service.AccountService
             PasswordService.isCorrect(password,loginData.Password);
             return loginData;
         }
-        public static bool Logout()
-        {
-            throw new NotImplementedException();
-        }
 
-        private static void setUserSession(LoginData loginData)
+        public static bool isLogin(int? id)
         {
-           // HttpContext http = new HttpContext();
-           //.Session.SetString("UserName", "JohnDoe");
+            if(id == null) return false;
+            else return true;
         }
     }
 }
