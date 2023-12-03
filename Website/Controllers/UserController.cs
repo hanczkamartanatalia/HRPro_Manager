@@ -41,7 +41,7 @@ namespace Website.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            Role role = (Role)_context.Roles.Where(i => i.Id == 3);
+            Role role = _context.Roles.SingleOrDefault(i => i.Id == 3 && i.Name == "Employee");
 
             if (role == null)
             {
@@ -65,7 +65,9 @@ namespace Website.Controllers
             _context.LoginData.Add(loginData);
             _context.SaveChanges();
             _context.Dispose();
-            return RedirectToAction("Index");
+            TempData["UserId"] = user.Id;
+            return RedirectToAction("Create", "Employment");
+
             //}
 
             //return View("Create");
@@ -73,7 +75,7 @@ namespace Website.Controllers
 
         public IActionResult Edit(int Id)
         {
-            User editUser = (User)_context.Users.Where(i => i.Id == Id);
+            User editUser = _context.Users.FirstOrDefault(i => i.Id == Id);
 
             _context.Dispose();
             return View(editUser);
@@ -81,7 +83,7 @@ namespace Website.Controllers
 
         public IActionResult Save(User user)
         {
-            User editUser = (User)_context.Users.Where(i => i.Id == user.Id);
+            User editUser = _context.Users.FirstOrDefault(i => i.Id == user.Id);
 
             editUser.Name = user.Name;
             editUser.LastName = user.LastName;
@@ -91,9 +93,10 @@ namespace Website.Controllers
             _context.Dispose();
             return Redirect("Index");
         }
+
         public IActionResult Details(int Id)
         {
-            User detailsUser = (User)_context.Users.Where(i => i.Id == Id);
+            User detailsUser = _context.Users.FirstOrDefault(i => i.Id == Id);
 
             _context.Dispose();
             return View(detailsUser);
@@ -101,7 +104,7 @@ namespace Website.Controllers
 
         public IActionResult Delete(int Id)
         {
-            User deleteUser = (User)_context.Users.Where(i => i.Id == Id);
+            User deleteUser = _context.Users.FirstOrDefault(i => i.Id == Id);
 
             _context.Dispose();
             return View(deleteUser);
@@ -109,8 +112,8 @@ namespace Website.Controllers
 
         public IActionResult Remove(User user)
         {
-            User deleteUser = (User)_context.Users.Where(i => i.Id == user.Id);
-            LoginData loginData = (LoginData)_context.LoginData.Where(i => i.Id_User == user.Id);
+            User deleteUser = _context.Users.FirstOrDefault(i => i.Id == user.Id);
+            LoginData loginData = _context.LoginData.FirstOrDefault(i => i.Id_User == user.Id);
 
             if (deleteUser != null && loginData != null)
             {
@@ -125,6 +128,53 @@ namespace Website.Controllers
 
             _context.Dispose();
             return RedirectToAction("Index");
+        }
+        public IActionResult ChangeLogin(int Id)
+        {
+            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id);
+
+            _context.Dispose();
+            return View(editLoginData);
+        }
+
+        public IActionResult SaveLogin(LoginData loginData)
+        {
+            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == loginData.Id_User);
+
+            editLoginData.Login = loginData.Login;
+            editLoginData.Password = loginData.Password;
+
+            _context.SaveChanges();
+            _context.Dispose();
+            return Redirect("Index");
+        }
+
+        public IActionResult GrantPermission(int Id)
+        {
+            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id && i.Id_Role == 3);
+
+            Role role = _context.Roles.SingleOrDefault(i => i.Id == 2);
+
+            editLoginData.Id_Role=role.Id;
+            editLoginData.Role = role;
+
+            _context.SaveChanges();
+            _context.Dispose();
+            return View(editLoginData);
+        }
+
+        public IActionResult RevokePermission(int Id)
+        {
+            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id && i.Id_Role == 2);
+
+            Role role = _context.Roles.SingleOrDefault(i => i.Id == 3);
+
+            editLoginData.Id_Role = role.Id;
+            editLoginData.Role = role;
+
+            _context.SaveChanges();
+            _context.Dispose();
+            return View(editLoginData);
         }
     }
 }
