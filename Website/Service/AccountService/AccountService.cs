@@ -4,11 +4,12 @@ namespace Website.Service.AccountService
 {
     public static class AccountService
     {
-        public static bool HasAccess(string expectedRoleName,LoginData loginData)
+        public static bool HasAccess(List<string> expectedRoleNames,LoginData loginData)
         {
             Role role = EntityService<Role>.GetById(loginData.Id_Role);
-            if(expectedRoleName == role.Name) return true;
-            return false;
+            string roleName = expectedRoleNames.FirstOrDefault(x => x == role.Name);
+            if (roleName == null) { return false; }
+            return true;
         }
 
     }
