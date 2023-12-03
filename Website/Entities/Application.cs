@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,9 @@ namespace Website.Entities
         public int Id_Category { get; set; } = default!;
         [ForeignKey(nameof(Id_Category))]
         public Category Category { get; set; } = default!;
-
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; } = default!;
+        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; } = default!;
     }
 }
