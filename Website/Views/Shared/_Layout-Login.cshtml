@@ -21,9 +21,12 @@
                 @{
                     Html.RenderPartial("_Menu");
                 }
-                <div class="item-align-end">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">
-                        <i class="fa-solid fa-right-to-bracket"></i>
+                <div class="item-align-end row me-1">
+                    <a class="nav-link text-dark col" asp-area="" asp-controller="Account" asp-action="Index">
+                        <i class="fa-solid fa-user" title="My account"></i>
+                    </a>
+                    <a class="nav-link text-dark col" asp-area="" asp-controller="Account" asp-action="Logout">
+                        <i class="fa-solid fa-right-from-bracket" title="Logout"></i>
                     </a>
                 </div>
             </div>

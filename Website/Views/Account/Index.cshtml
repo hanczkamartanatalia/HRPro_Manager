@@ -1,6 +1,30 @@
 ﻿@{
     ViewData["Title"] = "Account";
 }
-@model Website.Entities.LoginData
 
-@Html.DisplayTextFor(model => model.Login)
+<div class="m-5"></div>
+
+<h1 class="mt-3 display-5">Welcome @Context.Session.GetString("LD_Login")</h1>
+<div class="m-5"></div>
+<div>
+    <h2 class="mt-6">Personal data:</h2>
+</div>
+
+<div class="m-5"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p class="border-bottom border-primary-subtle">Name: </p>
+            <p>@Context.Session.GetString("U_Name")</p>
+            <p class="border-bottom border-primary-subtle">Last name: </p>
+            <p>@Context.Session.GetString("U_LastName")</p>
+        </div>
+        <div class="col">
+            <p class="border-bottom border-primary-subtle">Email: </p>
+            <p>@Context.Session.GetString("U_Email")</p>
+            <p class="border-bottom border-primary-subtle">Your role: </p>
+            <p>@Context.Session.GetString("R_Name")</p>
+        </div>
+    </div>
+</div>

@@ -10,14 +10,14 @@ namespace Website.Controllers
     {
         public IActionResult Index()
         {
-            int? id = HttpContext.Session.GetInt32("UserId");
+            int? id = HttpContext.Session.GetInt32("LD_Id");
             if (id <= 0 || id == null) return RedirectToAction("Login");
             LoginData loginData = EntityService<LoginData>.GetById((int)id);
-            return View(loginData);
+            return View();
         }
         public IActionResult Login()
         {
-            if(LoginService.isLogin(HttpContext.Session.GetInt32("UserId"))) return RedirectToAction("Index");
+            if(LoginService.isLogin(HttpContext.Session.GetInt32("LD_Id"))) return RedirectToAction("Index");
             return View();
         }
         public IActionResult Logout()
@@ -31,15 +31,21 @@ namespace Website.Controllers
             try
             {
                 LoginData loginDb = LoginService.Login(model.Login, model.Password);
-                int id = loginDb.Id;
-                HttpContext.Session.SetInt32("UserId", id);
+                User user = EntityService<User>.GetById(loginDb.Id_User);
                 Role role = EntityService<Role>.GetById(loginDb.Id_Role);
-                HttpContext.Session.SetString("Role", role.Name);
-                //return RedirectToAction("Index", new { id = id });
+                
+                HttpContext.Session.SetInt32("LD_Id", loginDb.Id);
+                HttpContext.Session.SetString("LD_Login", loginDb.Login);
+                HttpContext.Session.SetString("U_Name", user.Name);
+                HttpContext.Session.SetString("U_LastName", user.LastName);
+                HttpContext.Session.SetString("U_Email", user.Email);
+                HttpContext.Session.SetString("R_Name", role.Name);
+                
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
+                HttpContext.Session.SetString("Error","Incorrect login or password.");
                 return RedirectToAction("Login");
             }
 

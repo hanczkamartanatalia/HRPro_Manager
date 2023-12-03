@@ -1,5 +1,5 @@
 ﻿@{
-    int? userId = Context.Session.GetInt32("UserId");
+    int? userId = Context.Session.GetInt32("LD_Id");
     if (userId == null)
     {
         Layout = "_Layout-Logout";
