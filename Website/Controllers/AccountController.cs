@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Website.Entities;
+using Website.Service;
 using Website.Service.AccountService;
 
 namespace Website.Controllers
@@ -9,30 +10,42 @@ namespace Website.Controllers
     {
         public IActionResult Index()
         {
-            LoginData loginDb = TempData["LoginData"] as LoginData ?? new LoginData();
-
-            if (loginDb == null)
-            {
-                return RedirectToAction("Login");
-            }
-            return View(loginDb);
+            int? id = HttpContext.Session.GetInt32("LD_Id");
+            if (id <= 0 || id == null) return RedirectToAction("Login");
+            LoginData loginData = EntityService<LoginData>.GetById((int)id);
+            return View();
         }
         public IActionResult Login()
         {
+            if(LoginService.isLogin(HttpContext.Session.GetInt32("LD_Id"))) return RedirectToAction("Index");
             return View();
         }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
 
-        [HttpPost]
         public IActionResult ProcessLogin(LoginData model)
         {
             try
             {
                 LoginData loginDb = LoginService.Login(model.Login, model.Password);
-                TempData["LoginData"] = loginDb;
+                User user = EntityService<User>.GetById(loginDb.Id_User);
+                Role role = EntityService<Role>.GetById(loginDb.Id_Role);
+                
+                HttpContext.Session.SetInt32("LD_Id", loginDb.Id);
+                HttpContext.Session.SetString("LD_Login", loginDb.Login);
+                HttpContext.Session.SetString("U_Name", user.Name);
+                HttpContext.Session.SetString("U_LastName", user.LastName);
+                HttpContext.Session.SetString("U_Email", user.Email);
+                HttpContext.Session.SetString("R_Name", role.Name);
+                
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
+                HttpContext.Session.SetString("Error","Incorrect login or password.");
                 return RedirectToAction("Login");
             }
 

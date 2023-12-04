@@ -1,0 +1,15 @@
+﻿@{
+    string? role = Context.Session.GetString("R_Name");
+    if(role == "Admin")
+    {
+        await Html.RenderPartialAsync("MenuTypes/admin.cshtml");
+    }
+    else if (role == "Manager")
+    {
+        await Html.RenderPartialAsync("MenuTypes/manager.cshtml");
+    }
+    else if(role == "Employee")
+    {
+        await Html.RenderPartialAsync("MenuTypes/employee.cshtml");
+    }
+}
