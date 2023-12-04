@@ -6,6 +6,7 @@ namespace Website.Database;
 
 public class AppDbContext : DbContext
 {
+    public DbSet<Category> Categories { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<Employment> Employments { get; set; }
@@ -13,13 +14,11 @@ public class AppDbContext : DbContext
     public DbSet<Position> Positions { get; set; }
     public DbSet<WorkTime> WorkTimes { get; set; }
     public DbSet<LoginData> LoginData { get; set; }
-    
-
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-       // optionsBuilder.UseSqlServer("Server=tcp:hrpro-server.database.windows.net,1433;Initial Catalog=HRPro;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication='Active Directory Default';");
-        optionsBuilder.UseSqlServer("Server=hrpro-server.database.windows.net; Database=HRPro; User ID=hrpro-server-admin; Password=pYx>vCT%$$5%39w");
+       //optionsBuilder.UseSqlServer("Server=tcp:hrpro-server.database.windows.net,1433;Initial Catalog=HRPro;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication='Active Directory Default';");
+       optionsBuilder.UseSqlServer("Server=hrpro-server.database.windows.net; Database=HRPro; User ID=hrpro-server-admin; Password=pYx>vCT%$$5%39w");
         base.OnConfiguring(optionsBuilder);
 
     }
@@ -35,6 +34,10 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<LoginData>()
                 .HasIndex(ld => ld.Login)
                 .IsUnique();
+
+       // modelBuilder.Entity<WorkTime>()
+         //   .Property(wt => wt.WorkingHours)
+        //    .HasColumnType("decimal(4,2)");
 
     }
 }
