@@ -7,17 +7,11 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="CreateUser">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.WorkingDay)
             </th>
@@ -30,15 +24,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-             <td>
-              @Html.DisplayFor(modelItem => item.User.Id)
-
-             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Name)
-
-                @Html.DisplayFor(modelItem => item.User.LastName)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.WorkingDay)
             </td>
@@ -46,8 +31,7 @@
                 @Html.DisplayFor(modelItem => item.WorkingHours)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="EditUser" asp-route-id="@item.Id">EditUser</a> |   
             </td>
         </tr>
 }

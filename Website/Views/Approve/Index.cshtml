@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Website.Models.Approve>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<p>
+    <a asp-action="Archives">Archives</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Name)
+                    @Html.DisplayFor(modelItem => item.User.LastName)
+
+                </td>  
+                <td>
+                    @Html.DisplayFor(modelItem => item.Application.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Application.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    <a asp-action="Accept" asp-route-id="@item.Application.Id">Accept</a> |
+                    <a asp-action="Reject" asp-route-id="@item.Application.Id">Reject</a>
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
