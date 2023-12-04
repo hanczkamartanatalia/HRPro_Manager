@@ -22,35 +22,18 @@ namespace Website.Controllers
         // GET: Roles
         public async Task<IActionResult> Index()
         {
-            //if (_context.Roles != null)
+            if (_context.Roles != null)
             {
                 var roles = await _context.Roles.ToListAsync();
                 return View(roles);
             }
-            //else
+            else
             {
-             //   return Problem("Entity set 'AppDbContext.Roles' is null.");
+               return Problem("Entity set 'AppDbContext.Roles' is null.");
             }
         }
 
-        // GET: Roles/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Roles == null)
-            {
-                return NotFound();
-            }
-
-            var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (role == null)
-            {
-                return NotFound();
-            }
-
-            return View(role);
-        }
-
+  
         // GET: Roles/Create
         public IActionResult Create()
         {
@@ -58,8 +41,6 @@ namespace Website.Controllers
         }
 
         // POST: Roles/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Id")] Role role)
@@ -73,7 +54,7 @@ namespace Website.Controllers
             return View(role);
         }
 
-        // GET: Roles/Edit/5
+        // GET: Roles/Edit/
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Roles == null)
@@ -90,8 +71,6 @@ namespace Website.Controllers
         }
 
         // POST: Roles/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Id")] Role role)
@@ -124,7 +103,7 @@ namespace Website.Controllers
             return View(role);
         }
 
-        // GET: Roles/Delete/5
+        // GET: Roles/Delete/
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Roles == null)
@@ -142,7 +121,7 @@ namespace Website.Controllers
             return View(role);
         }
 
-        // POST: Roles/Delete/5
+        // POST: Roles/Delete/
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

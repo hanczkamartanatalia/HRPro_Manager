@@ -22,12 +22,26 @@ namespace Website.Controllers
         // GET: WorkTimes
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.WorkTimes.Include(w => w.User);
-            return View(await appDbContext.ToListAsync());
+            try
+            {
+                var appDbContext = _context.WorkTimes.Include(w => w.User);
+                var workTimes = await appDbContext.ToListAsync();
+
+                if (workTimes == null)
+                {
+                    return NotFound(); 
+                }
+
+                return View(workTimes);
+            }
+            catch (Exception ex)
+            {
+                return View("Home"); 
+            }
         }
         public async Task<IActionResult> IndexUser()
         {
-            // ustaw pozniej id zalogowanego usera
+            // ustawic pozniej id zalogowanego usera
             var userWorkTimes = await _context.WorkTimes
                 .Where(w => w.Id_User == 1)
                 .ToListAsync();
@@ -35,26 +49,7 @@ namespace Website.Controllers
             return View(userWorkTimes);
         }
 
-        // GET: WorkTimes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.WorkTimes == null)
-            {
-                return NotFound();
-            }
-
-            var workTime = await _context.WorkTimes
-                .Include(w => w.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (workTime == null)
-            {
-                return NotFound();
-            }
-
-            return View(workTime);
-        }
-
-        // GET: WorkTimes/Create for admin and manager 
+         // GET: WorkTimes/Create for admin and manager 
         public IActionResult Create()
         {
            
@@ -77,34 +72,61 @@ namespace Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateUser(DateTime WorkingDay, decimal WorkingHours)
         {
-            var workTime = new WorkTime
+            try
             {
-                Id_User = 1, //tutaj dodac id usera, który jest zalogowany
-                WorkingDay = WorkingDay,
-                WorkingHours = WorkingHours,
-            };
+                if (WorkingDay == default(DateTime) || WorkingHours <= 0)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid input parameters.");
+                    return View();
+                }
 
-            _context.Add(workTime);
-            await _context.SaveChangesAsync();
+                // Check if the WorkingDay is in the future
+                if (WorkingDay > DateTime.Now)
+                {
+                    ModelState.AddModelError(string.Empty, "Working day cannot be in the future.");
+                    return View(); 
+                }
 
-            return RedirectToAction(nameof(IndexUser));
+                var workTime = new WorkTime
+                {
+                    Id_User = 1,
+                    WorkingDay = WorkingDay,
+                    WorkingHours = WorkingHours,
+                };
+
+                _context.Add(workTime);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(IndexUser));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while processing your request.");
+                return View(); 
+            }
         }
+
 
         // POST: WorkTimes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id_User,WorkingDay,WorkingHours")] WorkTime workTime)
         {
-            
+            try
+            {
                 _context.Add(workTime);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            
-            ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
-            return View(workTime);
+               
+            }
+            catch (Exception ex)
+            {
+                ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
+                return View(workTime); 
+            }
         }
 
-        // GET: WorkTimes/Edit/5
+        // GET: WorkTimes/Edit/
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.WorkTimes == null)
@@ -117,28 +139,42 @@ namespace Website.Controllers
             {
                 return NotFound();
             }
-            ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
+            List<User> userList = _context.Users.ToList();
+
+            List<SelectListItem> usersListItems = userList
+                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
+                .ToList();
+
+            ViewData["Id_User"] = new SelectList(usersListItems, "Value", "Text");
             return View(workTime);
+
         }
         public async Task<IActionResult> EditUser(int? id)
         {
-            if (id == null || _context.WorkTimes == null)
+            try
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var workTime = await _context.WorkTimes.FindAsync(id);
-            if (workTime == null)
-            {
-                return NotFound();
+                var workTime = await _context.WorkTimes.FindAsync(id);
+                if (workTime == null)
+                {
+                    return NotFound();
+                }
+
+                ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
+                return View(workTime);
             }
-            ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
-            return View(workTime);
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(IndexUser)); 
+            }
         }
 
-        // POST: WorkTimes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        // POST: WorkTimes/Edit/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id_User,WorkingDay,WorkingHours,Id")] WorkTime workTime)
@@ -149,26 +185,24 @@ namespace Website.Controllers
             }
 
             
-                try
+            try
+            {
+                _context.Update(workTime);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!WorkTimeExists(workTime.Id))
                 {
-                    _context.Update(workTime);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!WorkTimeExists(workTime.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
            
-            ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
-            return View(workTime);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -178,7 +212,11 @@ namespace Website.Controllers
             {
                 return NotFound();
             }
-
+            if (workTime.WorkingDay > DateTime.Now)
+            {
+                ModelState.AddModelError(string.Empty, "Working day cannot be in the future.");
+                return View(workTime);
+            }
 
             try
             {
@@ -198,8 +236,7 @@ namespace Website.Controllers
             }
             return RedirectToAction(nameof(IndexUser));
 
-            ViewData["Id_User"] = new SelectList(_context.Users, "Id", "Id", workTime.Id_User);
-            return View(workTime);
+            
         }
 
         // GET: WorkTimes/Delete/5
@@ -226,18 +263,28 @@ namespace Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.WorkTimes == null)
+            try
             {
-                return Problem("Entity set 'AppDbContext.WorkTimes'  is null.");
-            }
-            var workTime = await _context.WorkTimes.FindAsync(id);
-            if (workTime != null)
-            {
+                if (_context.WorkTimes == null)
+                {
+                    return Problem("Entity set 'AppDbContext.WorkTimes' is null.");
+                }
+
+                var workTime = await _context.WorkTimes.FindAsync(id);
+                if (workTime == null)
+                {
+                    return NotFound(); 
+                }
+
                 _context.WorkTimes.Remove(workTime);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {
+                return View("Index"); 
+            }
         }
 
         private bool WorkTimeExists(int id)
