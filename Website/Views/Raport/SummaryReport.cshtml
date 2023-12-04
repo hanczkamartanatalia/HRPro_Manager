@@ -1,0 +1,25 @@
+﻿@model List<UserWorkSummary>
+
+<h2>Summary Report</h2>
+<p></p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Lastname</th>
+            <th>Total Hours</th>
+            <th>Earnings</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in Model)
+        {
+            <tr>
+                <td>@entry.Name</td>
+                <td>@entry.Lastname</td>
+                <td>@entry.TotalHours</td>
+                <td>@entry.Earnings</td>
+            </tr>
+        }
+    </tbody>
+</table>

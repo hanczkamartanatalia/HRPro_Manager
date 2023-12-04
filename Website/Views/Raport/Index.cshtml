@@ -27,19 +27,22 @@
                 <input type="month" name="summaryMonth" class="form-control"/>
             </div>
             <div class="form-group text-center" style="margin-top: 20px;">
-                <button type="submit" class="btn btn-primary w-100" formaction="@Url.Action("GenerateIndividualReport", "Raport")">Generate Individual Report</button>
+                <button type="submit" class="btn btn-primary w-100">Generate Individual Report</button>
             </div>
             }
         </div>
         <div class="col-md-6">
+            @using (Html.BeginForm("GenerateSummaryReport", "Raport", FormMethod.Post))
+            {
             <h4>Generate Summary Report</h4>
             <div class="form-group">
                 <label>Month</label>
                 <input type="month" name="summaryMonth" class="form-control"/>
             </div>
             <div class="form-group text-center" style="margin-top: 20px;">
-                <button type="submit" class="btn btn-primary w-100" formaction="@Url.Action("GenerateSummaryReport", "RaportController")">Generate Summary Report</button>
+                <button type="submit" class="btn btn-primary w-100">Generate Summary Report</button>
             </div>
+            }
         </div>
     </div>
 </div>
