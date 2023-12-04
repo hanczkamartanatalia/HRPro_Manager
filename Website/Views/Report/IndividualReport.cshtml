@@ -1,6 +1,6 @@
 ﻿@model List<Website.Entities.WorkTime>
 
-<h2>Individual Report - @ViewBag.UserName</h2>
+<h2>Individual Report - @DateTime.Parse(ViewBag.StartDate).ToString("MMMM yyyy") - @ViewBag.UserName</h2>
 <p></p>
 <table class="table">
     <thead>
@@ -19,10 +19,13 @@
         }
     </tbody>
     <tfoot>
-
         <tr>
             <td class="text-end"><strong>Total hours:</strong></td>
             <td><strong>@ViewBag.TotalHours</strong></td>
+        </tr>
+        <tr>
+            <td class="text-end"><strong>Earnings:</strong></td>
+            <td><strong>@ViewBag.Earnings.ToString("N2")</strong></td>
         </tr>
     </tfoot>
 </table>

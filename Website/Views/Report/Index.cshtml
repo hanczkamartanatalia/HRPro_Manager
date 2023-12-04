@@ -9,7 +9,7 @@
     <hr />
     <div class="row">
         <div class="col-md-6">
-            @using (Html.BeginForm("GenerateIndividualReport", "Raport", FormMethod.Post))
+            @using (Html.BeginForm("GenerateIndividualReport", "Report", FormMethod.Post))
             {
             <h4>Generate Individual Report</h4>
             <div class="form-group">
@@ -32,7 +32,7 @@
             }
         </div>
         <div class="col-md-6">
-            @using (Html.BeginForm("GenerateSummaryReport", "Raport", FormMethod.Post))
+            @using (Html.BeginForm("GenerateSummaryReport", "Report", FormMethod.Post))
             {
             <h4>Generate Summary Report</h4>
             <div class="form-group">
