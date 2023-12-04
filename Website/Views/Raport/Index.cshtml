@@ -1,0 +1,45 @@
+﻿@model Website.Entities.User
+
+@{
+    ViewData["Title"] = "Employee Reports";
+}
+
+<div>
+    <h2>Employee Reports</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            @using (Html.BeginForm("GenerateIndividualReport", "Raport", FormMethod.Post))
+            {
+            <h4>Generate Individual Report</h4>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Month</label>
+                <input type="month" name="summaryMonth" class="form-control"/>
+            </div>
+            <div class="form-group text-center" style="margin-top: 20px;">
+                <button type="submit" class="btn btn-primary w-100" formaction="@Url.Action("GenerateIndividualReport", "Raport")">Generate Individual Report</button>
+            </div>
+            }
+        </div>
+        <div class="col-md-6">
+            <h4>Generate Summary Report</h4>
+            <div class="form-group">
+                <label>Month</label>
+                <input type="month" name="summaryMonth" class="form-control"/>
+            </div>
+            <div class="form-group text-center" style="margin-top: 20px;">
+                <button type="submit" class="btn btn-primary w-100" formaction="@Url.Action("GenerateSummaryReport", "RaportController")">Generate Summary Report</button>
+            </div>
+        </div>
+    </div>
+</div>
