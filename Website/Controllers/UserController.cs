@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
 using System.Data;
 using Website.Database;
@@ -19,8 +20,22 @@ namespace Website.Controllers
 
         public IActionResult Index()
         {
-            List<User> users = _context.Users.ToList();
-            return View(users);
+            var usersWithLoginDataAndRole = _context.Users
+        .Join(
+            _context.LoginData,
+            user => user.Id,
+            login => login.Id_User,
+            (user, login) => new { User = user, Login = login }
+        )
+        .Join(
+            _context.Roles,
+            userLogin => userLogin.Login.Id_Role,
+            role => role.Id,
+            (userLogin, role) => new Tuple<User, LoginData, Role>(userLogin.User, userLogin.Login, role)
+        )
+        .ToList();
+
+            return View(usersWithLoginDataAndRole);
         }
 
         public IActionResult Create()
@@ -132,8 +147,8 @@ namespace Website.Controllers
         public IActionResult ChangeLogin(int Id)
         {
             LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id);
+            editLoginData.Password = string.Empty;
 
-            _context.Dispose();
             return View(editLoginData);
         }
 
@@ -142,39 +157,34 @@ namespace Website.Controllers
             LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == loginData.Id_User);
 
             editLoginData.Login = loginData.Login;
-            editLoginData.Password = loginData.Password;
+            editLoginData.Password = PasswordService.HashPassword(loginData.Password);
 
             _context.SaveChanges();
             _context.Dispose();
             return Redirect("Index");
         }
 
-        public IActionResult GrantPermission(int Id)
+        public IActionResult ChangeRole(int Id)
         {
-            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id && i.Id_Role == 3);
+            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id);
 
-            Role role = _context.Roles.SingleOrDefault(i => i.Id == 2);
+            if (editLoginData.Id_Role == 3)
+            {
+                Role role = _context.Roles.SingleOrDefault(i => i.Id == 2);
+                editLoginData.Id_Role = role.Id;
+                editLoginData.Role = role;
+            }
+            else if (editLoginData.Id_Role == 2)
+            {
 
-            editLoginData.Id_Role=role.Id;
-            editLoginData.Role = role;
+                Role role = _context.Roles.SingleOrDefault(i => i.Id == 3);
+                editLoginData.Id_Role = role.Id;
+                editLoginData.Role = role;
+            }
 
             _context.SaveChanges();
             _context.Dispose();
-            return View(editLoginData);
-        }
-
-        public IActionResult RevokePermission(int Id)
-        {
-            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id && i.Id_Role == 2);
-
-            Role role = _context.Roles.SingleOrDefault(i => i.Id == 3);
-
-            editLoginData.Id_Role = role.Id;
-            editLoginData.Role = role;
-
-            _context.SaveChanges();
-            _context.Dispose();
-            return View(editLoginData);
+            return RedirectToAction("Index");
         }
     }
 }
