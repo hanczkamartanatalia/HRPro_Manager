@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Website.Database;
 using Website.Entities;
 using Website.Service;
 using Website.Service.AccountService;
@@ -8,6 +10,13 @@ namespace Website.Controllers
 {
     public class AccountController : Controller
     {
+        private AppDbContext _context;
+
+        public AccountController(AppDbContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             int? id = HttpContext.Session.GetInt32("LD_Id");
@@ -48,8 +57,23 @@ namespace Website.Controllers
                 HttpContext.Session.SetString("Error","Incorrect login or password.");
                 return RedirectToAction("Login");
             }
-
         }
 
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SavePassword(LoginData loginData)
+        {
+            int? login_ID = HttpContext.Session.GetInt32("LD_Id");
+            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
+
+            editLoginData.Password = PasswordService.HashPassword(loginData.Password);
+
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
