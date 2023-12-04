@@ -1,22 +1,20 @@
-﻿@model IEnumerable<Website.Models.Employment.EmploymentModel>
+﻿@model IEnumerable<Website.Entities.Employment>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Employments";
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.EmploymentDate)
             </th>
+
             <th>
-               @Html.DisplayNameFor(model => model.User)
+                @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Manager)
@@ -34,25 +32,26 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                    @Html.DisplayFor(modelItem => item.FormattedEmploymentDate)
+                @Html.DisplayFor(modelItem => item.EmploymentDate)
             </td>
-                <td>
+
+            <td>
                     @Html.DisplayFor(modelItem => item.User.Name)
                     @Html.DisplayFor(modelItem => item.User.LastName)
-                </td>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manager.Name)
+                @Html.DisplayFor(modelItem => item.Manager.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position.Name)
                 <td>
-                    @Html.DisplayFor(modelItem => item.Manager.Name)
-                    @Html.DisplayFor(modelItem => item.Manager.LastName)
+                        @Html.DisplayFor(modelItem => item.Rate)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Position.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rate)
-                </td>
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
             </td>
         </tr>
 }
