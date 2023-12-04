@@ -14,14 +14,8 @@
         {
             <form asp-action="Create" method="post">
                 <div class="form-group">
-                    <label asp-for="Manager.Name" class="control-label"></label>
-                    <input asp-for="Manager.Name" class="form-control" />
-                    <span asp-validation-for="Manager.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Manager.LastName" class="control-label"></label>
-                    <input asp-for="Manager.LastName" class="form-control" />
-                    <span asp-validation-for="Manager.LastName" class="text-danger"></span>
+                    <label class="control-label">Manager</label>
+                    <select asp-for="Id_Manager" class="form-control" asp-items="ViewBag.Id_User"></select>
                 </div>
 
             <div class="form-group">
@@ -35,8 +29,8 @@
             </div>
 
                 <div class="form-group">
-                    <label asp-for="Position.Name" class="control-label"></label>
-                    <input asp-for="Position.Name" class="form-control" />
+                    <label class="control-label">Position</label>
+                    <select asp-for="Id_Position" class="form-control" asp-items="ViewBag.Id_Position"></select>
                 </div>
 
             <div class="form-group">

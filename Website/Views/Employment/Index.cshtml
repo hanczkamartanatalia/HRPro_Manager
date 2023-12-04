@@ -32,7 +32,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.EmploymentDate)
+                    @{
+                        string formattedDate = item.EmploymentDate.ToShortDateString();
+                    }
+                    @formattedDate
             </td>
 
             <td>
@@ -51,7 +54,7 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
 }

@@ -32,14 +32,32 @@ namespace Website.Controllers
         }
         public IActionResult Create()
         {
+            List<User> userList = _context.Users.ToList();
+
+            List<SelectListItem> usersListItems = userList
+                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
+                .ToList();
+
+            ViewData["Id_User"] = new SelectList(usersListItems, "Value", "Text");
+
+
+            List<Position> positionList = _context.Positions.ToList();
+
+            List<SelectListItem> positionsListItems = positionList
+                .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = $"{p.Name}" })
+                .ToList();
+
+            ViewData["Id_Position"] = new SelectList(positionsListItems, "Value", "Text");
+
+
             return View();
         }
         public IActionResult Add(Employment employment)
         {
             int userId = (int)TempData["UserId"];
             User user = _context.Users.FirstOrDefault(i => i.Id == userId);
-            User manager = _context.Users.FirstOrDefault(u => u.Name == employment.Manager.Name && u.LastName == employment.Manager.LastName);
-            Position position = _context.Positions.FirstOrDefault(p => p.Name == employment.Position.Name);
+            User manager = _context.Users.FirstOrDefault(u => u.Id == employment.Id_Manager);
+            Position position = _context.Positions.FirstOrDefault(p => p.Id == employment.Id_Position);
 
             employment.User = user;
             employment.Id_User = user.Id;
@@ -55,6 +73,24 @@ namespace Website.Controllers
         }
         public IActionResult Edit(int Id)
         {
+            List<User> userList = _context.Users.ToList();
+
+            List<SelectListItem> usersListItems = userList
+                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
+                .ToList();
+
+            ViewData["Id_User"] = new SelectList(usersListItems, "Value", "Text");
+
+
+            List<Position> positionList = _context.Positions.ToList();
+
+            List<SelectListItem> positionsListItems = positionList
+                .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = $"{p.Name}" })
+                .ToList();
+
+            ViewData["Id_Position"] = new SelectList(positionsListItems, "Value", "Text");
+
+
             Employment editEmployment = _context.Employments
                 .Include(e => e.User)
                 .Include(e => e.Manager)
@@ -72,8 +108,8 @@ namespace Website.Controllers
                 .FirstOrDefault(e => e.Id == employment.Id);
 
             User user = _context.Users.FirstOrDefault(i => i.Name == employment.User.Name && i.LastName == employment.User.LastName);
-            User manager = _context.Users.FirstOrDefault(u => u.Name == employment.Manager.Name && u.LastName == employment.Manager.LastName);
-            Position position = _context.Positions.FirstOrDefault(p => p.Name == employment.Position.Name);
+            User manager = _context.Users.FirstOrDefault(u => u.Id == employment.Id_Manager);
+            Position position = _context.Positions.FirstOrDefault(p => p.Id == employment.Id_Position);
 
             editEmployment.EmploymentDate = employment.EmploymentDate;
             editEmployment.User = user;

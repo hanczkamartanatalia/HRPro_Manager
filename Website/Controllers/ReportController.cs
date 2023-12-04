@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Website.Database;
 using Website.Entities;
 using Website.Models;
@@ -20,6 +21,13 @@ namespace Website.Controllers
 
         public IActionResult Index()
         {
+            List<User> userList = _context.Users.ToList();
+
+            List<SelectListItem> usersListItems = userList
+                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
+                .ToList();
+
+            ViewData["Id_User"] = new SelectList(usersListItems, "Value", "Text");
             return View();
         }
 
@@ -67,7 +75,7 @@ namespace Website.Controllers
             DateTime startDate = DateTime.Parse(summaryMonth);
             DateTime endDate = startDate.AddMonths(1).AddDays(-1);
 
-            User userWorkTime = _context.Users.FirstOrDefault(u => u.Name == user.Name && u.LastName == user.LastName);
+            User userWorkTime = _context.Users.FirstOrDefault(u => u.Id == user.Id);
 
             List<WorkTime> workTimes = _context.WorkTimes
         .Where(wt => wt.Id_User == userWorkTime.Id && wt.WorkingDay >= startDate && wt.WorkingDay <= endDate)

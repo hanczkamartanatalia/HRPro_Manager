@@ -129,11 +129,15 @@ namespace Website.Controllers
         {
             User deleteUser = _context.Users.FirstOrDefault(i => i.Id == user.Id);
             LoginData loginData = _context.LoginData.FirstOrDefault(i => i.Id_User == user.Id);
+            List<Employment> employments = _context.Employments
+                .Where(e => e.Id_User == user.Id)
+                .ToList();
 
-            if (deleteUser != null && loginData != null)
+            if (deleteUser != null && loginData != null && employments != null)
             {
                 _context.Users.Remove(deleteUser);
                 _context.LoginData.Remove(loginData);
+                _context.Employments.RemoveRange(employments);
                 _context.SaveChanges();
             }
             else
