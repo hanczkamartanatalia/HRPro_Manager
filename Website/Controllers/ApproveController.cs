@@ -15,75 +15,108 @@ namespace Website.Controllers
         }
         public IActionResult Index()
         {
-            
-            var query = from user in _context.Users
-                        join employment in _context.Employments on user.Id equals employment.Id_User
-                        join application in _context.Applications on user.Id equals application.Id_User
-                        join category in _context.Categories on application.Id_Category equals category.Id
-                        where employment.Id_Manager == 10 // tutaj dopisac ig zalogowanego usera
-                        where application.Id_Category == 1
-                        select new Approve
-                        {/*
-                            UserName = user.Name,
-                            UserLastName = user.LastName,
-                            ManagerName = _context.Users
-                                .Where(u => u.Id == employment.Id_Manager)
-                                .Select(u => u.Name + " " + u.LastName)
-                                .FirstOrDefault(),
-                            StartDate = application.StartDate,
-                            EndDate = application.EndDate,
-                            CategoryName = category.Name
-                            */
-                            User = user,
-                            Employment = employment,
-                            Application = application,
-                            Category = category
-                        };
-         
-            var result = query.ToList();
+            try
+            {
+                var query = from user in _context.Users
+                            join employment in _context.Employments on user.Id equals employment.Id_User
+                            join application in _context.Applications on user.Id equals application.Id_User
+                            join category in _context.Categories on application.Id_Category equals category.Id
+                            where employment.Id_Manager == 10
+                            where application.Id_Category == 1
+                            select new Approve
+                            {
+                                User = user,
+                                Employment = employment,
+                                Application = application,
+                                Category = category
+                            };
 
-            return View(result);
-          
+                var result = query.ToList();
+
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return View("Home"); 
+            }
         }
+
 
         public ActionResult Accept(int id)
         {
-            var recordToEdit = _context.Applications.Find(id);
-            recordToEdit.Id_Category = 3; 
-            
-            _context.SaveChanges();
-            return RedirectToAction("Archives");
+            try
+            {
+                var recordToEdit = _context.Applications.Find(id);
+
+                if (recordToEdit == null)
+                {
+                    return NotFound();
+                }
+
+                recordToEdit.Id_Category = 3;
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Archives");
+            }
+            catch (Exception ex)
+            {
+
+                return View("Index"); 
+            }
         }
 
         public ActionResult Reject(int id)
         {
-            var recordToEdit = _context.Applications.Find(id);
-            recordToEdit.Id_Category = 2;
+            try
+            {
+                var recordToEdit = _context.Applications.Find(id);
 
-            _context.SaveChanges();
-            return RedirectToAction("Archives");
+                if (recordToEdit == null)
+                {
+                    return NotFound();
+                }
+
+                recordToEdit.Id_Category = 2;
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Archives");
+            }
+            catch (Exception ex)
+            {
+                return View("Index");
+            }
         }
 
         public IActionResult Archives()
         {
+            try
+            {
+                var query = from user in _context.Users
+                            join employment in _context.Employments on user.Id equals employment.Id_User
+                            join application in _context.Applications on user.Id equals application.Id_User
+                            join category in _context.Categories on application.Id_Category equals category.Id
+                            where employment.Id_Manager == 10 // tutaj dopisac ig zalogowanego usera
+                            where application.Id_Category != 1
+                            select new Approve
+                            {
+                                User = user,
+                                Employment = employment,
+                                Application = application,
+                                Category = category
+                            };
 
-            var query = from user in _context.Users
-                        join employment in _context.Employments on user.Id equals employment.Id_User
-                        join application in _context.Applications on user.Id equals application.Id_User
-                        join category in _context.Categories on application.Id_Category equals category.Id
-                        where employment.Id_Manager == 10 // tutaj dopisac ig zalogowanego usera
-                        where application.Id_Category != 1
-                        select new Approve
-                        {
-                            User = user,
-                            Employment = employment,
-                            Application = application,
-                            Category = category
-                        };
+                var result = query.ToList();
 
-            var result = query.ToList();
+                return View(result);
+            }
 
-            return View(result);
+            catch (Exception ex)
+            {
+                return View("Home");
+            }
+
 
         }
 

@@ -22,33 +22,29 @@ namespace Website.Controllers
         // GET: Applications
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Applications
-            .Include(a => a.Category)
-            .Include(a => a.User)
-            .Where(a => a.Id_User == 7);  // tutaj dodac id zalogowanego usera
+            try
+            {
+                var appDbContext = _context.Applications
+                    .Include(a => a.Category)
+                    .Include(a => a.User)
+                    .Where(a => a.Id_User == 7); // tutaj dodac ig zalogowanego usera
 
-            return View(await appDbContext.ToListAsync());
+                var applications = await appDbContext.ToListAsync();
+
+                if (applications == null)
+                {
+                    return NotFound(); 
+                }
+
+                return View(applications);
+            }
+            catch (Exception ex)
+            {
+                return View("Home"); 
+            }
         }
 
-        // GET: Applications/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Applications == null)
-            {
-                return NotFound();
-            }
-
-            var application = await _context.Applications
-                .Include(a => a.Category)
-                .Include(a => a.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (application == null)
-            {
-                return NotFound();
-            }
-
-            return View(application);
-        }
+  
 
         // GET: Applications/Create
         public IActionResult Create()
@@ -59,23 +55,35 @@ namespace Website.Controllers
         }
 
         // POST: Applications/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DateTime StartDate, DateTime EndDate)
         {
-            Console.WriteLine(StartDate);
-            var application = new Application
+            try
             {
-                Id_User = 7,
-                StartDate = StartDate,
-                EndDate = EndDate,
-                Id_Category = 1
-            };
+                // Validate input parameters
+                if (StartDate > EndDate)
+                {
+                    ModelState.AddModelError(string.Empty, "Start date cannot be later than end date.");
+                    return View(); 
+                }
+
+                var application = new Application
+                {
+                    Id_User = 7,
+                    StartDate = StartDate,
+                    EndDate = EndDate,
+                    Id_Category = 1
+                };
+
                 _context.Add(application);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return View("Index"); 
+            }
         }
 
         // GET: Applications/Edit/5
@@ -152,18 +160,27 @@ namespace Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Applications == null)
+            try 
             {
-                return Problem("Entity set 'AppDbContext.Applications'  is null.");
+                if (_context.Applications == null)
+                {
+                    return Problem("Entity set 'AppDbContext.Applications'  is null.");
+                }
+                var application = await _context.Applications.FindAsync(id);
+                if (application != null)
+                {
+                    _context.Applications.Remove(application);
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
             }
-            var application = await _context.Applications.FindAsync(id);
-            if (application != null)
+            catch (Exception ex)
             {
-                _context.Applications.Remove(application);
+                return View("Index");
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
         }
 
         private bool ApplicationExists(int id)

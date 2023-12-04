@@ -1,10 +1,11 @@
 ﻿@model Website.Entities.WorkTime
 
+
 @{
     ViewData["Title"] = "EditUser";
 }
 
-<h1>Edit</h1>
+<h1>Edit your working hours</h1>
 
 <h4>WorkTime</h4>
 <hr />
@@ -24,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="WorkingHours" class="control-label"></label>
-                <input asp-for="WorkingHours" class="form-control" />
+                <input asp-for="WorkingHours" type="number" step="0.50" class="form-control" />
                 <span asp-validation-for="WorkingHours" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
