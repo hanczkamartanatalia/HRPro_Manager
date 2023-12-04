@@ -1,10 +1,20 @@
 ﻿@model Website.Entities.WorkTime
-
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
 @{
     ViewData["Title"] = "CreateUser";
 }
 
-<h2>Create User</h2>
+<h2>Add your working hours</h2>
 
 @using (Html.BeginForm("CreateUser", "WorkTimes", FormMethod.Post))
 {
@@ -17,10 +27,10 @@
 
     <div class="form-group">
         <label asp-for="WorkingHours" class="control-label">Working Hours:</label>
-        <input asp-for="WorkingHours" class="form-control" />
+        <input asp-for="WorkingHours" type="number" class="form-control" />
     </div>
-
-    <button type="submit" class="btn btn-primary">Create User</button>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
 }
 
 @section Scripts {
