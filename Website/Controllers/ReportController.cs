@@ -104,5 +104,40 @@ namespace Website.Controllers
 
             return View("IndividualReport", workTimes);
         }
+        public IActionResult GenerateUserReport(string summaryMonth)
+        {
+            DateTime startDate = DateTime.Parse(summaryMonth);
+            DateTime endDate = startDate.AddMonths(1).AddDays(-1);
+
+            LoginData login = _context.LoginData.FirstOrDefault(u => u.Id == HttpContext.Session.GetInt32("LD_Id"));
+            User userWorkTime = _context.Users.FirstOrDefault(u => u.Id == login.Id_User);
+
+            List<WorkTime> workTimes = _context.WorkTimes
+        .Where(wt => wt.Id_User == userWorkTime.Id && wt.WorkingDay >= startDate && wt.WorkingDay <= endDate)
+        .OrderBy(wt => wt.WorkingDay)
+        .Select(wt => new WorkTime
+        {
+            Id_User = wt.Id_User,
+            User = wt.User,
+            WorkingDay = wt.WorkingDay,
+            WorkingHours = wt.WorkingHours
+        })
+        .ToList();
+
+
+            Employment employment = _context.Employments.FirstOrDefault(e => e.Id_User == userWorkTime.Id);
+
+            decimal totalHours = workTimes.Sum(wt => wt.WorkingHours);
+            decimal hourlyRate = employment.Rate;
+            decimal earnings = totalHours * hourlyRate;
+
+
+            ViewBag.TotalHours = totalHours;
+            ViewBag.Earnings = earnings;
+            ViewBag.UserName = $"{userWorkTime.Name} {userWorkTime.LastName}";
+            ViewBag.StartDate = startDate.ToString("MMMM yyyy");
+
+            return View("UserReport", workTimes);
+        }
     }
 }
