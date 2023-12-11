@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<Position> Positions { get; set; }
     public DbSet<WorkTime> WorkTimes { get; set; }
     public DbSet<LoginData> LoginData { get; set; }
+    public DbSet<PermissionsGrid> permissionsGrid { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
