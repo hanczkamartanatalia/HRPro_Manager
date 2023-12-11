@@ -48,7 +48,7 @@ namespace Website.Migrations
 
                     b.HasIndex("Id_User");
 
-                    b.ToTable("Applications");
+                    b.ToTable("Applications", (string)null);
                 });
 
             modelBuilder.Entity("Website.Entities.Category", b =>
@@ -65,7 +65,7 @@ namespace Website.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Website.Entities.Employment", b =>
@@ -99,7 +99,7 @@ namespace Website.Migrations
 
                     b.HasIndex("Id_User");
 
-                    b.ToTable("Employments");
+                    b.ToTable("Employments", (string)null);
                 });
 
             modelBuilder.Entity("Website.Entities.LoginData", b =>
@@ -134,32 +134,7 @@ namespace Website.Migrations
                     b.HasIndex("Login")
                         .IsUnique();
 
-                    b.ToTable("LoginData");
-                });
-
-            modelBuilder.Entity("Website.Entities.PermissionsGrid", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("HasAccess")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Id_Role")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Page")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id_Role");
-
-                    b.ToTable("permissionsGrid");
+                    b.ToTable("LoginData", (string)null);
                 });
 
             modelBuilder.Entity("Website.Entities.Position", b =>
@@ -177,7 +152,7 @@ namespace Website.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Positions");
+                    b.ToTable("Positions", (string)null);
                 });
 
             modelBuilder.Entity("Website.Entities.Role", b =>
@@ -195,7 +170,7 @@ namespace Website.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Website.Entities.User", b =>
@@ -223,7 +198,7 @@ namespace Website.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Website.Entities.WorkTime", b =>
@@ -247,7 +222,7 @@ namespace Website.Migrations
 
                     b.HasIndex("Id_User");
 
-                    b.ToTable("WorkTimes");
+                    b.ToTable("WorkTimes", (string)null);
                 });
 
             modelBuilder.Entity("Website.Entities.Application", b =>
@@ -311,17 +286,6 @@ namespace Website.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Website.Entities.PermissionsGrid", b =>
-                {
-                    b.HasOne("Website.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("Id_Role")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Website.Entities.WorkTime", b =>
