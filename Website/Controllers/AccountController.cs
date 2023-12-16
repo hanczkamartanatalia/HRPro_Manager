@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Website.Database;
 using Website.Entities;
@@ -22,6 +24,9 @@ namespace Website.Controllers
             int? id = HttpContext.Session.GetInt32("LD_Id");
             if (id <= 0 || id == null) return RedirectToAction("Login");
             LoginData loginData = EntityService<LoginData>.GetById((int)id);
+
+            //var urlHelper = this.Url;
+            //var urlAkcji = urlHelper.Action();
             return View();
         }
         public IActionResult Login()
@@ -49,7 +54,8 @@ namespace Website.Controllers
                 HttpContext.Session.SetString("U_LastName", user.LastName);
                 HttpContext.Session.SetString("U_Email", user.Email);
                 HttpContext.Session.SetString("R_Name", role.Name);
-                
+
+
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
