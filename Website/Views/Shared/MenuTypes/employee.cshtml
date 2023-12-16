@@ -4,7 +4,25 @@
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Employee</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Applications" asp-action="Create">Application</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Details">User details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Employment" asp-action="Details">Employment details</a>
+        </li>
+        <li>
+            <div class="dropdown nav-item text-dark">
+                <button class="dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Work Time
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-area="" asp-controller="WorkTimes" asp-action="CreateUser">Add new</a></li>
+                    <li><a class="dropdown-item" asp-area="" asp-controller="WorkTimes" asp-action="IndexUser">History</a></li>
+                </ul>
+            </div>
+        </li>
+
     </ul>
 </div>
