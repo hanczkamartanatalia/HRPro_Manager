@@ -1,10 +1,38 @@
 ﻿<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
     <ul class="navbar-nav flex-grow-1">
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Manager</a>
+            <a class="nav-link text-dark" asp-controller="User" asp-action="Details">User details</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Employment" asp-action="Details">Employment details</a>
+        </li>
+        <li>
+            <div class="dropdown nav-item text-dark">
+                <button class="dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Work Time
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" asp-controller="WorkTimes" asp-action="CreateUser">Add new</a></li>
+                    <li><a class="dropdown-item" asp-controller="WorkTimes" asp-action="IndexUser">Your History</a></li>
+                    <li><a class="dropdown-item" asp-controller="WorkTimes" asp-action="Create">Add employee time</a></li>
+                    <li><a class="dropdown-item" asp-controller="WorkTimes" asp-action="Index">History</a></li>
+                </ul>
+            </div>
+        </li>
+        <li>
+            <div class="dropdown nav-item text-dark">
+                <button class="dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Applications
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="nav-item"><a class="nav-link text-dark" asp-controller="Applications" asp-action="Create">Add</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" asp-controller="Approve" asp-action="Index">List</a></li>
+                </ul>
+            </div>
+        </li>
+
     </ul>
 </div>
