@@ -59,11 +59,6 @@ namespace Website.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return View("Create", register);
-                }
-
                 User user = new User
                 {
                     Name = register.User.Name,

@@ -8,6 +8,10 @@ using Website.Database;
 using Website.Entities;
 using Website.Models;
 using Website.Models.Account;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using NuGet.DependencyResolver;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Position = Website.Entities.Position;
 
 namespace Website.Controllers
 {
@@ -42,7 +46,16 @@ namespace Website.Controllers
 
         public IActionResult Create()
         {
-            List<User> userList = _context.Users.ToList();
+            List<User> userList = _context.Users
+    .Join(
+        _context.LoginData,
+        user => user.Id,
+        login => login.Id_User,
+        (user, login) => new { User = user, Login = login }
+    )
+    .Where(joinResult => joinResult.Login.Id_Role == 2)
+    .Select(u => new User { Id = u.User.Id, Name = u.User.Name, LastName = u.User.LastName })
+    .ToList();
 
             List<SelectListItem> usersListItems = userList
                 .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
@@ -98,7 +111,16 @@ namespace Website.Controllers
         {
             try
             {
-                List<User> userList = _context.Users.ToList();
+                List<User> userList = _context.Users
+    .Join(
+        _context.LoginData,
+        user => user.Id,
+        login => login.Id_User,
+        (user, login) => new { User = user, Login = login }
+    )
+    .Where(joinResult => joinResult.Login.Id_Role == 2)
+    .Select(u => new User { Id = u.User.Id, Name = u.User.Name, LastName = u.User.LastName })
+    .ToList();
 
                 List<SelectListItem> usersListItems = userList
                     .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
