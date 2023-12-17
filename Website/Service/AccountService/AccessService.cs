@@ -17,6 +17,7 @@ namespace Website.Service.AccountService
             return false;
         }
 
+
         private static string RemoveEntityIdFromPath(string input)
         {
             if(input.Length <= 1) return input;
