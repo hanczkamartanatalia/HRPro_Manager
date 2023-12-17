@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
 using System.Data;
+using System.Text.RegularExpressions;
 using Website.Database;
 using Website.Entities;
 using Website.Models.Account;
@@ -46,6 +47,11 @@ namespace Website.Controllers
         [HttpPost]
         public IActionResult Add(Register register)
         {
+            if (!ModelState.IsValid)
+            {
+               return View("Create", register);
+            }
+
             User user = new User
             {
                 Name = register.User.Name,
@@ -60,12 +66,9 @@ namespace Website.Controllers
 
             if (role == null)
             {
-                Console.WriteLine("Rola o Id=3 nie istnieje w bazie danych.");
-                return RedirectToAction("Create");
+                ModelState.AddModelError(string.Empty, "Rola o Id=3 nie istnieje w bazie danych.");
+                return View("Create", register);
             }
-
-            //if (ModelState.IsValid)
-            //{
 
             LoginData loginData = new LoginData
             (
@@ -83,9 +86,6 @@ namespace Website.Controllers
             TempData["UserId"] = user.Id;
             return RedirectToAction("Create", "Employment");
 
-            //}
-
-            //return View("Create");
         }
 
         public IActionResult Edit(int Id)
