@@ -9,10 +9,13 @@ namespace Website.Entities;
 public class User : Entity
 {
     [MaxLength(20)]
+    [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Invalid characters in the Name field. Use only letters.")]
     public string Name { get; set; } = default!;
     [MaxLength(20)]
+    [RegularExpression("^[a-zA-Z-]+$", ErrorMessage = "Invalid characters in the LastName field. Use only letters lub '-' character.")]
     public string LastName { get; set; } = default!;
     [MaxLength(20)]
+    [RegularExpression(@"^[^\s@]+@[^\s@]+\.[^\s@]+$", ErrorMessage = "Invalid Email.")]
     public string Email { get; set; } = default!;
 }
 

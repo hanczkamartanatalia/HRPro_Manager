@@ -4,21 +4,25 @@
     ViewData["Title"] = "Users";
 }
 
-<h1>Index</h1>
+<link rel="stylesheet" href="~/css/table.css" />
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Users</h1>
+    <a asp-action="Create" class="btn btn-success" style="width: 20%">Create New User</a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Login</th>
-            <th>Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th></th>
-            <th></th>
+                        <th scope="col">Login</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Change</th>
+                        <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -30,16 +34,23 @@
                 <td>@item.Item1.LastName</td>
                 <td>@item.Item1.Email</td>
                 <td>@item.Item3.Name</td>
-                <td>
-                    <a asp-action="ChangeRole" asp-route-id="@item.Item1.Id">Change role</a> |
-                    <a asp-action="ChangeLogin" asp-route-id="@item.Item1.Id">Change login</a>
+                            <td>
+                                <div class="button-container">
+                                    <a asp-action="ChangeRole" class="btn btn-outline-secondary" asp-route-id="@item.Item1.Id"><i class="fas fa-user-tie"></i> Role</a>
+                                    <a asp-action="ChangeLogin" class="btn btn-outline-secondary" asp-route-id="@item.Item1.Id"><i class="fas fa-user-edit"></i> Login</a>
+                                </div>
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Item1.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Item1.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Item1.Id">Delete</a> 
-                </td>
+                            <td>
+                                <div class="button-container">
+                                    <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@item.Item1.Id"><i class="far fa-eye"></i> Details</a>
+                                    <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@item.Item1.Id"><i class="fas fa-edit"></i> Edit</a>
+                                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Item1.Id"><i class="far fa-trash-alt"></i> Delete</a>
+                                </div>
+                            </td>
             </tr>
         }
     </tbody>
-</table>
+            </table>
+        </div>
+    </div>
+</div>
