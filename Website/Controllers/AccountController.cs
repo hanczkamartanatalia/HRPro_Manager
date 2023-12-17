@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Website.Database;
 using Website.Entities;
+using Website.Models;
 using Website.Service;
 using Website.Service.AccountService;
 
@@ -67,13 +68,23 @@ namespace Website.Controllers
         [HttpPost]
         public IActionResult SavePassword(LoginData loginData)
         {
-            int? login_ID = HttpContext.Session.GetInt32("LD_Id");
-            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
+            try
+            {
+                int? login_ID = HttpContext.Session.GetInt32("LD_Id");
+                LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
 
-            editLoginData.Password = PasswordService.HashPassword(loginData.Password);
+                editLoginData.Password = PasswordService.HashPassword(loginData.Password);
 
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"Error: {ex.Message}" };
+                return View("Error", errorModel);
+            }
+
         }
     }
 }

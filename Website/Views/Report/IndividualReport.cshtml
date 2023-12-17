@@ -2,6 +2,12 @@
 
 <h2>Individual Report - @DateTime.Parse(ViewBag.StartDate).ToString("MMMM yyyy") - @ViewBag.UserName</h2>
 <p></p>
+@if (!string.IsNullOrEmpty(ViewBag.NoWorkingHours))
+{
+    <p>@ViewBag.NoWorkingHours</p>
+}
+else
+{
 <table class="table">
     <thead>
         <tr>
@@ -29,6 +35,7 @@
         </tr>
     </tfoot>
 </table>
+}
 <div style="margin-top: 30px;">
     <a asp-action="Index">Back to List</a>
 </div>
