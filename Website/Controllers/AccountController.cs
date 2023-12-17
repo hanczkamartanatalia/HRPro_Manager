@@ -47,7 +47,8 @@ namespace Website.Controllers
                 LoginData loginDb = LoginService.Login(model.Login, model.Password);
                 User user = EntityService<User>.GetById(loginDb.Id_User);
                 Role role = EntityService<Role>.GetById(loginDb.Id_Role);
-                
+
+                HttpContext.Session.Clear();
                 HttpContext.Session.SetInt32("LD_Id", loginDb.Id);
                 HttpContext.Session.SetString("LD_Login", loginDb.Login);
                 HttpContext.Session.SetString("U_Name", user.Name);

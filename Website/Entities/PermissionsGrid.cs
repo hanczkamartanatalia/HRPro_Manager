@@ -7,11 +7,10 @@ namespace Website.Entities
         public string Page { get; set; } = default!;
 
         [ForeignKey(nameof(Id_Role))]
-        public Role Role { get; set; } = default!;
+        public Role? Role { get; set; } = null;
 
         [ForeignKey(nameof(Role))]
-        public int Id_Role { get; set; } = default!;
+        public int? Id_Role { get; set; } = null;
 
-        public bool HasAccess { get; set; } = false;
     }
 }
