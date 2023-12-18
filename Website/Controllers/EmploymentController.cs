@@ -146,7 +146,7 @@ namespace Website.Controllers
                     .Include(e => e.Position)
                     .FirstOrDefault(e => e.Id == Id);
                 
-                editEmployment.Rate = Math.Round(editEmployment.Rate, 2);
+                editEmployment.Rate = Math.Round(editEmployment.Rate, 1);
                 return View(editEmployment);
             }
             catch (Exception ex)
