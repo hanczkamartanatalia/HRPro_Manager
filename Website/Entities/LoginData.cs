@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,10 @@ namespace Website.Entities
         public LoginData(){ }
 
         [MaxLength(20)]
+        [RegularExpression(@"^(?=(?:.*[a-zA-Z]){3})[a-zA-Z0-9._-]+$", ErrorMessage = "Login must contain at least three letters and can only include letters, numbers and this symbol: . _ -")]
         public string Login { get; set; } = default!;
 
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+.\\-])[A-Za-z\d!@#$%^&*()_+.\\-]{8,}$", ErrorMessage = "The password should be at least 8 characters long, contain at least one uppercase letter, one number and one special character.")]
         public string Password { get; set; } = default!;
 
         [ForeignKey(nameof(User))]

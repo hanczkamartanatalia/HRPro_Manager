@@ -1,5 +1,15 @@
 ﻿@model List<Tuple<Website.Entities.User, Website.Entities.LoginData, Website.Entities.Role>>
-
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
 @{
     ViewData["Title"] = "Users";
 }

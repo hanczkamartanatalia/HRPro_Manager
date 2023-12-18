@@ -28,13 +28,9 @@ namespace Website.Controllers
         {
             try
             {
-                List<User> userList = _context.Users.ToList();
+                var usersTiems = GetUsersItems();
 
-                List<SelectListItem> usersListItems = userList
-                    .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
-                    .ToList();
-
-                ViewData["Id_User"] = new SelectList(usersListItems, "Value", "Text");
+                ViewData["Id_User"] = new SelectList(usersTiems, "Value", "Text");
                 return View();
             }
             catch (Exception ex)
@@ -79,9 +75,8 @@ namespace Website.Controllers
 
                 if (summaryReport.Count == 0)
                 {
-                    Console.WriteLine($"No working hours for the selected period.");
-                    ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"No working hours for the selected period." };
-                    return View("Error", errorModel);
+                    ModelState.AddModelError("summaryMonth", "No working hours for the selected period.");
+                    return View("Index");
                 }
 
                 ViewBag.SummaryReport = summaryReport;
@@ -123,7 +118,11 @@ namespace Website.Controllers
                 
                 if (employment == null)
                 {
-                    throw new Exception("User does not have employment.");
+                    ModelState.AddModelError("individualMonth", "User does not have employment.");
+                    var usersTiems = GetUsersItems();
+
+                    ViewData["Id_User"] = new SelectList(usersTiems, "Value", "Text");
+                    return View("Index");
                 }
 
                 decimal totalHours = workTimes.Sum(wt => wt.WorkingHours);
@@ -132,9 +131,11 @@ namespace Website.Controllers
 
                 if (workTimes.Count == 0)
                 {
-                    Console.WriteLine($"No working hours for the selected period.");
-                    ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"No working hours for the selected period." };
-                    return View("Error", errorModel);
+                    ModelState.AddModelError("individualMonth", "No working hours for the selected period.");
+                    var usersTiems = GetUsersItems();
+
+                    ViewData["Id_User"] = new SelectList(usersTiems, "Value", "Text");
+                    return View("Index");
                 }
 
                 ViewBag.TotalHours = totalHours;
@@ -178,7 +179,9 @@ namespace Website.Controllers
                 
                 if (employment == null)
                 {
-                    throw new Exception("User does not have employment.");
+                    Console.WriteLine($"Error: User does not have employment.");
+                    ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"Error: User does not have employment." };
+                    return View("Error", errorModel);
                 }
 
                 decimal totalHours = workTimes.Sum(wt => wt.WorkingHours);
@@ -187,8 +190,8 @@ namespace Website.Controllers
 
                 if (workTimes.Count == 0)
                 {
-                    Console.WriteLine($"No working hours for the selected period.");
-                    ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"No working hours for the selected period." };
+                    Console.WriteLine($"Error: No working hours for the selected period.");
+                    ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"Error: No working hours for the selected period." };
                     return View("Error", errorModel);
                 }
 
@@ -205,6 +208,16 @@ namespace Website.Controllers
                 ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"Error: {ex.Message}" };
                 return View("Error", errorModel);
             }
+        }
+        private List<SelectListItem> GetUsersItems()
+        {
+            List<User> userList = _context.Users.ToList();
+
+            List<SelectListItem> usersListItems = userList
+                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
+                .ToList();
+
+            return usersListItems;
         }
     }
 }

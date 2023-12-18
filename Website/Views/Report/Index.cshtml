@@ -11,6 +11,9 @@
         <div class="col-md-6">
             @using (Html.BeginForm("GenerateIndividualReport", "Report", FormMethod.Post))
             {
+                var errorMessageIndividual = ViewData.ModelState["individualMonth"]?.Errors.FirstOrDefault()?.ErrorMessage;
+                <div class="text-danger">@errorMessageIndividual</div>
+
                 <p></p>
                 <h4>Generate Individual Report</h4>
                 <p></p>
@@ -30,6 +33,9 @@
         <div class="col-md-6">
             @using (Html.BeginForm("GenerateSummaryReport", "Report", FormMethod.Post))
             {
+                var errorMessageSummary = ViewData.ModelState["summaryMonth"]?.Errors.FirstOrDefault()?.ErrorMessage;
+                <div class="text-danger">@errorMessageSummary</div>
+
                 <p></p>
                 <h4>Generate Summary Report</h4>
                 <p></p>

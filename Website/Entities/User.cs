@@ -12,10 +12,10 @@ public class User : Entity
     [RegularExpression("^[a-zA-Z]+$", ErrorMessage = "Invalid characters in the Name field. Use only letters.")]
     public string Name { get; set; } = default!;
     [MaxLength(20)]
-    [RegularExpression("^[a-zA-Z-]+$", ErrorMessage = "Invalid characters in the LastName field. Use only letters lub '-' character.")]
+    [RegularExpression("^[a-zA-Z-]+$", ErrorMessage = "Invalid characters in the LastName field. Use only letters or '-' character.")]
     public string LastName { get; set; } = default!;
     [MaxLength(20)]
-    [RegularExpression(@"^[^\s@]+@[^\s@]+\.[^\s@]+$", ErrorMessage = "Invalid Email.")]
+    [RegularExpression(@"^[^\s@]+@[^\s@]+\.[^\s@]+$", ErrorMessage = "The email address should end with @domain.com")]
     public string Email { get; set; } = default!;
 }
 

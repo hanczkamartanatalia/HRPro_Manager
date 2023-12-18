@@ -61,6 +61,8 @@ namespace Website.Controllers
                 .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
                 .ToList();
 
+            usersListItems.Insert(0, new SelectListItem { Value = "", Text = "-- No manager --" });
+
             ViewData["Id_User"] = new SelectList(usersListItems, "Value", "Text");
 
             List<Position> positionList = _context.Positions.ToList();
@@ -123,8 +125,10 @@ namespace Website.Controllers
     .ToList();
 
                 List<SelectListItem> usersListItems = userList
-                    .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
-                    .ToList();
+                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
+                .ToList();
+
+                usersListItems.Insert(0, new SelectListItem { Value = "", Text = "-- No manager --" });
 
                 ViewData["Id_User"] = new SelectList(usersListItems, "Value", "Text");
 
@@ -141,7 +145,8 @@ namespace Website.Controllers
                     .Include(e => e.Manager)
                     .Include(e => e.Position)
                     .FirstOrDefault(e => e.Id == Id);
-
+                
+                editEmployment.Rate = Math.Round(editEmployment.Rate, 2);
                 return View(editEmployment);
             }
             catch (Exception ex)
