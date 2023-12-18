@@ -60,6 +60,8 @@ namespace Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DateTime StartDate, DateTime EndDate)
         {
+            var userId = HttpContext.Session.GetInt32("LD_Id");
+
             try
             {
                 // Validate input parameters
@@ -71,7 +73,7 @@ namespace Website.Controllers
 
                 var application = new Application
                 {
-                    Id_User = 7,
+                    Id_User = (int)userId,
                     StartDate = StartDate,
                     EndDate = EndDate,
                     Id_Category = 1
