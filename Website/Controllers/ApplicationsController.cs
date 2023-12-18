@@ -22,7 +22,7 @@ namespace Website.Controllers
         // GET: Applications
         public async Task<IActionResult> Index()
         {
-            var userId = HttpContext.Session.GetInt32("LD_Id");
+            var userId = HttpContext.Session.GetInt32("U_Id");
             try
             {
                 var appDbContext = _context.Applications
@@ -60,7 +60,7 @@ namespace Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DateTime StartDate, DateTime EndDate)
         {
-            var userId = HttpContext.Session.GetInt32("LD_Id");
+            var userId = HttpContext.Session.GetInt32("U_Id");
 
             try
             {

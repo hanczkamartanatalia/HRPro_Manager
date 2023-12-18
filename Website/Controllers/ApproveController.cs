@@ -16,7 +16,7 @@ namespace Website.Controllers
         }
         public IActionResult Index()
         {
-            var userId = HttpContext.Session.GetInt32("LD_Id");
+            var userId = HttpContext.Session.GetInt32("U_Id");
 
             try
             {
@@ -94,7 +94,7 @@ namespace Website.Controllers
 
         public IActionResult Archives()
         {
-            var userId = HttpContext.Session.GetInt32("LD_Id");
+            var userId = HttpContext.Session.GetInt32("U_Id");
             try
             {
                 var query = from user in _context.Users
