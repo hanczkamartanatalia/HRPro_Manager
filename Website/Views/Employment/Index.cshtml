@@ -3,60 +3,69 @@
 @{
     ViewData["Title"] = "Employments";
 }
+<link rel="stylesheet" href="~/css/table.css" />
+<h1>Employments</h1>
 
-<h1>Index</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            Employment Date
+                        </th>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EmploymentDate)
-            </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.User)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Manager)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Position)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.Rate)
+                        </th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    string formattedDate = item.EmploymentDate.ToShortDateString();
+                                }
+                                @formattedDate
+                            </td>
 
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manager)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Position)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                    @{
-                        string formattedDate = item.EmploymentDate.ToShortDateString();
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Name)
+                                @Html.DisplayFor(modelItem => item.User.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Manager.Name)
+                                @Html.DisplayFor(modelItem => item.Manager.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Position.Name)
+                            <td>
+                                    @Html.DisplayFor(modelItem => item.Rate)
+                            </td>
+                            </td>
+                            <td>
+                                <div class="button-container">
+                                    <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.Id"><i class="far fa-eye"></i> Details</a>
+                                    <a asp-action="Edit" class="btn btn-success" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
+                                </div>
+                            </td>
+                        </tr>
                     }
-                    @formattedDate
-            </td>
-
-            <td>
-                    @Html.DisplayFor(modelItem => item.User.Name)
-                    @Html.DisplayFor(modelItem => item.User.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manager.Name)
-                @Html.DisplayFor(modelItem => item.Manager.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position.Name)
-                <td>
-                        @Html.DisplayFor(modelItem => item.Rate)
-                </td>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
