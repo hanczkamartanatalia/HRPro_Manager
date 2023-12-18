@@ -26,8 +26,6 @@ namespace Website.Controllers
             if (id <= 0 || id == null) return RedirectToAction("Login");
             LoginData loginData = EntityService<LoginData>.GetById((int)id);
 
-            //var urlHelper = this.Url;
-            //var urlAkcji = urlHelper.Action();
             return View();
         }
         public IActionResult Login()
