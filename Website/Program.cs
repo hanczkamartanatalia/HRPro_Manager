@@ -1,5 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
 using Website.Database;
+using Website.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +16,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 }
 );
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<AccessFilter>();
+});
 var app = builder.Build();
 
 
