@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Website.Database;
+using Website.Entities;
 using Website.Models;
 
 namespace Website.Controllers
@@ -15,13 +16,15 @@ namespace Website.Controllers
         }
         public IActionResult Index()
         {
+            var userId = HttpContext.Session.GetInt32("U_Id");
+
             try
             {
                 var query = from user in _context.Users
                             join employment in _context.Employments on user.Id equals employment.Id_User
                             join application in _context.Applications on user.Id equals application.Id_User
                             join category in _context.Categories on application.Id_Category equals category.Id
-                            where employment.Id_Manager == 10
+                            where employment.Id_Manager == userId
                             where application.Id_Category == 1
                             select new Approve
                             {
@@ -91,13 +94,14 @@ namespace Website.Controllers
 
         public IActionResult Archives()
         {
+            var userId = HttpContext.Session.GetInt32("U_Id");
             try
             {
                 var query = from user in _context.Users
                             join employment in _context.Employments on user.Id equals employment.Id_User
                             join application in _context.Applications on user.Id equals application.Id_User
                             join category in _context.Categories on application.Id_Category equals category.Id
-                            where employment.Id_Manager == 10 // tutaj dopisac ig zalogowanego usera
+                            where employment.Id_Manager == userId 
                             where application.Id_Category != 1
                             select new Approve
                             {

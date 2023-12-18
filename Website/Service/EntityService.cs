@@ -1,15 +1,16 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Website.Database;
-using Newtonsoft.Json.Linq;
 using System.Reflection;
+using Website.Database;
+using System.Collections.Generic;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Website.Service
 {
     public static class EntityService<T> where T : Entities.Entity
     {
-
+        private static readonly AppDbContext _context = new AppDbContext();
 
         public static T GetById(int id)
         {
@@ -17,28 +18,13 @@ namespace Website.Service
             {
                 throw new ArgumentException("Incorrect value. Id should be greater than 0.", nameof(id));
             }
-
-            using (AppDbContext _context = new AppDbContext())
-            {
-                T entity = _context.Set<T>().FirstOrDefault(x => EF.Property<int>(x, "Id") == id);
-
-                if (entity == null) { throw new ArgumentNullException($"{nameof(entity)}"); }
-
-                return entity;
-            }  
+            T entity = EntityService<T>.GetBy("Id", id.ToString());
+            return entity;
         }
 
-        public static List<T> GetAll() 
+        public static List<T> GetAll()
         {
-            using (AppDbContext _context = new AppDbContext())
-            {
-                return _context.Set<T>().ToList();
-            }  
-        }
-
-        public static void RemoveById(int _id)
-        {
-            throw new NotImplementedException();
+            return _context.Set<T>().ToList();
         }
 
         public static T GetBy(string _fieldName, string _value)
@@ -50,21 +36,16 @@ namespace Website.Service
                 throw new ArgumentException($"Field with name {_fieldName} does not exist in class {typeof(T).Name}.");
             }
 
-            using (AppDbContext _context = new AppDbContext())
+            var entities = _context.Set<T>().AsEnumerable();
+
+            var entity = entities.FirstOrDefault(x => property.GetValue(x)?.ToString() == _value);
+
+            if (entity == null)
             {
-                var entities = _context.Set<T>().AsEnumerable();
-
-                var entity = entities.FirstOrDefault(x => property.GetValue(x)?.ToString() == _value);
-
-                if (entity == null)
-                {
-                    throw new ArgumentNullException($"{nameof(entity)}");
-                }
-
-                return entity as T;
+                throw new ArgumentNullException($"{nameof(entity)}");
             }
+
+            return entity as T;
         }
-
-
     }
 }

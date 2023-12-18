@@ -22,12 +22,13 @@ namespace Website.Controllers
         // GET: Applications
         public async Task<IActionResult> Index()
         {
+            var userId = HttpContext.Session.GetInt32("U_Id");
             try
             {
                 var appDbContext = _context.Applications
                     .Include(a => a.Category)
                     .Include(a => a.User)
-                    .Where(a => a.Id_User == 7); // tutaj dodac ig zalogowanego usera
+                    .Where(a => a.Id_User == userId); 
 
                 var applications = await appDbContext.ToListAsync();
 
@@ -59,6 +60,8 @@ namespace Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DateTime StartDate, DateTime EndDate)
         {
+            var userId = HttpContext.Session.GetInt32("U_Id");
+
             try
             {
                 // Validate input parameters
@@ -70,7 +73,7 @@ namespace Website.Controllers
 
                 var application = new Application
                 {
-                    Id_User = 7,
+                    Id_User = (int)userId,
                     StartDate = StartDate,
                     EndDate = EndDate,
                     Id_Category = 1

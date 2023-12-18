@@ -20,3 +20,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.dropdown-nav-item {
+    border: inherit;
+    background-color: inherit;
+    color: inherit;
+}
