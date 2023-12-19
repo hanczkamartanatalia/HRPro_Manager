@@ -9,6 +9,9 @@
 <p>
     <a asp-action="CreateUser">Create New</a>
 </p>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -31,9 +34,14 @@
                 @Html.DisplayFor(modelItem => item.WorkingHours)
             </td>
             <td>
-                <a asp-action="EditUser" asp-route-id="@item.Id">Edit</a>   
+                    <div class="button-container">
+                       <a asp-action="EditUser" class="btn btn-outline-success" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Edit</a>
+                    </div>
             </td>
         </tr>
 }
     </tbody>
 </table>
+        </div>
+    </div>
+</div>
