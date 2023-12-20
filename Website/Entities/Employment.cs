@@ -11,6 +11,8 @@ namespace Website.Entities
     public class Employment: Entity
     {
         public DateTime EmploymentDate { get; set; } = default!;
+        
+        [RegularExpression(@"^(\d{1,2}(\.\d{1,2})?|100)$", ErrorMessage = "Rate must be a valid decimal up to 100")]
         public decimal Rate { get; set; } = default!;
 
 
