@@ -13,17 +13,17 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Id_User" class="control-label"></label>
+                <label asp-for="Id_User" class="control-label">User: </label>
                 <select asp-for="Id_User" class="form-control" asp-items="ViewBag.Id_User"></select>
                 <span asp-validation-for="Id_User" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="WorkingDay" class="control-label"></label>
+                <label asp-for="WorkingDay" class="control-label">Working day:</label>
                 <input asp-for="WorkingDay" class="form-control" />
                 <span asp-validation-for="WorkingDay" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="WorkingHours" class="control-label"></label>
+                <label asp-for="WorkingHours" class="control-label">Working hours:</label>
                 <input asp-for="WorkingHours" type="number" class="form-control" />
                 <span asp-validation-for="WorkingHours" class="text-danger"></span>
             </div>
