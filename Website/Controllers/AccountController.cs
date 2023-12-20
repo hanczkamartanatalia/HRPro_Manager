@@ -48,6 +48,8 @@ namespace Website.Controllers
                 Role role = EntityService<Role>.GetById(loginDb.Id_Role);
 
                 HttpContext.Session.Clear();
+
+                HttpContext.Session.SetInt32("U_Id", user.Id);
                 HttpContext.Session.SetInt32("LD_Id", loginDb.Id);
                 HttpContext.Session.SetString("LD_Login", loginDb.Login);
                 HttpContext.Session.SetString("U_Name", user.Name);

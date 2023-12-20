@@ -41,7 +41,7 @@ namespace Website.Controllers
         }
         public async Task<IActionResult> IndexUser()
         {
-            var userId = HttpContext.Session.GetInt32("LD_Id");
+            var userId = HttpContext.Session.GetInt32("U_Id");
             var userWorkTimes = await _context.WorkTimes
                 .Where(w => w.Id_User == userId)
                 .ToListAsync();
@@ -86,7 +86,7 @@ namespace Website.Controllers
                     ModelState.AddModelError(string.Empty, "Working day cannot be in the future.");
                     return View(); 
                 }
-                var userId = HttpContext.Session.GetInt32("LD_Id");
+                var userId = HttpContext.Session.GetInt32("U_Id");
                 var workTime = new WorkTime
                 {
                     Id_User = (int)userId,

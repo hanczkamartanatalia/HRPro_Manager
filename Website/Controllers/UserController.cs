@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Win32;
 using NuGet.Protocol.Plugins;
 using System.Data;
 using System.Text.RegularExpressions;
@@ -24,21 +25,7 @@ namespace Website.Controllers
         {
             try
             {
-                var usersWithLoginDataAndRole = _context.Users
-                .Join(
-                    _context.LoginData,
-                    user => user.Id,
-                    login => login.Id_User,
-                    (user, login) => new { User = user, Login = login }
-                    )
-                .Join(
-                    _context.Roles,
-                    userLogin => userLogin.Login.Id_Role,
-                    role => role.Id,
-                    (userLogin, role) => new Tuple<User, LoginData, Role>(userLogin.User, userLogin.Login, role)
-                    )
-                .ToList();
-
+                var usersWithLoginDataAndRole = GetUsersWithLoginDataAndRole();
                 return View(usersWithLoginDataAndRole);
             }
             catch (Exception ex)
@@ -66,14 +53,11 @@ namespace Website.Controllers
                     Email = register.User.Email
                 };
 
-                _context.Users.Add(user);
-                _context.SaveChanges();
-
                 Role role = _context.Roles.SingleOrDefault(i => i.Id == 3 && i.Name == "Employee");
 
                 if (role == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Rola o Id=3 nie istnieje w bazie danych.");
+                    ModelState.AddModelError(string.Empty, "The Employee role does not exist in the database.");
                     return View("Create", register);
                 }
 
@@ -87,6 +71,7 @@ namespace Website.Controllers
                     role
                 );
 
+                _context.Users.Add(user);
                 _context.LoginData.Add(loginData);
                 _context.SaveChanges();
                 _context.Dispose();
@@ -106,6 +91,15 @@ namespace Website.Controllers
             try
             {
                 User editUser = _context.Users.FirstOrDefault(i => i.Id == Id);
+                
+                bool hasRoleOne = _context.LoginData.Any(ld => ld.Id_User == editUser.Id && ld.Id_Role == 1);
+
+                if (hasRoleOne)
+                {
+                    ModelState.AddModelError(string.Empty, "Cannot edit a user with the admin role.");
+                    var usersWithLoginDataAndRole = GetUsersWithLoginDataAndRole();
+                    return View("Index", usersWithLoginDataAndRole);
+                }
 
                 _context.Dispose();
                 return View(editUser);
@@ -146,9 +140,20 @@ namespace Website.Controllers
             try
             {
                 User detailsUser = _context.Users.FirstOrDefault(i => i.Id == Id);
+                LoginData loginData = _context.LoginData.FirstOrDefault(ld => ld.Id_User == Id);
 
+                Tuple<User, LoginData> userDetails = new Tuple<User, LoginData>(detailsUser, loginData);
+                
+                bool hasRoleOne = _context.LoginData.Any(ld => ld.Id_User == detailsUser.Id && loginData.Id_Role == 1);
+
+                if (hasRoleOne)
+                {
+                    ModelState.AddModelError(string.Empty, "Cannot view details a user with the admin role.");
+                    var usersWithLoginDataAndRole = GetUsersWithLoginDataAndRole();
+                    return View("Index", usersWithLoginDataAndRole);
+                }
                 _context.Dispose();
-                return View(detailsUser);
+                return View(userDetails);
             }
             catch (Exception ex)
             {
@@ -163,6 +168,24 @@ namespace Website.Controllers
             try
             {
                 User deleteUser = _context.Users.FirstOrDefault(i => i.Id == Id);
+
+                bool hasRoleOne = _context.LoginData.Any(ld => ld.Id_User == deleteUser.Id && ld.Id_Role == 1);
+
+                if (hasRoleOne)
+                {
+                    ModelState.AddModelError(string.Empty, "Cannot delete a user with the admin role.");
+                    var usersWithLoginDataAndRole = GetUsersWithLoginDataAndRole();
+                    return View("Index", usersWithLoginDataAndRole);
+                }
+
+                bool isManager = _context.Employments.Any(e => e.Id_Manager == deleteUser.Id);
+
+                if (isManager)
+                {
+                    ModelState.AddModelError(string.Empty, "Cannot delete a user who has a subordinate.");
+                    var usersWithLoginDataAndRole = GetUsersWithLoginDataAndRole();
+                    return View("Index", usersWithLoginDataAndRole);
+                }
 
                 _context.Dispose();
                 return View(deleteUser);
@@ -184,7 +207,7 @@ namespace Website.Controllers
                 List<Employment> employments = _context.Employments
                     .Where(e => e.Id_User == user.Id)
                     .ToList();
-
+                
                 if (deleteUser != null && loginData != null && employments != null)
                 {
                     _context.Users.Remove(deleteUser);
@@ -194,7 +217,8 @@ namespace Website.Controllers
                 }
                 else
                 {
-                    Console.WriteLine("Cannot delete the user. No data in the database.");
+                    ModelState.AddModelError(string.Empty, "Something has gone wrong.");
+                    return View(user);
                 }
 
                 _context.Dispose();
@@ -213,6 +237,13 @@ namespace Website.Controllers
             {
                 LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id);
                 editLoginData.Password = string.Empty;
+
+                if (editLoginData.Id_Role == 1)
+                {
+                    ModelState.AddModelError(string.Empty, "Cannot change the login data of an administrator.");
+                    var usersWithLoginDataAndRole = GetUsersWithLoginDataAndRole();
+                    return View("Index", usersWithLoginDataAndRole);
+                }
 
                 return View(editLoginData);
             }
@@ -251,6 +282,13 @@ namespace Website.Controllers
             {
                 LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id);
 
+                if (editLoginData.Id_Role == 1)
+                {
+                    ModelState.AddModelError(string.Empty, "Cannot change the role of an administrator.");
+                    var usersWithLoginDataAndRole = GetUsersWithLoginDataAndRole();
+                    return View("Index", usersWithLoginDataAndRole);
+                }
+
                 if (editLoginData.Id_Role == 3)
                 {
                     Role role = _context.Roles.SingleOrDefault(i => i.Id == 2);
@@ -275,6 +313,25 @@ namespace Website.Controllers
                 ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"Error: {ex.Message}" };
                 return View("Error", errorModel);
             }
+        }
+        private List<Tuple<User, LoginData, Role>> GetUsersWithLoginDataAndRole()
+        {
+            var usersWithLoginDataAndRole = _context.Users
+                .Join(
+                    _context.LoginData,
+                    user => user.Id,
+                    login => login.Id_User,
+                    (user, login) => new { User = user, Login = login }
+                )
+                .Join(
+                    _context.Roles,
+                    userLogin => userLogin.Login.Id_Role,
+                    role => role.Id,
+                    (userLogin, role) => new Tuple<User, LoginData, Role>(userLogin.User, userLogin.Login, role)
+                )
+                .ToList();
+
+            return usersWithLoginDataAndRole;
         }
     }
 }
