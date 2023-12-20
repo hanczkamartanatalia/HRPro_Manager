@@ -27,7 +27,7 @@ namespace Website.Controllers
         public IActionResult Index()
         {
             try
-            {
+            { 
                 var usersTiems = GetUsersItems();
 
                 ViewData["Id_User"] = new SelectList(usersTiems, "Value", "Text");
@@ -41,37 +41,13 @@ namespace Website.Controllers
             }
         }
 
-        public IActionResult GenerateSummaryReport(string summaryMonth)
+        public IActionResult GenerateSummaryReport(string summaryMonth, string searchName = null, string searchLastname = null)
         {
             try
             {
+                List<UserWorkSummary> summaryReport = SummaryReport(summaryMonth);
+                
                 DateTime startDate = DateTime.Parse(summaryMonth);
-                DateTime endDate = startDate.AddMonths(1).AddDays(-1);
-
-                var summaryReport = _context.WorkTimes
-                    .Where(wt => wt.WorkingDay >= startDate && wt.WorkingDay <= endDate)
-                    .Join(
-                        _context.Employments,
-                        workTime => workTime.Id_User,
-                        employment => employment.Id_User,
-                        (workTime, employment) => new UserWorkSummary
-                        {
-                            UserId = workTime.Id_User,
-                            Name = workTime.User.Name,
-                            Lastname = workTime.User.LastName,
-                            TotalHours = workTime.WorkingHours,
-                            Earnings = employment.Rate * workTime.WorkingHours
-                        })
-                    .GroupBy(userWorkSummary => new { userWorkSummary.UserId, userWorkSummary.Name, userWorkSummary.Lastname })
-                    .Select(group => new UserWorkSummary
-                    {
-                        UserId = group.Key.UserId,
-                        Name = group.Key.Name,
-                        Lastname = group.Key.Lastname,
-                        TotalHours = group.Sum(userWorkSummary => userWorkSummary.TotalHours),
-                        Earnings = group.Sum(userWorkSummary => userWorkSummary.Earnings)
-                    })
-                    .ToList();
 
                 if (summaryReport.Count == 0)
                 {
@@ -79,10 +55,24 @@ namespace Website.Controllers
                     return View("Index");
                 }
 
-                ViewBag.SummaryReport = summaryReport;
-                ViewBag.StartDate = startDate.ToString("MMMM yyyy");
+                if (!string.IsNullOrEmpty(searchName) && !string.IsNullOrEmpty(searchLastname))
+                {
+                    List<UserWorkSummary> findUser = FindUser(searchName, searchLastname, summaryMonth);
+                    
+                    ViewBag.SummaryReport = summaryReport;
+                    ViewBag.StartDate = startDate.ToString("MMMM yyyy");
+                    ViewBag.StartDate1 = startDate;
 
-                return View("SummaryReport", summaryReport);
+                    return View("SummaryReport", findUser);
+                }
+                else
+                {
+                    ViewBag.SummaryReport = summaryReport;
+                    ViewBag.StartDate = startDate.ToString("MMMM yyyy");
+                    ViewBag.StartDate1 = startDate;
+
+                    return View("SummaryReport", summaryReport);
+                } 
             }
             catch (Exception ex)
             {
@@ -218,6 +208,82 @@ namespace Website.Controllers
                 .ToList();
 
             return usersListItems;
+        }
+
+        public List<UserWorkSummary> SummaryReport(string summaryMonth)
+        {
+            DateTime startDate = DateTime.Parse(summaryMonth);
+            DateTime endDate = startDate.AddMonths(1).AddDays(-1);
+
+            var summaryReport = _context.WorkTimes
+                .Where(wt => wt.WorkingDay >= startDate && wt.WorkingDay <= endDate)
+                .Join(
+                    _context.Employments,
+                    workTime => workTime.Id_User,
+                    employment => employment.Id_User,
+                    (workTime, employment) => new UserWorkSummary
+                    {
+                        UserId = workTime.Id_User,
+                        Name = workTime.User.Name,
+                        Lastname = workTime.User.LastName,
+                        TotalHours = workTime.WorkingHours,
+                        Earnings = employment.Rate * workTime.WorkingHours
+                    })
+                .GroupBy(userWorkSummary => new { userWorkSummary.UserId, userWorkSummary.Name, userWorkSummary.Lastname })
+                .Select(group => new UserWorkSummary
+                {
+                    UserId = group.Key.UserId,
+                    Name = group.Key.Name,
+                    Lastname = group.Key.Lastname,
+                    TotalHours = group.Sum(userWorkSummary => userWorkSummary.TotalHours),
+                    Earnings = group.Sum(userWorkSummary => userWorkSummary.Earnings)
+                })
+                .ToList();
+
+            return summaryReport;
+        }
+
+        public List<UserWorkSummary> FindUser(string name, string lastname, string summaryMonth)
+        {
+            DateTime startDate = DateTime.Parse(summaryMonth);
+            DateTime endDate = startDate.AddMonths(1).AddDays(-1);
+
+            List<UserWorkSummary> findUsers = _context.WorkTimes
+                .Where(wt => wt.WorkingDay >= startDate && wt.WorkingDay <= endDate)
+                .Join(
+                    _context.Employments,
+                    workTime => workTime.Id_User,
+                    employment => employment.Id_User,
+                    (workTime, employment) => new UserWorkSummary
+                    {
+                        UserId = workTime.Id_User,
+                        Name = workTime.User.Name,
+                        Lastname = workTime.User.LastName,
+                        TotalHours = workTime.WorkingHours,
+                        Earnings = employment.Rate * workTime.WorkingHours
+                    })
+                .GroupBy(userWorkSummary => new { userWorkSummary.UserId, userWorkSummary.Name, userWorkSummary.Lastname })
+                .Select(group => new UserWorkSummary
+                {
+                    UserId = group.Key.UserId,
+                    Name = group.Key.Name,
+                    Lastname = group.Key.Lastname,
+                    TotalHours = group.Sum(userWorkSummary => userWorkSummary.TotalHours),
+                    Earnings = group.Sum(userWorkSummary => userWorkSummary.Earnings)
+                })
+                .AsEnumerable()
+                .Where(summary =>
+                        summary.Name.ToLower().Contains(name.ToLower()) &&
+                        summary.Lastname.ToLower().Contains(lastname.ToLower()))
+                .ToList();
+            
+            if (findUsers.Count == 0)
+            {
+                ModelState.AddModelError(string.Empty, "User not found.");
+
+            }
+
+            return findUsers;
         }
     }
 }
