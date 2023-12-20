@@ -17,6 +17,10 @@ namespace Website.Controllers
         {
             return View();
         }
+        public IActionResult Access()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
