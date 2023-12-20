@@ -23,13 +23,13 @@
                 <span asp-validation-for="Id_Category" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <label asp-for="StartDate" class="control-label">Start date:</label>
+                <input asp-for="StartDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
+                <label asp-for="EndDate" class="control-label">End date:</label>
+                <input asp-for="EndDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
