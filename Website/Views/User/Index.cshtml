@@ -53,6 +53,7 @@
                             <td>@item.Item3.Name</td>
                             <td>
                                 <div class="button-container">
+                                    <a asp-action="ChangeAdmin" class="btn btn-outline-secondary" asp-route-id="@item.Item1.Id"><i class="fa-solid fa-user-secret"></i> Admin</a>
                                     <a asp-action="ChangeRole" class="btn btn-outline-secondary" asp-route-id="@item.Item1.Id"><i class="fas fa-user-tie"></i> Role</a>
                                     <a asp-action="ChangeLogin" class="btn btn-outline-secondary" asp-route-id="@item.Item1.Id"><i class="fas fa-user-edit"></i> Login</a>
                                 </div>

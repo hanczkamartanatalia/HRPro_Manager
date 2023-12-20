@@ -309,6 +309,14 @@ namespace Website.Controllers
                 }
                 else if (editLoginData.Id_Role == 2)
                 {
+                    bool isManager = _context.Employments.Any(e => e.Id_Manager == Id);
+
+                    if (isManager)
+                    {
+                        ModelState.AddModelError(string.Empty, "Cannot delete a user who has a subordinate.");
+                        List<Tuple<User, LoginData, Role>> usersWithLoginDataAndRole = GetUsersWithLoginDataAndRole();
+                        return View("Index", usersWithLoginDataAndRole);
+                    }
 
                     Role role = _context.Roles.SingleOrDefault(i => i.Id == 3);
                     editLoginData.Id_Role = role.Id;
@@ -326,6 +334,39 @@ namespace Website.Controllers
                 return View("Error", errorModel);
             }
         }
+        public IActionResult ChangeAdmin(int Id)
+        {
+            try
+            {
+                LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id);
+
+
+                if (editLoginData.Id_Role == 1)
+                {
+                    Role role = _context.Roles.SingleOrDefault(i => i.Id == 2);
+                    editLoginData.Id_Role = role.Id;
+                    editLoginData.Role = role;
+                }
+                else if (editLoginData.Id_Role == 2 || editLoginData.Id_Role == 3)
+                {
+
+                    Role role = _context.Roles.SingleOrDefault(i => i.Id == 1);
+                    editLoginData.Id_Role = role.Id;
+                    editLoginData.Role = role;
+                }
+
+                _context.SaveChanges();
+                _context.Dispose();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"Error: {ex.Message}" };
+                return View("Error", errorModel);
+            }
+        }
+        
         private List<Tuple<User, LoginData, Role>> GetUsersWithLoginDataAndRole()
         {
             List<Tuple<User, LoginData, Role>> usersWithLoginDataAndRole = _context.Users

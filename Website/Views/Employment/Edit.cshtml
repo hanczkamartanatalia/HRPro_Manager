@@ -30,7 +30,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="EmploymentDate" class="control-label">Employment Date</label>
-                    <input asp-for="EmploymentDate" type="date" class="form-control" />
+                    <input asp-for="EmploymentDate" type="date" class="form-control" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
                     <span asp-validation-for="EmploymentDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
