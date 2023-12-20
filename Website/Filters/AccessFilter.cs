@@ -15,7 +15,7 @@ namespace Website.Filters
                 bool access = Service.AccountService.AccessService.HasAccess(path, roleName);
                 if (!access)
                 {
-                    context.Result = new RedirectToActionResult("Index", "Home", null);
+                    context.Result = new RedirectToActionResult("Access", "Home", null);
                 }
             }
             catch
@@ -38,7 +38,7 @@ namespace Website.Filters
                 bool access = Service.AccountService.AccessService.HasAccess(path, roleName);
                 if (!access)
                 {
-                    context.Result = new RedirectToActionResult("Index", "Home", null);
+                    context.Result = new RedirectToActionResult("Access", "Home", null);
                 }
             }
             catch
