@@ -3,8 +3,13 @@
 @{
     ViewData["Title"] = "Employments";
 }
+
 <link rel="stylesheet" href="~/css/table.css" />
-<h1>Employments</h1>
+
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Employments</h1>
+    <a asp-action="GroupAction" class="btn btn-success" style="width: 20%">Rate Increase/Decrease</a>
+</div>
 
 <div class="container">
     <div class="row">

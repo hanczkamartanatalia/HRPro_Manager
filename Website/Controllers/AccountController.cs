@@ -105,7 +105,6 @@ namespace Website.Controllers
                 ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"Error: {ex.Message}" };
                 return View("Error", errorModel);
             }
-
         }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using NuGet.DependencyResolver;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Position = Website.Entities.Position;
+using Microsoft.Win32;
 
 namespace Website.Controllers
 {
@@ -194,6 +195,38 @@ namespace Website.Controllers
             {
                 _context.Dispose();
             }
+        }
+        public IActionResult GroupAction()
+        {
+            return View();
+        }
+
+        public IActionResult MakeGroupAction(Employment emp)
+        {
+            if(emp.Rate == 0)
+            {
+                ModelState.AddModelError(string.Empty, "The Increase/Decrease value cannot be 0.");
+                return View("GroupAction");
+            }
+
+            List<Employment> employments = _context.Employments
+                    .Include(e => e.User)
+                    .Include(e => e.Manager)
+                    .Include(e => e.Position)
+                    .ToList(); 
+            
+            foreach (Employment employment in employments)
+            {
+                employment.Rate += emp.Rate;
+                
+                if (employment.Rate < 0)
+                {
+                    employment.Rate = 0;
+                }
+            }
+
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Details(int Id)

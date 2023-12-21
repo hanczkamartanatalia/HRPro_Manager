@@ -20,12 +20,12 @@
 
             <div class="form-group">
                 <label asp-for="EmploymentDate">Employment Date</label>
-                    <input asp-for="EmploymentDate" type="date" class="form-control" max="@DateTime.Now.ToString("yyyy-MM-dd")"/>
+                    <input asp-for="EmploymentDate" type="date" class="form-control" max="@DateTime.Now.ToString("yyyy-MM-dd")" required />
             </div>
 
             <div class="form-group">
                 <label asp-for="Rate">Rate</label>
-                <input asp-for="Rate" type="number" step="0.50" class="form-control" min="0.50"/>
+                    <input asp-for="Rate" type="number" step="0.50" class="form-control" min="0.50" max="100" required />
             </div>
 
                 <div class="form-group">
