@@ -85,7 +85,13 @@ namespace Website.Controllers
                 if (hashedCurrentPassword != editLoginData.Password)
                 {
                     ModelState.AddModelError(string.Empty, "Incorrect current password.");
-                    return View();
+                    return View("ChangePassword");
+                }
+
+                if (currentPassword == loginData.Password)
+                {
+                    ModelState.AddModelError(string.Empty, "You already have this password.");
+                    return View("ChangePassword");
                 }
 
                 editLoginData.Password = PasswordService.HashPassword(loginData.Password);
