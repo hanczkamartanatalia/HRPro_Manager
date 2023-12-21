@@ -27,8 +27,8 @@ namespace Website.Controllers
         public IActionResult Index()
         {
             try
-            { 
-                var usersTiems = GetUsersItems();
+            {
+                List<SelectListItem> usersTiems = GetUsersItems();
 
                 ViewData["Id_User"] = new SelectList(usersTiems, "Value", "Text");
                 return View();
@@ -109,7 +109,7 @@ namespace Website.Controllers
                 if (employment == null)
                 {
                     ModelState.AddModelError("individualMonth", "User does not have employment.");
-                    var usersTiems = GetUsersItems();
+                    List<SelectListItem> usersTiems = GetUsersItems();
 
                     ViewData["Id_User"] = new SelectList(usersTiems, "Value", "Text");
                     return View("Index");
@@ -122,7 +122,7 @@ namespace Website.Controllers
                 if (workTimes.Count == 0)
                 {
                     ModelState.AddModelError("individualMonth", "No working hours for the selected period.");
-                    var usersTiems = GetUsersItems();
+                    List<SelectListItem> usersTiems = GetUsersItems();
 
                     ViewData["Id_User"] = new SelectList(usersTiems, "Value", "Text");
                     return View("Index");
@@ -215,7 +215,7 @@ namespace Website.Controllers
             DateTime startDate = DateTime.Parse(summaryMonth);
             DateTime endDate = startDate.AddMonths(1).AddDays(-1);
 
-            var summaryReport = _context.WorkTimes
+            List<UserWorkSummary> summaryReport = _context.WorkTimes
                 .Where(wt => wt.WorkingDay >= startDate && wt.WorkingDay <= endDate)
                 .Join(
                     _context.Employments,

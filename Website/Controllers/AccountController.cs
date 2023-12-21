@@ -73,12 +73,20 @@ namespace Website.Controllers
         }
 
         [HttpPost]
-        public IActionResult SavePassword(LoginData loginData)
+        public IActionResult SavePassword(LoginData loginData, string currentPassword)
         {
             try
             {
                 int? login_ID = HttpContext.Session.GetInt32("LD_Id");
                 LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
+                
+                string hashedCurrentPassword= PasswordService.HashPassword(currentPassword);
+                
+                if (hashedCurrentPassword != editLoginData.Password)
+                {
+                    ModelState.AddModelError(string.Empty, "Incorrect current password.");
+                    return View();
+                }
 
                 editLoginData.Password = PasswordService.HashPassword(loginData.Password);
 
