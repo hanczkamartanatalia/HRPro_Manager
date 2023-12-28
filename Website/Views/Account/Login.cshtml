@@ -25,12 +25,6 @@
                 <button type="submit" class="btn btn-outline-secondary">Login</button>
             </div>
         </form>
-        @if (!string.IsNullOrWhiteSpace(Context.Session.GetString("Error")))
-        {
-            <div class="mt-3 text-center">
-                <p class="p-1 alert-danger rounded">@Context.Session.GetString("Error")</p>
-            </div>
-        }
     </div>
 </div>
 
