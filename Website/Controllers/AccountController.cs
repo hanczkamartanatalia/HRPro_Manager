@@ -60,7 +60,7 @@ namespace Website.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch
             {
                 HttpContext.Session.SetString("Error","Incorrect login or password.");
                 return RedirectToAction("Login");
@@ -78,7 +78,7 @@ namespace Website.Controllers
             try
             {
                 int? login_ID = HttpContext.Session.GetInt32("LD_Id");
-                LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
+                LoginData? editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
                 
                 string hashedCurrentPassword= PasswordService.HashPassword(currentPassword);
                 
