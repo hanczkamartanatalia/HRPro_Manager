@@ -1,0 +1,33 @@
+﻿@model Website.Entities.Employment
+
+@{
+    ViewData["Title"] = "GroupAction";
+}
+
+<h1>Group Action</h1>
+
+<h4>Rate Increase/Decrease</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("MakeGroupAction", "Employment", FormMethod.Post))
+        {
+            <form asp-action="GroupAction">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Rate" class="control-label">Value</label>
+                    <input asp-for="Rate" class="form-control" type="number" step="0.50" min="-100" max="100" required/>
+                    <span asp-validation-for="Rate" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="margin-top: 20px;">
+                    <input type="submit" value="Make action" class="btn btn-primary w-100" />
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+<div style="margin-top: 30px;">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
+

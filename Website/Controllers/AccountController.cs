@@ -73,17 +73,31 @@ namespace Website.Controllers
         }
 
         [HttpPost]
-        public IActionResult SavePassword(LoginData loginData)
+        public IActionResult SavePassword(LoginData loginData, string currentPassword)
         {
             try
             {
                 int? login_ID = HttpContext.Session.GetInt32("LD_Id");
                 LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
+                
+                string hashedCurrentPassword= PasswordService.HashPassword(currentPassword);
+                
+                if (hashedCurrentPassword != editLoginData.Password)
+                {
+                    ModelState.AddModelError(string.Empty, "Incorrect current password.");
+                    return View("ChangePassword");
+                }
+
+                if (currentPassword == loginData.Password)
+                {
+                    ModelState.AddModelError(string.Empty, "You already have this password.");
+                    return View("ChangePassword");
+                }
 
                 editLoginData.Password = PasswordService.HashPassword(loginData.Password);
 
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Logout");
             }
             catch (Exception ex)
             {
@@ -91,7 +105,6 @@ namespace Website.Controllers
                 ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"Error: {ex.Message}" };
                 return View("Error", errorModel);
             }
-
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Website.Entities
     public class Employment: Entity
     {
         public DateTime EmploymentDate { get; set; } = default!;
+        
         public decimal Rate { get; set; } = default!;
 
 
