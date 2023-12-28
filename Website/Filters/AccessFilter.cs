@@ -8,28 +8,14 @@ namespace Website.Filters
     {
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            string path = context.HttpContext.Request.Path;
-            string? roleName = context.HttpContext.Session.GetString("R_Name");
-            try
-            {
-                bool access = Service.AccountService.AccessService.HasAccess(path, roleName);
-                if (!access)
-                {
-                    context.Result = new RedirectToActionResult("Access", "Home", null);
-                }
-            }
-            catch
-            {
-                context.Result = new RedirectToActionResult("Index", "Home", null);
-            }
+            ControlAccess(context);
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            ControlAccess(context);
         }
 
-        private void ControlAccess(ActionExecutedContext context)
+        private void ControlAccess(ActionExecutingContext context)
         {
             string path = context.HttpContext.Request.Path;
             string? roleName = context.HttpContext.Session.GetString("R_Name");
@@ -38,7 +24,12 @@ namespace Website.Filters
                 bool access = Service.AccountService.AccessService.HasAccess(path, roleName);
                 if (!access)
                 {
-                    context.Result = new RedirectToActionResult("Access", "Home", null);
+                    context.HttpContext.Session.SetString("Error","You have no access.");
+                    context.Result = new ContentResult
+                    {
+                        Content = "<script>history.go(-1)</script>",
+                        ContentType = "text/html"
+                    };
                 }
             }
             catch

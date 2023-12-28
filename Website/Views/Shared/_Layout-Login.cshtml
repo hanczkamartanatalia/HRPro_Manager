@@ -11,16 +11,15 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Website</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                @{
-                    Html.RenderPartial("_Menu");
-                }
+                    @await Html.PartialAsync("_Menu")
+
                 <div class="item-align-end row me-1">
                     <a class="nav-link text-dark col" asp-area="" asp-controller="Account" asp-action="Index">
                         <i class="fa-solid fa-user" title="My account"></i>
@@ -31,9 +30,12 @@
                 </div>
             </div>
         </nav>
+        <div>
+            @await Html.PartialAsync("_Error")
+        </div>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 mt-3">
             @RenderBody()
         </main>
     </div>
