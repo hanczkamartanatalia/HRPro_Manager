@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Website.Models.Approve>
+@{
+    ViewData["Title"] = "Calendar";
+}
+
+<h2>Calendar</h2>
+
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+
+    }
+
+
+    td {
+        text-align: center;
+    }
+
+
+</style>
+<p></p>
+@using (Html.BeginForm("Index", "Calendar", FormMethod.Get))
+{
+    <div class="form-group">
+        <label for="startDate" style="display: inline-block;">Start Date:</label>
+        <input type="date" class="form-control" style="width: 150px; display: inline-block;" name="startDate" id="startDate" value="@ViewBag.StartDate" />
+
+        <label for="endDate" style="display: inline-block;">End Date:</label>
+        <input type="date" class="form-control" style="width: 150px; display: inline-block;" name="endDate" id="endDate" value="@ViewBag.EndDate" />
+
+        <input type="submit" class="btn btn-primary" value="Display" style="display: inline-block;" />
+    </div>
+
+}
+
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>Number of People on Leave</th>
+    </tr>
+    @for (var i = 0; i < ViewBag.Dates.Count; i++)
+    {
+        <tr>
+            <td>@ViewBag.Dates[i].ToShortDateString()</td>
+            <td class="@(ViewBag.Dates[i].Date == DateTime.Today.Date ? "today" : "")">@ViewBag.NumberOfPeopleOnLeave[i]</td>
+        </tr>
+    }
+</table>
+
