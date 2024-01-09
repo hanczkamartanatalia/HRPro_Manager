@@ -7,18 +7,18 @@
     string formattedDate = Model.EmploymentDate.ToShortDateString();
 }
 
-<h1>Details</h1>
+<h1>Details employment</h1>
 
 <div>
-    <h4>Employment</h4>
-    <hr />
+@*     <h4>Employment</h4>
+ *@    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.User)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.User.Name)
-            @Html.DisplayFor(model => model.User.LastName)
+            Last Name
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Manager)
@@ -28,7 +28,7 @@
             @Html.DisplayFor(model => model.Manager.LastName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EmploymentDate)
+            Employment Date
         </dt>
         <dd class = "col-sm-10">
             @formattedDate
@@ -47,7 +47,11 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="row">
+    <div class="col-md-4">
+        <a asp-action="Edit" class="btn btn-primary w-100" asp-route-id="@Model?.Id">Edit</a>
+        <div style="margin-top: 30px;">
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
 </div>

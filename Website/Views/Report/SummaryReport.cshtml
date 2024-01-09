@@ -1,28 +1,57 @@
 ﻿@model List<UserWorkSummary>
+<link rel="stylesheet" href="~/css/table.css" />
 
-<h2>Summary Report - @DateTime.Parse(ViewBag.StartDate).ToString("MMMM yyyy")</h2>
+
+<div class="d-flex justify-content-between align-items-center">
+    <h2>Summary Report - @ViewBag.StartDate</h2>
+    <form asp-action="GenerateSummaryReport" method="get" style=" margin-top: 4px">
+        <div class="input-group">
+            <input type="text" name="searchName" class="form-control" placeholder="Name...">
+            <input type="text" name="searchLastname" class="form-control" placeholder="Lastname...">
+            <input type="hidden" name="summaryMonth" value=@ViewBag.StartDate1 />
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
 <p></p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Lastname</th>
-            <th>Total Hours</th>
-            <th>Earnings</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var entry in Model)
-        {
-            <tr>
-                <td>@entry.Name</td>
-                <td>@entry.Lastname</td>
-                <td>@entry.TotalHours</td>
-                <td>@entry.Earnings.ToString("N2")</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Lastname</th>
+                        <th scope="col">Total Hours</th>
+                        <th scope="col">Earnings</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model)
+                    {
+                        <tr>
+                            <td>@entry.Name</td>
+                            <td>@entry.Lastname</td>
+                            <td>@entry.TotalHours</td>
+                            <td>@entry.Earnings.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </table>
+        </div>
+    </div>
+</div>
 <div style="margin-top: 30px;">
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
 </div>

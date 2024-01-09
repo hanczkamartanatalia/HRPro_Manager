@@ -4,10 +4,10 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Edit employment</h1>
 
-<h4>Employment</h4>
-<hr />
+@* <h4>Employment</h4>
+ *@<hr />
 <div class="row">
     <div class="col-md-4">
         @using (Html.BeginForm("Save", "Employment", FormMethod.Post))
@@ -29,13 +29,13 @@
                     <select asp-for="Id_Manager" class="form-control" asp-items="ViewBag.Id_User"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="EmploymentDate" class="control-label"></label>
-                    <input asp-for="EmploymentDate" type="date" class="form-control" />
+                    <label asp-for="EmploymentDate" class="control-label">Employment Date</label>
+                    <input asp-for="EmploymentDate" type="date" class="form-control" max="@DateTime.Now.ToString("yyyy-MM-dd")" required />
                     <span asp-validation-for="EmploymentDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Rate" class="control-label"></label>
-                    <input asp-for="Rate" type="number" step="0.5" class="form-control" />
+                    <input asp-for="Rate" type="number" step="0.50" class="form-control" min="0.50" max="100" required />
                     <span asp-validation-for="Rate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -51,8 +51,8 @@
     </div>
 </div>
 
-<div style="margin-top: 10px;">
-    <a asp-action="Index">Back to List</a>
+<div style="margin-top: 30px;">
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
 @section Scripts {

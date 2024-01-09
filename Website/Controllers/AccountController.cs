@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Website.Database;
 using Website.Entities;
+using Website.Models;
 using Website.Service;
 using Website.Service.AccountService;
 
@@ -22,6 +25,7 @@ namespace Website.Controllers
             int? id = HttpContext.Session.GetInt32("LD_Id");
             if (id <= 0 || id == null) return RedirectToAction("Login");
             LoginData loginData = EntityService<LoginData>.GetById((int)id);
+
             return View();
         }
         public IActionResult Login()
@@ -42,17 +46,21 @@ namespace Website.Controllers
                 LoginData loginDb = LoginService.Login(model.Login, model.Password);
                 User user = EntityService<User>.GetById(loginDb.Id_User);
                 Role role = EntityService<Role>.GetById(loginDb.Id_Role);
-                
+
+                HttpContext.Session.Clear();
+
+                HttpContext.Session.SetInt32("U_Id", user.Id);
                 HttpContext.Session.SetInt32("LD_Id", loginDb.Id);
                 HttpContext.Session.SetString("LD_Login", loginDb.Login);
                 HttpContext.Session.SetString("U_Name", user.Name);
                 HttpContext.Session.SetString("U_LastName", user.LastName);
                 HttpContext.Session.SetString("U_Email", user.Email);
                 HttpContext.Session.SetString("R_Name", role.Name);
-                
+
+
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch
             {
                 HttpContext.Session.SetString("Error","Incorrect login or password.");
                 return RedirectToAction("Login");
@@ -65,15 +73,38 @@ namespace Website.Controllers
         }
 
         [HttpPost]
-        public IActionResult SavePassword(LoginData loginData)
+        public IActionResult SavePassword(LoginData loginData, string currentPassword)
         {
-            int? login_ID = HttpContext.Session.GetInt32("LD_Id");
-            LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
+            try
+            {
+                int? login_ID = HttpContext.Session.GetInt32("LD_Id");
+                LoginData? editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
+                
+                string hashedCurrentPassword= PasswordService.HashPassword(currentPassword);
+                
+                if (hashedCurrentPassword != editLoginData.Password)
+                {
+                    ModelState.AddModelError(string.Empty, "Incorrect current password.");
+                    return View("ChangePassword");
+                }
 
-            editLoginData.Password = PasswordService.HashPassword(loginData.Password);
+                if (currentPassword == loginData.Password)
+                {
+                    ModelState.AddModelError(string.Empty, "You already have this password.");
+                    return View("ChangePassword");
+                }
 
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+                editLoginData.Password = PasswordService.HashPassword(loginData.Password);
+
+                _context.SaveChanges();
+                return RedirectToAction("Logout");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                ErrorViewModel errorModel = new ErrorViewModel { ErrorMessage = $"Error: {ex.Message}" };
+                return View("Error", errorModel);
+            }
         }
     }
 }
