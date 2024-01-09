@@ -17,26 +17,29 @@ namespace Website.Controllers
         public IActionResult Index()
         {
             var userId = HttpContext.Session.GetInt32("U_Id");
+            var roleName = HttpContext.Session.GetString("R_Name");
 
             try
             {
-                var query = from user in _context.Users
-                            join employment in _context.Employments on user.Id equals employment.Id_User
-                            join application in _context.Applications on user.Id equals application.Id_User
-                            join category in _context.Categories on application.Id_Category equals category.Id
-                            where employment.Id_Manager == userId
-                            where application.Id_Category == 1
-                            select new Approve
-                            {
-                                User = user,
-                                Employment = employment,
-                                Application = application,
-                                Category = category
-                            };
+                
+                    var query = from user in _context.Users
+                                join employment in _context.Employments on user.Id equals employment.Id_User
+                                join application in _context.Applications on user.Id equals application.Id_User
+                                join category in _context.Categories on application.Id_Category equals category.Id
+                                where employment.Id_Manager == userId
+                                where application.Id_Category == 1
+                                select new Approve
+                                {
+                                    User = user,
+                                    Employment = employment,
+                                    Application = application,
+                                    Category = category
+                                };
+                    var result = query.ToList();
+                    return View(result);
 
-                var result = query.ToList();
+       
 
-                return View(result);
             }
             catch (Exception ex)
             {
@@ -95,25 +98,53 @@ namespace Website.Controllers
         public IActionResult Archives()
         {
             var userId = HttpContext.Session.GetInt32("U_Id");
+            var roleName = HttpContext.Session.GetString("R_Name");
+
             try
             {
-                var query = from user in _context.Users
-                            join employment in _context.Employments on user.Id equals employment.Id_User
-                            join application in _context.Applications on user.Id equals application.Id_User
-                            join category in _context.Categories on application.Id_Category equals category.Id
-                            where employment.Id_Manager == userId 
-                            where application.Id_Category != 1
-                            select new Approve
-                            {
-                                User = user,
-                                Employment = employment,
-                                Application = application,
-                                Category = category
-                            };
+                if (roleName == "Manager")
+                {
+                    var query = from user in _context.Users
+                                join employment in _context.Employments on user.Id equals employment.Id_User
+                                join application in _context.Applications on user.Id equals application.Id_User
+                                join category in _context.Categories on application.Id_Category equals category.Id
+                                where employment.Id_Manager == userId
+                                where application.Id_Category != 1
+                                select new Approve
+                                {
+                                    User = user,
+                                    Employment = employment,
+                                    Application = application,
+                                    Category = category
+                                };
+                    var result = query.ToList();
+                    return View(result);
 
-                var result = query.ToList();
 
-                return View(result);
+                }
+                if (roleName == "Admin")
+                {
+                    var query = from user in _context.Users
+                                join employment in _context.Employments on user.Id equals employment.Id_User
+                                join application in _context.Applications on user.Id equals application.Id_User
+                                join category in _context.Categories on application.Id_Category equals category.Id
+                                where application.Id_Category != 1
+                                select new Approve
+                                {
+                                    User = user,
+                                    Employment = employment,
+                                    Application = application,
+                                    Category = category
+                                };
+                    var result = query.ToList();
+                    return View(result);
+
+                }
+                else
+                {
+                    return View("Home");
+                }
+
             }
 
             catch (Exception ex)
@@ -131,7 +162,7 @@ namespace Website.Controllers
                             join employment in _context.Employments on user.Id equals employment.Id_User
                             join application in _context.Applications on user.Id equals application.Id_User
                             join category in _context.Categories on application.Id_Category equals category.Id
-                            where application.Id_Category != 1
+                            where application.Id_Category == 1
                             select new Approve
                             {
                                 User = user,

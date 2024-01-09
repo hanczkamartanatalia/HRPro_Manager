@@ -12,6 +12,7 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Status</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -33,6 +34,12 @@
                     @Html.DisplayFor(modelItem => item.Category.Name)
                 </td>
                 <td>
+                    <div class="button-container">
+
+                        <a asp-action="Accept" class="btn btn-outline-success" asp-route-id="@item.Application.Id" class="btn btn-outline-success"><i class="fas fa-check"></i> Accept</a>
+                        <a asp-action="Reject" class="btn btn-outline-danger" asp-route-id="@item.Application.Id" class="btn btn-outline-danger"><i class="fas fa-times"></i> Reject</a>
+                    </div>
+                </td>
                 
             </tr>
         }
