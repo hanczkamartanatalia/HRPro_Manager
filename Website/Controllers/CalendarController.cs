@@ -23,7 +23,6 @@ namespace Website.Controllers
         }
         public ActionResult Index(DateTime? startDate, DateTime? endDate)
         {
-            // Check if startDate and endDate are provided; otherwise, use default values
             if (!startDate.HasValue)
             {
                 startDate = DateTime.Today;
@@ -36,17 +35,14 @@ namespace Website.Controllers
 
             var dates = GetDatesForCalendar(startDate, endDate);
 
-            // Utwórz listę, aby przechować liczbę osób na urlopie dla każdej daty
             var numberOfPeopleOnLeave = new List<int>();
 
-            // Oblicz liczbę osób na urlopie dla każdej daty
             foreach (var date in dates)
             {
                 var count = GetNumberOfPeopleOnLeave(date);
                 numberOfPeopleOnLeave.Add(count);
             }
 
-            // Przekaż dane do widoku
             ViewBag.Dates = dates;
             ViewBag.NumberOfPeopleOnLeave = numberOfPeopleOnLeave;
 
