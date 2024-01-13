@@ -4,60 +4,56 @@
     ViewData["Title"] = "Index";
 }
 <link rel="stylesheet" href="~/css/table.css" />
-<h1>Applications</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
+<div class="main-box p-3 mb-3 d-flex justify-content-between">
+    <h1>Applications</h1>
+    <p><a asp-action="Create" class="nav-link btn-gradient border-solid mt-1">Create New</a></p>
+</div>
+
+<div class="main-box p-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="bg-light">
+                    Start date
+                </th>
+                <th>
+                    End date
+                </th>
+                <th class="bg-light">
+                    Status
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                    <td class="bg-light">
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                    <td class="bg-light">
                     @Html.DisplayFor(modelItem => item.Category.Name)
                 </td>
                 @if (item.Category.Name == "Sent")
                 {
-                    <div class="button-container">
                     <td>
-                                    <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Edit</a> 
-                                    <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i>Delete</a>
+                        <div class="d-flex justify-content-end">
+                            <a asp-action="Edit" class="btn btn-outline-success me-1" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Edit</a> 
+                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i>Delete</a>
+                        </div>
                     </td>
-                    </div>
                 }
                 else
                 {
-                    <td>You cannot edit or delete this application</td>
-                    
+                    <td>You cannot edit or delete this application</td>   
                 }
-
-        </tr>
-}
-    </tbody>
-</table>
-    </div>
-</div>
+                    
+            </tr>
+    }
+        </tbody>
+    </table>
 </div>

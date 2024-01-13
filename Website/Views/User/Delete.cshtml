@@ -14,43 +14,18 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
-
-<h4>Are you sure you want to delete this User?</h4>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            Last name
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
-    <div class="form-group" style="margin-top: 20px;"> 
-        <div class="row">
-            <div class="col-md-4">
-                @using (Html.BeginForm("Remove", "User", FormMethod.Post))
-                {
-                    @Html.HiddenFor(model => model.Id)
-                    <input type="submit" value="Delete" class="btn btn-danger w-100" />
-                }
-                <div style="margin-top: 30px;">
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-                </div>
-            </div>
+<div class="main-box position-absolute translate-middle top-50 start-50 p-5">
+    <h3>Are you sure you want to <strong>delete</strong> this?</h3>    
+    <div class="form-group d-flex mt-4">
+        <div class="me-2 fs-3">
+            <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
+        </div>
+        <div class="flex-fill">
+        @using (Html.BeginForm("Remove", "User", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.Id)
+            <input type="submit" value="Delete" class="btn-gradient border-solid w-100 p-2" />
+        }
         </div>
     </div>
 </div>

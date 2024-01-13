@@ -3,36 +3,31 @@
 @{
     ViewData["Title"] = "Create";
 }
+<div class="main-box p-5 position-absolute top-50 start-50 translate-middle"> 
 
-<h1>Create</h1>
-
-<h4>Application</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Start date:</label>
-                <input asp-for="StartDate" class="form-control"
-                       min="@DateTime.Now.ToString("yyyy-MM-dd")"/>
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+    <h1 class="mb-5">Create application</h1>
+    
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mt-2"></div>
+        <div class="form-group mb-3">
+            <label asp-for="StartDate" class="control-label fw-bold mb-3">Start date:</label>
+            <input asp-for="StartDate" class="form-control"
+                   min="@DateTime.Now.ToString("yyyy-MM-dd")"/>
+            <span asp-validation-for="StartDate" class="text-danger mt-2"></span>
+        </div>
+            <div class="form-group mb-3">
+                <label asp-for="EndDate" class="control-label fw-bold mb-3">End date:</label>
+            <input asp-for="EndDate" class="form-control"
+                   min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="EndDate" class="text-danger mt-2"></span>
+        </div>
+        <div class="form-group d-flex mt-4">
+            <div class="me-2 fs-3">
+                <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
             </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label">End date:</label>
-                <input asp-for="EndDate" class="form-control"
-                       min="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+            <input type="submit" value="Create" class="btn-gradient border-solid flex-fill p-2 text-center">
+        </div>
+    </form>
 </div>
 
 @section Scripts {

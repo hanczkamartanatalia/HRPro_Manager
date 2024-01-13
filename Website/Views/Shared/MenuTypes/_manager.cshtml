@@ -1,39 +1,36 @@
-﻿<li>
+﻿<li class="btn-gradient mb-2">
     <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Users</a>
 </li>
-<li>
+<li class="btn-gradient mb-2">
     <a class="nav-link text-dark" asp-controller="Employment" asp-action="Index">Employments</a>
 </li>
-<li>
+<li class="btn-gradient mb-2">
+    <a class="nav-link text-dark" asp-controller="Positions" asp-action="Index">Positions</a>
+</li>
+<li class="btn-gradient mb-2">
     <a class="nav-link text-dark" asp-controller="Report" asp-action="Index">Reports</a>
 </li>
-<li>
+<li class="btn-gradient mb-2">
     <a class="nav-link text-dark" asp-controller="Calendar" asp-action="Index">Holiday statistics</a>
 </li>
-<li>
-    <div class="dropdown">
-        <button class="dropdown-nav-item nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Work Time <i class="fa-solid fa-chevron-down"></i>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" asp-controller="WorkTimes" asp-action="CreateUser">Add new</a></li>
-            <li><a class="dropdown-item" asp-controller="WorkTimes" asp-action="IndexUser">Your History</a></li>
-            <li><a class="dropdown-item" asp-controller="WorkTimes" asp-action="Create">Add employee time</a></li>
-            <li><a class="dropdown-item" asp-controller="WorkTimes" asp-action="Index">History</a></li>
-        </ul>
-    </div>
+
+<li data-bs-toggle="collapse" data-bs-target="#flush-worktime" aria-expanded="false" class="btn-gradient mb-2">
+    <a class="nav-link text-dark">Work Time <i class="fa-solid fa-chevron-down"></i></a>
 </li>
-<li>
-    <div class="dropdown">
-        <button class="dropdown-nav-item nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Applications <i class="fa-solid fa-chevron-down"></i>
-        </button>
-        <ul class="dropdown-menu">
-            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Applications" asp-action="Create">Add</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Approve" asp-action="Index">List</a></li>
-        </ul>
-    </div>
+<ul id="flush-worktime" class="collapse">
+    <li class="btn-gradient mb-2"><a class="nav-link" asp-controller="WorkTimes" asp-action="IndexUser">Your History</a></li>
+    <li class="btn-gradient mb-2"><a class="nav-link" asp-controller="WorkTimes" asp-action="Create">Add employee time</a></li>
+    <li class="btn-gradient mb-2"><a class="nav-link" asp-controller="WorkTimes" asp-action="CreateUser">Add new</a></li>
+    <li class="btn-gradient mb-2"><a class="nav-link" asp-controller="WorkTimes" asp-action="Index">History</a></li>
+</ul>
+
+<li data-bs-toggle="collapse" data-bs-target="#flush-app" aria-expanded="false" class="btn-gradient mb-2">
+    <a class="nav-link text-dark">Applications <i class="fa-solid fa-chevron-down"></i> </a>
 </li>
-<li class="nav-item">
+<ul id="flush-app" class="collapse">
+    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="Applications" asp-action="Create">Add</a></li>
+    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="Approve" asp-action="Index">List</a></li>
+</ul>
+<li class="nav-item btn-gradient mb-2">
     <a class="nav-link text-dark" asp-area="" asp-controller="WorkTimes" asp-action="Index"> Time Entry</a>
 </li>

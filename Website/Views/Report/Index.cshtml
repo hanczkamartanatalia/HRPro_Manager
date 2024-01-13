@@ -4,49 +4,45 @@
     ViewData["Title"] = "Employee Reports";
 }
 
-<div>
+<div class="main-box box-shadow p-3 mb-3">
     <h2>Employee Reports</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-6">
-            @using (Html.BeginForm("GenerateIndividualReport", "Report", FormMethod.Post))
-            {
-                var errorMessageIndividual = ViewData.ModelState["individualMonth"]?.Errors.FirstOrDefault()?.ErrorMessage;
-                <div class="text-danger">@errorMessageIndividual</div>
+</div>
 
-                <p></p>
-                <h4>Generate Individual Report</h4>
-                <p></p>
-                <div class="form-group">
-                    <label class="control-label">User</label>
-                    <select asp-for="Id" class="form-control" asp-items="ViewBag.Id_User"></select>
-                </div>
-                <div class="form-group">
-                    <label>Month</label>
-                    <input type="month" name="individualMonth" class="form-control" required />
-                </div>
-                <div class="form-group text-center" style="margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary w-100">Generate Individual Report</button>
-                </div>
-            }
-        </div>
-        <div class="col-md-6">
-            @using (Html.BeginForm("GenerateSummaryReport", "Report", FormMethod.Post))
-            {
-                var errorMessageSummary = ViewData.ModelState["summaryMonth"]?.Errors.FirstOrDefault()?.ErrorMessage;
-                <div class="text-danger">@errorMessageSummary</div>
-
-                <p></p>
-                <h4>Generate Summary Report</h4>
-                <p></p>
-                <div class="form-group">
-                    <label>Month</label>
-                    <input type="month" name="summaryMonth" class="form-control" required />
-                </div>
-                <div class="form-group text-center" style="margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary w-100">Generate Summary Report</button>
-                </div>
-            }
-        </div>
+<div class="d-flex flex-wrap">
+    <div class="me-3 flex-fill main-box p-3">
+        @using (Html.BeginForm("GenerateIndividualReport", "Report", FormMethod.Post))
+        {
+            var errorMessageIndividual = ViewData.ModelState["individualMonth"]?.Errors.FirstOrDefault()?.ErrorMessage;
+            
+            <h4 class="text-center mt-3 mb-3">Generate Individual Report</h4>
+            <div class="form-group mb-3">
+                <label class="control-label fw-bold mb-3">User</label>
+                <select asp-for="Id" class="form-control" asp-items="ViewBag.Id_User"></select>
+            </div>
+            <div class="form-group">
+                <label class=" fw-bold mb-3">Month</label>
+                <input type="month" name="individualMonth" class="form-control" required />
+            </div>
+            <div class="form-group mt-3 d-flex flex-wrap">
+                <button type="submit" class="btn-gradient border-solid p-2 me-3">Generate Individual Report</button>
+                <div class="text-danger pt-2">@errorMessageIndividual</div>
+            </div>
+        }
+    </div>
+    <div class="flex-fill main-box p-3">
+        @using (Html.BeginForm("GenerateSummaryReport", "Report", FormMethod.Post))
+        {
+            var errorMessageSummary = ViewData.ModelState["summaryMonth"]?.Errors.FirstOrDefault()?.ErrorMessage;
+            <h4 class="text-center mt-3 mb-3">Generate Summary Report</h4>
+            <div class="form-group mb-3">
+                <label class=" fw-bold mb-3">Month</label>
+                <input type="month" name="summaryMonth" class="form-control" required />
+            </div>
+            <div class="form-group mt-3 d-flex flex-wrap">
+                <button type="submit" class="btn-gradient border-solid p-2 me-3">Generate Individual Report</button>
+                <div class="text-danger pt-2">@errorMessageSummary</div>
+            </div>
+        }
     </div>
 </div>
+

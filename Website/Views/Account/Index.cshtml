@@ -2,46 +2,36 @@
     ViewData["Title"] = "Account";
 }
 
-<div class="m-5"></div>
+<div class="">
+    <div class="d-flex flex-wrap">
+        <div class="main-box p-5 m-3 flex-fill">
+            <p class="border-bottom border-primary-subtle fw-bold pb-3">Name: </p>
+            <p class="pb-5">@Context.Session.GetString("U_Name")</p>
+            <p class="border-bottom border-primary-subtle fw-bold pb-3">Last name: </p>
+            <p class="pb-5">@Context.Session.GetString("U_LastName")</p>
+            <a asp-action="ChangePassword" class="btn btn-outline-secondary">Change Password</a>
 
-<h1 class="mt-3 display-5">Welcome @Context.Session.GetString("LD_Login")</h1>
-<div class="m-5"></div>
-<div>
-    <h2 class="mt-6">Personal data:</h2>
-</div>
-
-<div class="m-5"></div>
-
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <p class="border-bottom border-primary-subtle">Name: </p>
-            <p>@Context.Session.GetString("U_Name")</p>
-            <p class="border-bottom border-primary-subtle">Last name: </p>
-            <p>@Context.Session.GetString("U_LastName")</p>
         </div>
-        <div class="col">
-            <p class="border-bottom border-primary-subtle">Email: </p>
-            <p>@Context.Session.GetString("U_Email")</p>
-            <p class="border-bottom border-primary-subtle">Your role: </p>
-            <p>@Context.Session.GetString("R_Name")</p>
+        <div class="main-box p-5 m-3 flex-fill">
+            <p class="border-bottom border-primary-subtle fw-bold pb-3">Email: </p>
+            <p class="pb-5">@Context.Session.GetString("U_Email")</p>
+            <p class="border-bottom border-primary-subtle fw-bold pb-3">Your role: </p>
+            <p class="pb-5">@Context.Session.GetString("R_Name")</p>
         </div>
     </div>
-    <a asp-action="ChangePassword" class="btn btn-primary">Change Password</a>
-    <p></p>
-    <div class="col-md-5" style="margin-top: 120px;">
+    <div class="main-box p-5 m-3 flex-fill">
         @using (Html.BeginForm("GenerateUserReport", "Report", FormMethod.Post))
         {
-            <p></p>
-            <h4>Generate Report</h4>
-            <p></p>
-            <div class="form-group">
-                <label>Month</label>
-                <input type="month" name="userSummaryMonth" class="form-control" required/>
+            <h4 class="pb-3">Generate Report</h4>
+            
+            <div class="input-group mt-2">
+                <label class="">Month</label>
+                <input type="month" name="userSummaryMonth" class="form-control" required />
             </div>
-            <div class="form-group text-center" style="margin-top: 20px;">
-                <button type="submit" class="btn btn-primary w-100">Generate Report</button>
+            <div class="form-group pt-4">
+                <button type="submit" class="btn btn-outline-secondary">Generate Report</button>
             </div>
         }
     </div>
+    
 </div>

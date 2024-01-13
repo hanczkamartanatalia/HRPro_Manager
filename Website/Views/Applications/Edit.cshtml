@@ -3,45 +3,42 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<div class="position-absolute translate-middle top-50 start-50 main-box p-5">
 
-<h1>Edit</h1>
+    <h1 class="mb-3">Edit Application</h1>
 
-<h4>Application</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" style="display: none;">
-                <label asp-for="Id_User" class="control-label"></label>
-                <select asp-for="Id_User" class="form-control" asp-items="ViewBag.Id_User"></select>
-                <span asp-validation-for="Id_User" class="text-danger"></span>
-            </div>
-            <div class="form-group" style="display: none;">
-                <label asp-for="Id_Category" class="control-label"></label>
-                <select asp-for="Id_Category" class="form-control" asp-items="ViewBag.Id_Category"></select>
-                <span asp-validation-for="Id_Category" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Start date:</label>
-                <input asp-for="StartDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label">End date:</label>
-                <input asp-for="EndDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group" style="display: none;">
+            <label asp-for="Id_User" class="control-label"></label>
+            <select asp-for="Id_User" class="form-control" asp-items="ViewBag.Id_User"></select>
+            <span asp-validation-for="Id_User" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3" style="display: none;">
+            <label asp-for="Id_Category" class="control-label fw-bold mb-3"></label>
+            <select asp-for="Id_Category" class="form-control" asp-items="ViewBag.Id_Category"></select>
+            <span asp-validation-for="Id_Category" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="StartDate" class="control-label fw-bold mb-3">Start date:</label>
+            <input asp-for="StartDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="StartDate" class="text-danger mt-2"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="EndDate" class="control-label fw-bold mb-3">End date:</label>
+            <input asp-for="EndDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="EndDate" class="text-danger mt-2"></span>
+        </div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group d-flex mt-4">
+            <div class="me-2 fs-3">
+                <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
+            </div>
+            <input type="submit" value="Save" class="btn-gradient border-solid flex-fill p-2 text-center">
+        </div>
+    </form>
+
 </div>
 
 @section Scripts {

@@ -1,14 +1,23 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+
+}
+
+body {
+    background-color:rgb(246, 241, 241);
+}
+*, a, .btn-gradient, button {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(88, 88, 88);
 }
 
 @media (min-width: 768px) {
-  html {
+    html {
     font-size: 16px;
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus{
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -26,3 +35,62 @@ body {
     background-color: inherit;
     color: inherit;
 }
+
+.main-box {
+    background-color: white;
+    border-radius:20px;  
+}
+.hg-p {
+    padding: 100px 200px 100px 200px;
+}
+
+input, select {
+    background-color: #9eccfd1d !important;
+    border: none !important;
+    border-radius: 20px !important;
+}
+
+.sidebar
+{
+    height:100vh;
+    width: 300px;
+    position:fixed;
+    z-index:9999;
+}
+.page
+{
+    margin-left:300px !important;
+    width: calc(100vw - 300px);
+    height:100vh;
+}
+.btn-gradient, button {
+    list-style-type: none;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    transition: background-color 0.9s;
+    cursor: pointer;
+}
+.border-solid{
+ border:solid 1px grey !important;    
+}
+button
+{
+    border:solid 1px;
+    border-radius:5px !important;
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(45deg, #4CAF50, #2196F3);
+    color:aliceblue;
+}
+input[readonly]
+{
+    background-color: rgb(163, 163, 163) !important;
+}
+ul {
+    padding: 0;
+}
+a{
+    text-decoration:none;
+}
+

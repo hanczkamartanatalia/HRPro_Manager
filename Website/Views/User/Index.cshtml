@@ -2,7 +2,7 @@
 @if (!ViewData.ModelState.IsValid)
 {
     <div class="alert alert-danger">
-        <ul>
+        <ul class="list-unstyled">
             @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
             {
                 <li>@error.ErrorMessage</li>
@@ -15,51 +15,54 @@
 }
 
 <link rel="stylesheet" href="~/css/table.css" />
-<div class="d-flex justify-content-between align-items-center">
-    <h1>Users</h1>
-        <form asp-action="Index" method="get" style=" margin-top: 4px">
+
+<div class="d-flex justify-content-between align-items-center flex-wrap w-100 mb-3 m-0">
+    <h1 class="main-box p-3 me-2 flex-fill">Users</h1>
+    <div class="d-flex main-box p-3 flex-fill justify-content-between">
+        <form asp-action="Index" method="get" >
             <div class="input-group">
-                <input type="text" name="searchName" class="form-control" placeholder="Name..." >
-                <input type="text" name="searchLastname" class="form-control" placeholder="Lastname..." >
-                <button type="submit" class="btn btn-primary">Search</button>
+                <input type="text" name="searchName" class="form-control me-1" placeholder="Name..." >
+                <input type="text" name="searchLastname" class="form-control me-3" placeholder="Lastname..." >
+                <button type="submit" class="btn-gradient nav-link">Search</button>
             </div>
         </form>
-    <a asp-action="Create" class="btn btn-success" style="width: 20%">Create New User</a>
+        <a asp-action="Create" class="btn-gradient nav-link">Create New User</a>
+    </div>
 </div>
 
-<div class="container">
-    <div class="row">
+
+<div class="main-box p-3 row">
         <div class="col-12">
-            <table class="table table-bordered">
+            <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Login</th>
+                    <th scope="col" class="bg-light rounded-3">Login</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Last Name</th>
+                        <th scope="col" class="bg-light rounded-3">Last Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Role</th>
+                        <th scope="col" class="bg-light rounded-3">Role</th>
                         <th scope="col">Change</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" class="bg-light rounded-3">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.Item2.Login</td>
+                            <td class="bg-light rounded-3">@item.Item2.Login</td>
                             <td>@item.Item1.Name</td>
-                            <td>@item.Item1.LastName</td>
+                            <td class="bg-light rounded-3">@item.Item1.LastName</td>
                             <td>@item.Item1.Email</td>
-                            <td>@item.Item3.Name</td>
+                            <td class="bg-light rounded-3">@item.Item3.Name</td>
                             <td>
-                                <div class="button-container">
+                                <div class="d-flex justify-content-around">
                                     <a asp-action="ChangeAdmin" class="btn btn-outline-secondary" asp-route-id="@item.Item1.Id"><i class="fa-solid fa-user-secret"></i> Admin</a>
                                     <a asp-action="ChangeRole" class="btn btn-outline-secondary" asp-route-id="@item.Item1.Id"><i class="fas fa-user-tie"></i> Role</a>
                                     <a asp-action="ChangeLogin" class="btn btn-outline-secondary" asp-route-id="@item.Item1.Id"><i class="fas fa-user-edit"></i> Login</a>
                                 </div>
                             </td>
                             <td>
-                                <div class="button-container">
+                            <div class="d-flex justify-content-around bg-light  rounded-3">
                                     <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@item.Item1.Id"><i class="far fa-eye"></i> Details</a>
                                     <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@item.Item1.Id"><i class="fas fa-edit"></i> Edit</a>
                                     <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Item1.Id"><i class="far fa-trash-alt"></i> Delete</a>

@@ -13,25 +13,30 @@
 @{
     ViewData["Title"] = "CreateUser";
 }
+<div class="main-box p-5 position-absolute top-50 start-50 translate-middle d-flex flex-column">
+    <h2 class="mb-5">Add your working hours</h2>
+    @using (Html.BeginForm("CreateUser", "WorkTimes", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+    
+        <div class="form-group mb-3">
+            <label asp-for="WorkingDay" class="control-label fw-bold mb-3">Working Day:</label>
+            <input asp-for="WorkingDay" class="form-control" type="date" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </div>
+    
+        <div class="form-group">
+            <label asp-for="WorkingHours" class="control-label fw-bold mb-3">Working Hours:</label>
+            <input asp-for="WorkingHours" type="number" min="0" class="form-control" />
+        </div>
 
-<h2>Add your working hours</h2>
-
-@using (Html.BeginForm("CreateUser", "WorkTimes", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-group">
-        <label asp-for="WorkingDay" class="control-label">Working Day:</label>
-        <input asp-for="WorkingDay" class="form-control" type="date" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="WorkingHours" class="control-label">Working Hours:</label>
-        <input asp-for="WorkingHours" type="number" class="form-control" />
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Submit</button>
-}
+        <div class="form-group d-flex mt-4">
+            <div class="me-2 fs-3">
+                <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
+            </div>
+            <input type="submit" value="Save" class="btn-gradient border-solid flex-fill p-2" />
+        </div>
+    }
+</div>
 
 @section Scripts {
     @{

@@ -4,42 +4,42 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit user</h1>
-@* <h4>User</h4>
- *@
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        @using (Html.BeginForm("Save", "User", FormMethod.Post))
-        {
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" required />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label">Last Name</label>
-                <input asp-for="LastName" class="form-control" required />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" required />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group" style="margin-top: 20px;">
-                <input type="submit" value="Save" class="btn btn-primary w-100" />
-            </div>
-        }
+<div class="position-absolute top-50 start-50 translate-middle main-box p-5">
+
+    <h1 class="mb-5 text-center">Edit user</h1>
+    
+    <div class="row">
+        <div class="">
+            @using (Html.BeginForm("Save", "User", FormMethod.Post))
+            {
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group mb-4">
+                    <label asp-for="Name" class="control-label mb-2"></label>
+                    <input asp-for="Name" class="form-control" required />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="LastName" class="control-label mb-2">Last Name</label>
+                    <input asp-for="LastName" class="form-control" required />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Email" class="control-label mb-2"></label>
+                    <input asp-for="Email" class="form-control" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group d-flex mt-2">
+                    <div class="me-2 fs-3">
+                        <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
+                    </div>
+                    <input type="submit" value="Save" class="btn-gradient flex-fill p-2" />
+                </div>
+            }
+        </div>
     </div>
+    
 </div>
-
-<div style="margin-top: 30px;">
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

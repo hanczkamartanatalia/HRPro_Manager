@@ -4,53 +4,51 @@
     ViewData["Title"] = "Index";
 }
 <link rel="stylesheet" href="~/css/table.css" />
-<h1>Working hours</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-    <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkingDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkingHours)
-            </th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Name)
-                    @Html.DisplayFor(modelItem => item.User.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkingDay)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkingHours)
-                </td>
-                <td>
-                    <div class="button-container">
-                        <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
-                        <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id"><i class="fas fa-trash"></i> Delete</a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-        </div>
+<div class="main-box p-3 mb-3">
+    <div class="d-flex justify-content-between flex-wrap">
+        <h1>Working hours</h1>
+        <p><a asp-action="Create" class="btn-gradient border-solid nav-link mt-1">Create New</a></p>
     </div>
+</div>
+<div class="main-box p-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.User)
+                </th>
+                <th>
+                   Day
+                </th>
+                <th>
+                   Hours
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Name)
+                        @Html.DisplayFor(modelItem => item.User.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkingDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkingHours)
+                    </td>
+                    <td>
+                        <div class="d-flex flex-wrap justify-content-end">
+                            <a asp-action="Edit" class="btn btn-outline-success me-1" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
+                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id"><i class="fas fa-trash"></i> Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

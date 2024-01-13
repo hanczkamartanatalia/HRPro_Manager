@@ -2,56 +2,43 @@
 
 @{
     ViewData["Title"] = "Details";
-}
-@{
     string formattedDate = Model.EmploymentDate.ToShortDateString();
 }
 
-<h1>Details employment</h1>
-
-<div>
-@*     <h4>Employment</h4>
- *@    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.Name)
-            @Html.DisplayFor(model => model.User.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Manager)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Manager.Name)
-            @Html.DisplayFor(model => model.Manager.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            Employment Date
-        </dt>
-        <dd class = "col-sm-10">
-            @formattedDate
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Position.Name)
-        </dd>
-    </dl>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <a asp-action="Edit" class="btn btn-primary w-100" asp-route-id="@Model?.Id">Edit</a>
-        <div style="margin-top: 30px;">
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+<div class="position-absolute top-50 start-50 translate-middle main-box p-5">
+    <h1 class="mb-3">Details employment</h1>
+    
+    <div class="d-flex justify-content-center">
+        <div class="flex-fill me-5">
+            <div class="mb-3 d-flex flex-column">
+                <p>@Html.DisplayNameFor(model => model.User)</p>
+                <input value="@Html.DisplayFor(model => model.User.Name) @Html.DisplayFor(model => model.User.LastName)" class="p-1" readonly />
+            </div>
+            <div class="mb-3">
+                <p> @Html.DisplayNameFor(model => model.Manager)</p>
+                <input value="@Html.DisplayNameFor(model => model.Manager) @Html.DisplayFor(model => model.Manager.LastName)" class="p-1" readonly />
+            </div>
+            <div class="mb-3">
+                <p>Employment date</p>
+                <input value="@formattedDate" class="p-1" readonly />
+            </div>
         </div>
+        <div class="flex-fill">
+            <div class="mb-3">
+                <p>@Html.DisplayNameFor(model => model.Rate)</p>
+                <input value="@Html.DisplayFor(model => model.Rate)" class="p-1" readonly />
+            </div>
+            <div class="mb-3"
+            >
+                <p>@Html.DisplayNameFor(model => model.Position)</p>
+                <input value="@Html.DisplayFor(model => model.Position.Name)" class="p-1" readonly />
+            </div>
+        </div>
+    </div>
+    <div class="form-group d-flex mt-4">
+        <div class="me-2 fs-3">
+            <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
+        </div>
+            <a asp-action="Edit" class="btn-gradient border-solid flex-fill p-2 text-center" asp-route-id="@Model?.Id">Edit</a>
     </div>
 </div>

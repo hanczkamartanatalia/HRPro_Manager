@@ -6,31 +6,31 @@
 
 <link rel="stylesheet" href="~/css/table.css" />
 
-<div class="d-flex justify-content-between align-items-center">
+<div class="d-flex justify-content-between main-box p-3 mb-3">
     <h1>Employments</h1>
-    <a asp-action="GroupAction" class="btn btn-success" style="width: 20%">Rate Increase/Decrease</a>
+    <a asp-action="GroupAction" class="btn-gradient nav-link pt-3">Rate Increase/Decrease</a>
 </div>
 
-<div class="container">
+<div class="main-box p-4">
     <div class="row">
         <div class="col-12">
-            <table class="table table-bordered">
+            <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">
-                            Employment Date
+                        <th scope="col" class="bg-light">
+                            Employment date
                         </th>
 
-                        <th scope="col">
+                        <th scope="col" class="">
                             @Html.DisplayNameFor(model => model.User)
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="bg-light">
                             @Html.DisplayNameFor(model => model.Manager)
                         </th>
                         <th scope="col">
                             @Html.DisplayNameFor(model => model.Position)
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="bg-light">
                             @Html.DisplayNameFor(model => model.Rate)
                         </th>
                         <th scope="col">Actions</th>
@@ -40,7 +40,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
+                            <td class="bg-light">
                                 @{
                                     string formattedDate = item.EmploymentDate.ToShortDateString();
                                 }
@@ -51,19 +51,19 @@
                                 @Html.DisplayFor(modelItem => item.User.Name)
                                 @Html.DisplayFor(modelItem => item.User.LastName)
                             </td>
-                            <td>
+                            <td class="bg-light">
                                 @Html.DisplayFor(modelItem => item.Manager.Name)
                                 @Html.DisplayFor(modelItem => item.Manager.LastName)
                             </td>
-                            <td>
+                            <td >
                                 @Html.DisplayFor(modelItem => item.Position.Name)
-                            <td>
+                            </td>
+                            <td class="bg-light">
                                     @Html.DisplayFor(modelItem => item.Rate)
                             </td>
-                            </td>
                             <td>
-                                <div class="button-container">
-                                    <a asp-action="Details" class="btn btn-outline-primary" asp-route-id="@item.Id"><i class="far fa-eye"></i> Details</a>
+                                <div class="d-flex flex-wrap">
+                                    <a asp-action="Details" class="btn btn-outline-primary me-2" asp-route-id="@item.Id"><i class="far fa-eye"></i> Details</a>
                                     <a asp-action="Edit" class="btn btn-outline-success" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
                                 </div>
                             </td>

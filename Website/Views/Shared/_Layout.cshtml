@@ -9,56 +9,50 @@
     <link rel="stylesheet" href="~/Website.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Website</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        @{
-                            string? role = Context.Session.GetString("R_Name");
-                            if (role == "Admin")
-                            {
-                                await Html.RenderPartialAsync("MenuTypes/_admin.cshtml");
-                            }
-                            else if (role == "Manager")
-                            {
-                                await Html.RenderPartialAsync("MenuTypes/_manager.cshtml");
-                            }
-                            else if (role == "Employee")
-                            {
-                                await Html.RenderPartialAsync("MenuTypes/_employee.cshtml");
-                            }
-                        }
-                    </ul>
-                </div>
-                <div class="d-flex item-align-end">
+<body class="d-flex">
+    <header class="sidebar box-shadow bg-white">
+        <nav class="d-flex flex-column p-4 pt-5 h-100 justify-content-between">
+            <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">HR Manager Pro</a>
+            <div class="flex-fill">
+                <ul class="d-flex flex-column pt-4">
+                    <li class="btn-gradient mb-2">
+                        <a class="nav-link text-dark w-100 " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
                     @{
-                         if(role == null)
-                         {
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">
-                                <i class="fa-solid fa-user" title="Login"></i>
-                            </a>
-                         }
-                         else
-                         {
-                             <a class="nav-link text-dark col" asp-area="" asp-controller="Account" asp-action="Index">
-                                 <i class="fa-solid fa-user" title="My account"></i>
-                             </a>
-                             <a class="nav-link text-dark col" asp-area="" asp-controller="Account" asp-action="Logout">
-                                 <i class="fa-solid fa-right-from-bracket" title="Logout"></i>
-                             </a>
-                         }
+                        string? role = Context.Session.GetString("R_Name");
+                        if (role == "Admin")
+                        {
+                            await Html.RenderPartialAsync("MenuTypes/_admin.cshtml");
+                        }
+                        else if (role == "Manager")
+                        {
+                            await Html.RenderPartialAsync("MenuTypes/_manager.cshtml");
+                        }
+                        else if (role == "Employee")
+                        {
+                            await Html.RenderPartialAsync("MenuTypes/_employee.cshtml");
+                        }
                     }
-                </div>
+                </ul>
+            </div>
+            <div class="d-flex">
+                @{
+                     if(role == null)
+                     {
+                        <a class="nav-link text-dark d-flex " asp-area="" asp-controller="Account" asp-action="Login">
+                            <i class="fa-solid fa-user" title="Login"></i>
+                        </a>
+                     }
+                     else
+                     {
+                         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">
+                             <i class="fa-solid fa-user" title="My account"></i>
+                         </a>
+                         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">
+                             <i class="fa-solid fa-right-from-bracket" title="Logout"></i>
+                         </a>
+                     }
+                }
             </div>
         </nav>
         <div>
@@ -74,17 +68,12 @@
             }
         </div>
     </header>
-    <div class="container mt-3">
+    <div class="page mt-3 p-4 position-relative">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            Copyright © 2024 HRProManager - All rights reserved.
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -2,7 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center position-absolute start-50 top-50 translate-middle main-box hg-p">
     <h1 class="display-4">Welcome</h1>
-    <p>in the HRProManager!</p>
+    <p class="pt-4">to HR Manager Pro - an innovative application designed to streamline daily human resource tasks in your company.</p>
+    @{
+        string? role = Context.Session.GetString("R_Name");
+        if (role == null)
+        {
+            <div class="d-flex justify-content-center flex-fill">
+                <a class="nav-link text-dark d-flex text-center" asp-area="" asp-controller="Account" asp-action="Login">
+                    <i class="fa-solid fa-user" title="Login"> Login </i>
+                </a>
+            </div>
+        }
+    }
 </div>
