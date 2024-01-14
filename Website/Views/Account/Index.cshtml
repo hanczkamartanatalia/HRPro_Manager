@@ -2,36 +2,53 @@
     ViewData["Title"] = "Account";
 }
 
-<div class="">
-    <div class="d-flex flex-wrap">
-        <div class="main-box p-5 m-3 flex-fill">
-            <p class="border-bottom border-primary-subtle fw-bold pb-3">Name: </p>
-            <p class="pb-5">@Context.Session.GetString("U_Name")</p>
-            <p class="border-bottom border-primary-subtle fw-bold pb-3">Last name: </p>
-            <p class="pb-5">@Context.Session.GetString("U_LastName")</p>
-            <a asp-action="ChangePassword" class="btn btn-outline-secondary">Change Password</a>
-
-        </div>
-        <div class="main-box p-5 m-3 flex-fill">
-            <p class="border-bottom border-primary-subtle fw-bold pb-3">Email: </p>
-            <p class="pb-5">@Context.Session.GetString("U_Email")</p>
-            <p class="border-bottom border-primary-subtle fw-bold pb-3">Your role: </p>
-            <p class="pb-5">@Context.Session.GetString("R_Name")</p>
-        </div>
-    </div>
-    <div class="main-box p-5 m-3 flex-fill">
-        @using (Html.BeginForm("GenerateUserReport", "Report", FormMethod.Post))
-        {
-            <h4 class="pb-3">Generate Report</h4>
-            
-            <div class="input-group mt-2">
-                <label class="">Month</label>
-                <input type="month" name="userSummaryMonth" class="form-control" required />
-            </div>
-            <div class="form-group pt-4">
-                <button type="submit" class="btn btn-outline-secondary">Generate Report</button>
-            </div>
-        }
-    </div>
-    
+<div class="main-box p-3 mb-3">
+    <h3>Your account</h3>
 </div>
+
+<div class="d-flex flex-wrap">
+    <div class="d-flex flex-column flex-fill">
+        <div class="main-box p-3 mb-3 me-3">
+            <h4 class="">Personal data</h4>
+        </div>
+        <div class="d-flex flex-wrap">
+            <div class="main-box p-5 flex-fill me-3 mb-3">
+                <p class="border-bottom border-primary-subtle fw-bold pb-3">Name: </p>
+                <p class="pb-5">@Context.Session.GetString("U_Name")</p>
+                <p class="border-bottom border-primary-subtle fw-bold pb-3">Last name: </p>
+                <p class="pb-5">@Context.Session.GetString("U_LastName")</p>
+    
+            </div>
+            <div class="main-box p-5 flex-fill me-3 mb-3">
+                <p class="border-bottom border-primary-subtle fw-bold pb-3">Email: </p>
+                <p class="pb-5">@Context.Session.GetString("U_Email")</p>
+                <p class="border-bottom border-primary-subtle fw-bold pb-3">Your role: </p>
+                <p class="pb-5">@Context.Session.GetString("R_Name")</p>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-column flex-fill">
+
+        <div class="main-box p-5 mb-3 flex-fill">
+            <h4 class="mb-3">Security</h4>
+            <div class="d-flex">
+                <a asp-action="ChangePassword" class=" btn-gradient nav-link border-solid">Change Password</a>
+            </div>
+        </div>
+        
+        <div class="main-box p-5 flex-fill">
+            @using (Html.BeginForm("GenerateUserReport", "Report", FormMethod.Post))
+            {
+                <h4 class="pb-3">Generate Report</h4>
+                <div class="input-group d-flex flex-column mt-2">
+                    <label class="pt-1 mb-3 fw-bold">Month</label>
+                    <input type="month" name="userSummaryMonth" class="form-control w-100" required />
+                </div>
+                <div class="form-group pt-4">
+                    <button type="submit" class="btn-gradient nav-link">Generate Report</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+    

@@ -12,8 +12,8 @@
 <body class="d-flex">
     <header class="sidebar box-shadow bg-white">
         <nav class="d-flex flex-column p-4 pt-5 h-100 justify-content-between">
-            <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">HR Manager Pro</a>
-            <div class="flex-fill">
+            <a class="navbar-brand fw-bold text-center" asp-area="" asp-controller="Home" asp-action="Index">HR Manager Pro</a>
+            <div class="menu-items pe-2 flex-fill">
                 <ul class="d-flex flex-column pt-4">
                     <li class="btn-gradient mb-2">
                         <a class="nav-link text-dark w-100 " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -35,43 +35,51 @@
                     }
                 </ul>
             </div>
-            <div class="d-flex">
-                @{
-                     if(role == null)
-                     {
-                        <a class="nav-link text-dark d-flex " asp-area="" asp-controller="Account" asp-action="Login">
-                            <i class="fa-solid fa-user" title="Login"></i>
-                        </a>
-                     }
-                     else
-                     {
-                         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">
-                             <i class="fa-solid fa-user" title="My account"></i>
-                         </a>
-                         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">
-                             <i class="fa-solid fa-right-from-bracket" title="Logout"></i>
-                         </a>
-                     }
-                }
-            </div>
         </nav>
+    </header>
+    <div class="menu-toggle box-shadow">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+    <div class="d-flex flex-column page position-relative">
         <div>
             @{
                 string? error = Context.Session.GetString("Error");
-                if( error != null)
+                if (error != null)
                 {
-                    <div class="d-flex justify-content-center p-3 bg-light">
+                    <div class="d-flex top-error justify-content-center p-3 bg-light box-shadow">
                         <p>@error</p>
                     </div>
                     Context.Session.Remove("Error");
                 }
             }
         </div>
-    </header>
-    <div class="page mt-3 p-4 position-relative">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+        <div class="d-flex justify-content-end p-3">
+            @{
+                if (role == null)
+                {
+                    <a class="nav-link text-dark d-flex " asp-area="" asp-controller="Account" asp-action="Login">
+                        <i class="fa-solid fa-user" title="Login"></i>
+                    </a>
+                }
+                else
+                {
+                    <p class="nav-link text-dark"><span><strong>@Context.Session.GetString("U_Name")</strong> | @Context.Session.GetString("R_Name")</span></p>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">
+                        <i class="fa-solid fa-user" title="My account"></i>
+                    </a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">
+                        <i class="fa-solid fa-right-from-bracket" title="Logout"></i>
+                    </a>
+                }
+            }
+        </div>
+
+        <div class="mt-3 p-4">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

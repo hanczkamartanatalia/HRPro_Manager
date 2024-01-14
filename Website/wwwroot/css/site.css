@@ -38,7 +38,8 @@ body {
 
 .main-box {
     background-color: white;
-    border-radius:20px;  
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
 }
 .hg-p {
     padding: 100px 200px 100px 200px;
@@ -50,25 +51,29 @@ input, select {
     border-radius: 20px !important;
 }
 
-.sidebar
-{
-    height:100vh;
+.sidebar {
+    height: 100vh;
     width: 300px;
-    position:fixed;
-    z-index:9999;
+    position: fixed;
+    z-index: 9999;
+    transition: left 0.3s ease-in-out;
 }
-.page
-{
-    margin-left:300px !important;
+
+.page {
+    margin-left: 300px !important;
     width: calc(100vw - 300px);
-    height:100vh;
+    height: 100vh;
 }
 .btn-gradient, button {
     list-style-type: none;
-    background-color: #f8f9fa;
+    background: linear-gradient(45deg, #f8f9fa, #f8f9fa);
     border-radius: 8px;
-    transition: background-color 0.9s;
+    transition: background 0.9s;
     cursor: pointer;
+    display: block;
+    padding: .5rem 1rem;
+    text-decoration: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
 }
 .border-solid{
  border:solid 1px grey !important;    
@@ -79,12 +84,13 @@ button
     border-radius:5px !important;
 }
 
-.btn-gradient:hover {
+.btn-gradient:hover, .menu-toggle:hover {
     background: linear-gradient(45deg, #4CAF50, #2196F3);
-    color:aliceblue;
+    color: aliceblue !important;
 }
-input[readonly]
-{
+
+
+input[readonly] {
     background-color: rgb(163, 163, 163) !important;
 }
 ul {
@@ -92,5 +98,46 @@ ul {
 }
 a{
     text-decoration:none;
+}
+
+.menu-items {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.top-error {
+    z-index: 99999;
+}
+.menu-toggle {
+    z-index: 999999999;
+    background-color:white;
+    border-radius:10px;
+    height: 40px;
+    width:40px;
+    padding:12.5px;
+    font-size:15px;
+    line-height:15px;
+    cursor: pointer;
+    position:fixed;
+    display: none;
+    left:10px;
+    top:10px;
+}
+
+@media(max-width:1500px){
+    .menu-toggle{
+        display:unset;
+    }
+    .sidebar{
+        left:-300px;
+    }
+    .page
+    {
+        margin-left:0px !important;
+        width:100vw;
+    }
+    .sidebar-open {
+        left: 0 !important;
+    }
 }
 

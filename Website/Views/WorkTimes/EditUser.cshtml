@@ -4,40 +4,35 @@
 @{
     ViewData["Title"] = "EditUser";
 }
+<div class="main-box p-5 position-absolute translate-middle top-50 start-50">
+    <h1 class="mb-5">Edit your working hours</h1>
+    <form asp-action="EditUser">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+        <div class="form-group" style="display:none;">
+            <label asp-for="Id_User" class="control-label mb-2 fw-bold">User:</label>
+            <select asp-for="Id_User" class="form-control" asp-items="ViewBag.Id_User"></select>
+            <span asp-validation-for="Id_User" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="WorkingDay" class="control-label fw-bold mb-2">Working day:</label>
+            <input asp-for="WorkingDay" class="form-control" type="date" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="WorkingHours" class="control-label mb-2 fw-bold">Working hours:</label>
+            <input asp-for="WorkingHours" type="number" step="0.50" class="form-control" />
+            <span asp-validation-for="WorkingHours" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group d-flex mt-4">
+            <div class="me-2 fs-3">
+                <a asp-action="IndexUser" title="back"><i class="fa-solid fa-circle-left"></i> </a>
+            </div>
+            <input type="submit" value="Save" class="btn-gradient border-solid flex-fill p-2" />
+        </div>
+    </form>
 
-<h1>Edit your working hours</h1>
-
-<h4>WorkTime</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditUser">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" style="display:none;">
-                <label asp-for="Id_User" class="control-label">User:</label>
-                <select asp-for="Id_User" class="form-control" asp-items="ViewBag.Id_User"></select>
-                <span asp-validation-for="Id_User" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="WorkingDay" class="control-label">Working day:</label>
-                <input asp-for="WorkingDay" class="form-control" type="date" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
-            </div>
-            <div class="form-group">
-                <label asp-for="WorkingHours" class="control-label">Working hours:</label>
-                <input asp-for="WorkingHours" type="number" step="0.50" class="form-control" />
-                <span asp-validation-for="WorkingHours" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
