@@ -3,54 +3,42 @@
     ViewData["Title"] = "Calendar";
 }
 
-<h2>Calendar</h2>
 
+<div class="main-box p-3 mb-3">
+    <h2>Calendar</h2>
+</div>
 
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
+<div class="d-flex flex-wrap">
+
+    @using (Html.BeginForm("Index", "Calendar", FormMethod.Get))
+    {
+        <div class="main-box p-4 me-3 flex-fill mb-3">
+            <h4 class="fw-bold m-3 mb-4">Find by dates</h4>
+            <label for="startDate" class="fw-bold mb-2">Start Date:</label>
+            <input type="date" class="form-control mb-3" name="startDate" id="startDate" value="@ViewBag.StartDate" />
+            <label for="endDate" class="fw-bold mb-2">End Date:</label>
+            <input type="date" class="form-control mb-3" name="endDate" id="endDate" value="@ViewBag.EndDate" />
+            <div class="d-flex justify-content-center">
+                <input type="submit" class="btn-gradient border-solid w-100" value="Search"/>
+            </div>
+        </div>
+    
     }
-
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-
-    }
-
-
-    td {
-        text-align: center;
-    }
-
-
-</style>
-<p></p>
-@using (Html.BeginForm("Index", "Calendar", FormMethod.Get))
-{
-    <div class="form-group">
-        <label for="startDate" style="display: inline-block;">Start Date:</label>
-        <input type="date" class="form-control" style="width: 150px; display: inline-block;" name="startDate" id="startDate" value="@ViewBag.StartDate" />
-
-        <label for="endDate" style="display: inline-block;">End Date:</label>
-        <input type="date" class="form-control" style="width: 150px; display: inline-block;" name="endDate" id="endDate" value="@ViewBag.EndDate" />
-
-        <input type="submit" class="btn btn-primary" value="Display" style="display: inline-block;" />
+    <div class="main-box p-3 flex-fill">
+        <table class="table">
+            <tr>
+                <th>Date</th>
+                <th>Number of People on Leave</th>
+            </tr>
+            @for (var i = 0; i < ViewBag.Dates.Count; i++)
+            {
+                <tr>
+                    <td>@ViewBag.Dates[i].ToShortDateString()</td>
+                    <td class="@(ViewBag.Dates[i].Date == DateTime.Today.Date ? "today" : "")">@ViewBag.NumberOfPeopleOnLeave[i]</td>
+                </tr>
+            }
+        </table>
+    
     </div>
 
-}
-
-<table class="table">
-    <tr>
-        <th>Date</th>
-        <th>Number of People on Leave</th>
-    </tr>
-    @for (var i = 0; i < ViewBag.Dates.Count; i++)
-    {
-        <tr>
-            <td>@ViewBag.Dates[i].ToShortDateString()</td>
-            <td class="@(ViewBag.Dates[i].Date == DateTime.Today.Date ? "today" : "")">@ViewBag.NumberOfPeopleOnLeave[i]</td>
-        </tr>
-    }
-</table>
-
+</div>
