@@ -25,6 +25,7 @@ namespace Website.Controllers
             int? id = HttpContext.Session.GetInt32("LD_Id");
             if (id <= 0 || id == null) return RedirectToAction("Login");
             LoginData loginData = EntityService<LoginData>.GetById((int)id);
+            ViewBag.Wall = AccountService.AccountWall(loginData);
 
             return View();
         }

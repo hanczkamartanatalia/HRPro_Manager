@@ -9,7 +9,7 @@
 </div>
 
 <div class="d-flex flex-wrap">
-    <div class="me-3 flex-fill main-box p-3">
+    <div class="me-3 flex-fill main-box p-3 mb-3">
         @using (Html.BeginForm("GenerateIndividualReport", "Report", FormMethod.Post))
         {
             var errorMessageIndividual = ViewData.ModelState["individualMonth"]?.Errors.FirstOrDefault()?.ErrorMessage;

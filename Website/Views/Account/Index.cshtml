@@ -17,6 +17,8 @@
                 <p class="pb-5">@Context.Session.GetString("U_Name")</p>
                 <p class="border-bottom border-primary-subtle fw-bold pb-3">Last name: </p>
                 <p class="pb-5">@Context.Session.GetString("U_LastName")</p>
+                <p class="border-bottom border-primary-subtle fw-bold pb-3">Login: </p>
+                <p class="pb-5">@Context.Session.GetString("LD_Login")</p>
     
             </div>
             <div class="main-box p-5 flex-fill me-3 mb-3">
@@ -51,4 +53,24 @@
         </div>
     </div>
 </div>
+    @{
+        if (ViewBag.Wall != null)
+        {
+        <div class="d-sm-flex main-box p-4 mt-3 flex-wrap">
+                <div class="fw-bold flex-fill me-3">
+                    <div>Last application</div>
+                </div>
+            <div class="flex-fill me-3">
+                    <div>Start: @ViewBag.Wall["Start"]</div>
+                </div>
+            <div class="flex-fill me-3">
+                <div>End: @ViewBag.Wall["End"]</div>
+                </div>
+            <div class="flex-fill me-3">
+                    <div>@ViewBag.Wall["Category"]</div>
+                </div>
+            </div>
+
+        }
+    }
     

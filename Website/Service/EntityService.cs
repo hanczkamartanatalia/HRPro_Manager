@@ -29,7 +29,7 @@ namespace Website.Service
 
         public static T GetBy(string _fieldName, string _value)
         {
-            PropertyInfo property = typeof(T).GetProperty(_fieldName);
+            PropertyInfo? property = typeof(T).GetProperty(_fieldName);
 
             if (property == null)
             {
@@ -46,6 +46,29 @@ namespace Website.Service
             }
 
             return entity as T;
+        }
+
+        public static T? GetLastRecord(string? property = null, string? value = null)
+        {
+            T? result = null;
+
+            if (string.IsNullOrEmpty(property))
+            {
+                return result = _context.Set<T>().OrderByDescending(x => x.Id)
+                              .FirstOrDefault();
+            }
+
+            PropertyInfo? propertyInfo = typeof(T).GetProperty(property);
+
+            if (propertyInfo == null)
+            {
+                throw new ArgumentException($"Type {typeof(T)} does not contain a property named {property}.");
+            }
+
+            return result = _context.Set<T>()
+              .Where(x => EF.Property<string>(x, property) == value)
+              .OrderByDescending(x => x.Id)
+              .FirstOrDefault();
         }
     }
 }
