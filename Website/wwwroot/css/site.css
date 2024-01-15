@@ -124,7 +124,11 @@ a{
     top:10px;
 }
 
-@media(max-width:1500px){
+.login-box{
+    width:clamp(200px, 95vw, 400px);
+}
+
+@media(max-width:1500px) {
     .menu-toggle{
         display:unset;
     }
