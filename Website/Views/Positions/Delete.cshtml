@@ -4,23 +4,19 @@
     ViewData["Title"] = "Delete";
 }
 
-<div class="position-absolute top-50 start-50 translate-middle main-box p-5">
-    <div class="text-center mb-3">
-        <h3>Are you sure you want to <strong>delete</strong> this?</h3>
-    </div>
+<div class="position-absolute translate-middle top-50 start-50 main-box p-5">
+
+    <h3 class="mb-4 text-center">Are you sure<br>you want to <strong>delete</strong> this?</h3>
     <div>
-        <div class="d-flex justify-content-center">
-            <p class="fw-bold me-1"> Position: </p>
-            <p class = "">@Html.DisplayFor(model => model.Name)</p>
-        </div>
         <form asp-action="Delete">
             <input type="hidden" asp-for="Id" />
             <div class="form-group d-flex mt-4">
                 <div class="me-2 fs-3">
                     <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
                 </div>
-                <input type="submit" value="Delete" class="btn-gradient border-solid flex-fill p-2" />
+                <input type="submit" value="Delete" class="btn-gradient border-solid flex-fill p-2 text-center" />
             </div>
         </form>
     </div>
+
 </div>

@@ -143,5 +143,10 @@ a{
     .sidebar-open {
         left: 0 !important;
     }
+
+    .main-box-table
+    {
+        min-width:1000px;
+    }
 }
 
