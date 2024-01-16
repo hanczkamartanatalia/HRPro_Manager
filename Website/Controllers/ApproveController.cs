@@ -60,6 +60,8 @@ namespace Website.Controllers
                 }
 
                 recordToEdit.Id_Category = 3;
+                recordToEdit.ChangeCatDate = DateTime.Today;
+
 
                 _context.SaveChanges();
 
@@ -84,6 +86,7 @@ namespace Website.Controllers
                 }
 
                 recordToEdit.Id_Category = 2;
+                recordToEdit.ChangeCatDate = DateTime.Today;
 
                 _context.SaveChanges();
 

@@ -24,5 +24,6 @@ namespace Website.Entities
         public DateTime StartDate { get; set; } = default!;
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; } = default!;
+        public DateTime? ChangeCatDate { get; set; } 
     }
 }
