@@ -36,6 +36,7 @@ namespace Website.Controllers
                                     Category = category
                                 };
                     var result = query.ToList();
+
                     return View(result);
 
        
@@ -60,7 +61,7 @@ namespace Website.Controllers
                 }
 
                 recordToEdit.Id_Category = 3;
-                recordToEdit.ChangeCatDate = DateTime.Today;
+                recordToEdit.ChangeCatDate = DateTime.Now;
 
 
                 _context.SaveChanges();
@@ -86,7 +87,7 @@ namespace Website.Controllers
                 }
 
                 recordToEdit.Id_Category = 2;
-                recordToEdit.ChangeCatDate = DateTime.Today;
+                recordToEdit.ChangeCatDate = DateTime.Now;
 
                 _context.SaveChanges();
 
@@ -120,7 +121,9 @@ namespace Website.Controllers
                                     Application = application,
                                     Category = category
                                 };
-                    var result = query.ToList();
+                    var sortedQuery = query.OrderByDescending(approve => approve.Application.ChangeCatDate);
+
+                    var result = sortedQuery.ToList();
                     return View(result);
 
 
@@ -139,7 +142,9 @@ namespace Website.Controllers
                                     Application = application,
                                     Category = category
                                 };
-                    var result = query.ToList();
+                    var sortedQuery = query.OrderByDescending(approve => approve.Application.ChangeCatDate);
+
+                    var result = sortedQuery.ToList();
                     return View(result);
 
                 }
@@ -173,6 +178,7 @@ namespace Website.Controllers
                                 Application = application,
                                 Category = category
                             };
+
 
                 var result = query.ToList();
 
