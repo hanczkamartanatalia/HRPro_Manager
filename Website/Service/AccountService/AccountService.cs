@@ -7,8 +7,9 @@ namespace Website.Service.AccountService
         public static Dictionary<string,string>? AccountWall(LoginData input)
         {
             Dictionary<string,string> output = new();
-            //Application? application = EntityService<Application>.GetLastRecord("Id_User", (input.Id).ToString());
-            Application? application = EntityService<Application>.GetLastRecord();
+
+            Application? application = EntityService<Application>.GetLastRecord("Id_User", (input.Id_User).ToString());
+            //Application? application = EntityService<Application>.GetLastRecord();
 
             if (application == null) return null;
 
