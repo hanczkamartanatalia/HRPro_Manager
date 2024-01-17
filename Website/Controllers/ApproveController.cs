@@ -35,9 +35,12 @@ namespace Website.Controllers
                                     Application = application,
                                     Category = category
                                 };
-                    var result = query.ToList();
+                
+                var sortedQuery = query.OrderByDescending(approve => approve.Application.Id);
 
-                    return View(result);
+                var result = sortedQuery.ToList();
+
+                return View(result);
 
        
 
