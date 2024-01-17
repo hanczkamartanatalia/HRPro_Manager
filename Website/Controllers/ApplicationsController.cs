@@ -28,7 +28,8 @@ namespace Website.Controllers
                 var appDbContext = _context.Applications
                     .Include(a => a.Category)
                     .Include(a => a.User)
-                    .Where(a => a.Id_User == userId); 
+                    .Where(a => a.Id_User == userId)
+                    .OrderByDescending(a => a.Id); 
 
                 var applications = await appDbContext.ToListAsync();
 
