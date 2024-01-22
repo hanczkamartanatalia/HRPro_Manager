@@ -2,6 +2,13 @@ html {
     font-size: 14px;
 
 }
+.mw-350{
+    max-width:300px !important;
+    margin-top:10px;
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+}
 
 body {
     background-color:rgb(246, 241, 241);

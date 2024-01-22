@@ -13,13 +13,13 @@
             <label asp-for="StartDate" class="control-label fw-bold mb-3">Start date:</label>
             <input asp-for="StartDate" class="form-control"
                    min="@DateTime.Now.ToString("yyyy-MM-dd")"/>
-            <span asp-validation-for="StartDate" class="text-danger mt-2"></span>
+            <span asp-validation-for="StartDate" class="text-danger mt-2  mw-350"></span>
         </div>
             <div class="form-group mb-3">
                 <label asp-for="EndDate" class="control-label fw-bold mb-3">End date:</label>
             <input asp-for="EndDate" class="form-control"
                    min="@DateTime.Now.ToString("yyyy-MM-dd")" />
-            <span asp-validation-for="EndDate" class="text-danger mt-2"></span>
+            <span asp-validation-for="EndDate" class="text-danger mt-2  mw-350"></span>
         </div>
         <div class="form-group d-flex mt-4">
             <div class="me-2 fs-3">
