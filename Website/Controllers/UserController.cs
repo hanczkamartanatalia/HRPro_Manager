@@ -278,7 +278,7 @@ namespace Website.Controllers
 
                 _context.SaveChanges();
                 _context.Dispose();
-                return Redirect("Index");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
