@@ -88,29 +88,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-<script>
 
-    function getCookie(name) {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.startsWith(name + '=')) {
-                return cookie.substring(name.length + 1);
-            }
-        }
-        return null;
-    }
-
-
-    function refreshPageIfError() {
-        if (getCookie("Error")) {
-            location.reload(true);
-            console.log("jest");
-        }
-        else {
-            console.log("nie ma");
-        }
-    }
-
-    setInterval(refreshPageIfError, 1000);
-</script>

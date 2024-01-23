@@ -19,34 +19,27 @@ namespace Website.Filters
         {
             
             string path = context.HttpContext.Request.Path;
-            
-            
             string? roleName = context.HttpContext.Session.GetString("R_Name");
             try
             {
                 bool access = Service.AccountService.AccessService.HasAccess(path, roleName);
                 if (!access)
                 {
-                    string? lastPath = context.HttpContext.Session.GetString("LastPath");
-                    context.HttpContext.Session.SetString("Error",$"You have no access. {roleName} has no access to {path}.");
-                    if (string.IsNullOrEmpty(lastPath) || lastPath == "/")
-                    {
-                        context.Result = new RedirectToActionResult("Index", "Home", null);
+                    string controllerName = context.HttpContext.Session.GetString("controllerName") ?? "Home";
+                    string actionName = context.HttpContext.Session.GetString("actionName") ?? "Index";
 
-                    }
-                    else
-                    {
-                        context.Result = new ContentResult
-                        {
-                            Content = "<script>history.go(-1);</script>",
-                            ContentType = "text/html"
-                        };
-                    }
+                    context.HttpContext.Session.SetString("Error","You have no access.");
+                    context.Result = new RedirectToActionResult(actionName, controllerName, null);
+
                 }
                 else
                 {
-                    context.HttpContext.Session.Remove("LastPath");
-                    context.HttpContext.Session.SetString("LastPath", path);
+                    string controllerName = context.RouteData.Values["controller"]?.ToString() ?? "Home";
+                    string actionName = context.RouteData.Values["action"]?.ToString() ?? "Index";
+                    context.HttpContext.Session.Remove("controllerName");
+                    context.HttpContext.Session.Remove("actionName");
+                    context.HttpContext.Session.SetString("controllerName", controllerName);
+                    context.HttpContext.Session.SetString("actionName", actionName);
                 }
             }
             catch
