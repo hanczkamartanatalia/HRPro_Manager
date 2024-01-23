@@ -28,7 +28,8 @@ namespace Website.Controllers
                 var appDbContext = _context.Applications
                     .Include(a => a.Category)
                     .Include(a => a.User)
-                    .Where(a => a.Id_User == userId); 
+                    .Where(a => a.Id_User == userId)
+                    .OrderByDescending(a => a.Id); 
 
                 var applications = await appDbContext.ToListAsync();
 
@@ -64,7 +65,6 @@ namespace Website.Controllers
 
             try
             {
-                // Validate input parameters
                 if (StartDate > EndDate)
                 {
                     ModelState.AddModelError(string.Empty, "Start date cannot be later than end date.");
@@ -89,7 +89,7 @@ namespace Website.Controllers
             }
         }
 
-        // GET: Applications/Edit/5
+        // GET: Applications/Edit/
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Applications == null)
@@ -115,6 +115,13 @@ namespace Website.Controllers
             if (id != application.Id)
             {
                 return NotFound();
+
+            }        
+
+            if (application.StartDate > application.EndDate)
+            {
+                ModelState.AddModelError(string.Empty, "Start date cannot be later than end date.");
+                return View(application);
             }
 
             try
@@ -138,7 +145,7 @@ namespace Website.Controllers
          
         }
 
-        // GET: Applications/Delete/5
+        // GET: Applications/Delete/
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Applications == null)
@@ -158,7 +165,7 @@ namespace Website.Controllers
             return View(application);
         }
 
-        // POST: Applications/Delete/5
+        // POST: Applications/Delete/
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

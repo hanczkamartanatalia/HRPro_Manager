@@ -6,35 +6,29 @@
 
     <h1 class="mb-5">Change login data</h1>
     
-    <div class="row">
-        <div class="">
-            @using (Html.BeginForm("SaveLogin", "User", FormMethod.Post))
-            {
-            <form asp-action="ChangeLogin">
-                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group mb-4">
-                    <label asp-for="Login" class="control-label mb-2 ms-3"></label>
-                        <input asp-for="Login" class="form-control" required />
-                    <span asp-validation-for="Login" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mb-4">
-                        <label asp-for="Password" class="control-label mb-2 ms-3">Password</label>
-                        <input asp-for="Password" class="form-control" type="password" required />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                <input type="hidden" asp-for="Id_User" />
-                    <div class=" d-flex form-group mt-2">
-                        <div class="me-2 fs-3">
-                            <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
-                        </div>
-                        <input type="submit" value="Save Login" class="btn-gradient flex-fill p-2" />
-                    </div>
-            </form>
-            }
-        </div>
-    </div>
-    
-
+    @using (Html.BeginForm("SaveLogin", "User", FormMethod.Post))
+    {
+    <form asp-action="ChangeLogin">
+         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group mb-4">
+            <label asp-for="Login" class="control-label mb-2 ms-3"></label>
+                <input asp-for="Login" class="form-control" required />
+            <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-4">
+                <label asp-for="Password" class="control-label mb-2 ms-3">Password</label>
+                <input asp-for="Password" class="form-control" type="password" required />
+                <span asp-validation-for="Password" class="text-danger mw-350"></span>
+                </div>
+        <input type="hidden" asp-for="Id_User" />
+            <div class=" d-flex form-group mt-2">
+                <div class="me-2 fs-3">
+                    <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
+                </div>
+                <input type="submit" value="Save Login" class="btn-gradient flex-fill p-2" />
+            </div>
+    </form>
+    }
 </div>
 
 @section Scripts {

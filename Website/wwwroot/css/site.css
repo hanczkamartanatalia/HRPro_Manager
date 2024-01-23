@@ -2,6 +2,13 @@ html {
     font-size: 14px;
 
 }
+.mw-350{
+    max-width:300px !important;
+    margin-top:10px;
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+}
 
 body {
     background-color:rgb(246, 241, 241);
@@ -124,7 +131,11 @@ a{
     top:10px;
 }
 
-@media(max-width:1500px){
+.login-box{
+    width:clamp(200px, 95vw, 400px);
+}
+
+@media(max-width:1500px) {
     .menu-toggle{
         display:unset;
     }
@@ -138,6 +149,27 @@ a{
     }
     .sidebar-open {
         left: 0 !important;
+    }
+
+    .main-box-table
+    {
+        min-width:1000px !important;
+    }
+}
+
+/*sm*/
+@media(max-width: 576px)
+{
+    .sm-table
+    {
+        font-size: 80%;
+    }
+    .me-3
+    {
+        margin-right:0 !important;
+    }
+    .main-box {
+        min-width: 320px;
     }
 }
 

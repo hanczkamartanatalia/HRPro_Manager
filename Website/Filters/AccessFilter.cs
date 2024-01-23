@@ -9,6 +9,7 @@ namespace Website.Filters
         public void OnActionExecuting(ActionExecutingContext context)
         {
             ControlAccess(context);
+            //TODO przy cofaniu do home nie wyświetla tam komunikatu tylko w kolejno klikniętej stronie
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
@@ -34,6 +35,7 @@ namespace Website.Filters
             }
             catch
             {
+                context.HttpContext.Session.SetString("Error", "Page not found");
                 context.Result = new RedirectToActionResult("Index", "Home", null);
             }
         }
