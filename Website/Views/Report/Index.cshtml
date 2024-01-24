@@ -21,7 +21,7 @@
             </div>
             <div class="form-group">
                 <label class=" fw-bold mb-3">Month</label>
-                <input type="month" name="individualMonth" class="form-control" required />
+                <input type="month" name="individualMonth" class="form-control" max="@DateTime.Now.ToString("yyyy-MM")" required />
             </div>
             <div class="form-group mt-3 d-flex flex-wrap">
                 <button type="submit" class="btn-gradient border-solid p-2 me-3">Generate Individual Report</button>
@@ -36,7 +36,7 @@
             <h4 class="text-center mt-3 mb-3">Generate Summary Report</h4>
             <div class="form-group mb-3">
                 <label class=" fw-bold mb-3">Month</label>
-                <input type="month" name="summaryMonth" class="form-control" required />
+                <input type="month" name="summaryMonth" class="form-control" max="@DateTime.Now.ToString("yyyy-MM")" required />
             </div>
             <div class="form-group mt-3 d-flex flex-wrap">
                 <button type="submit" class="btn-gradient border-solid p-2 me-3">Generate Individual Report</button>

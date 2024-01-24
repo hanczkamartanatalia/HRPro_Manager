@@ -44,7 +44,7 @@
                 <h4 class="pb-3">Generate Report</h4>
                 <div class="input-group d-flex flex-column mt-2">
                     <label class="pt-1 mb-3 fw-bold">Month</label>
-                    <input type="month" name="userSummaryMonth" class="form-control w-100" required />
+                    <input type="month" name="userSummaryMonth" class="form-control w-100" max="@DateTime.Now.ToString("yyyy-MM")" required />
                 </div>
                 <div class="form-group pt-4">
                     <button type="submit" class="btn-gradient nav-link">Generate Report</button>
