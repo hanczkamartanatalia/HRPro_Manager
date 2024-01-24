@@ -1,5 +1,4 @@
-﻿
-@model Website.Entities.LoginData
+﻿@model Website.Entities.LoginData
 
 @{
     ViewData["Title"] = "Login";
@@ -28,5 +27,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

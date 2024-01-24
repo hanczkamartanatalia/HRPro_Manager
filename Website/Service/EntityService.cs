@@ -70,5 +70,10 @@ namespace Website.Service
               .OrderByDescending(x => x.Id)
               .FirstOrDefault();
         }
+
+        public static void Edit(T entity)
+        {
+
+        }
     }
 }

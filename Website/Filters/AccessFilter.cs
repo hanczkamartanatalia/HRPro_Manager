@@ -15,11 +15,11 @@ namespace Website.Filters
         {
         }
 
-        private void ControlAccess(ActionExecutingContext context)
+        private static void ControlAccess(ActionExecutingContext context)
         {
             
             string path = context.HttpContext.Request.Path;
-            string? roleName = context.HttpContext.Session.GetString("R_Name");
+            string roleName = context.HttpContext.Session.GetString("R_Name") ?? string.Empty;
             try
             {
                 bool access = Service.AccountService.AccessService.HasAccess(path, roleName);
