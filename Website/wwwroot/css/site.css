@@ -47,6 +47,7 @@ body {
     background-color: white;
     border-radius: 20px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
+    min-width: 400px;
 }
 .hg-p {
     padding: 100px 200px 100px 200px;

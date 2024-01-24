@@ -98,6 +98,7 @@ namespace Website.Controllers
                 editLoginData.Password = PasswordService.HashPassword(loginData.Password);
 
                 _context.SaveChanges();
+                _context.Dispose();
                 return RedirectToAction("Logout");
             }
             catch (Exception ex)
