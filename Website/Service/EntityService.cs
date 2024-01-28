@@ -1,10 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Website.Database;
-using System.Collections.Generic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Website.Service
 {
@@ -71,9 +67,5 @@ namespace Website.Service
               .FirstOrDefault();
         }
 
-        public static void Edit(T entity)
-        {
-
-        }
     }
 }

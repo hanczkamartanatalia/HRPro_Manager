@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using Website.Database;
 using Website.Entities;
 using Website.Models;
@@ -13,7 +9,7 @@ namespace Website.Controllers
 {
     public class AccountController : Controller
     {
-        private AppDbContext _context;
+        private readonly AppDbContext _context;
 
         public AccountController(AppDbContext context)
         {
@@ -31,7 +27,7 @@ namespace Website.Controllers
         }
         public IActionResult Login()
         {
-            if(LoginService.isLogin(HttpContext.Session.GetInt32("LD_Id"))) return RedirectToAction("Index");
+            if (LoginService.isLogin(HttpContext.Session.GetInt32("LD_Id"))) return RedirectToAction("Index");
             return View();
         }
         public IActionResult Logout()
@@ -63,7 +59,7 @@ namespace Website.Controllers
             }
             catch
             {
-                HttpContext.Session.SetString("Error","Incorrect login or password.");
+                HttpContext.Session.SetString("Error", "Incorrect login or password.");
                 return RedirectToAction("Login");
             }
         }
@@ -80,9 +76,9 @@ namespace Website.Controllers
             {
                 int? login_ID = HttpContext.Session.GetInt32("LD_Id");
                 LoginData? editLoginData = _context.LoginData.FirstOrDefault(i => i.Id == login_ID);
-                
-                string hashedCurrentPassword= PasswordService.HashPassword(currentPassword);
-                
+
+                string hashedCurrentPassword = PasswordService.HashPassword(currentPassword);
+
                 if (hashedCurrentPassword != editLoginData.Password)
                 {
                     ModelState.AddModelError(string.Empty, "Incorrect current password.");
@@ -98,7 +94,6 @@ namespace Website.Controllers
                 editLoginData.Password = PasswordService.HashPassword(loginData.Password);
 
                 _context.SaveChanges();
-                _context.Dispose();
                 return RedirectToAction("Logout");
             }
             catch (Exception ex)
