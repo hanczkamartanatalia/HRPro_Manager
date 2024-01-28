@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="~/css/table.css" />
 <div class="main-box p-3 mb-3 d-flex">
     <div class="me-4 fs-3">
-        <a asp-action="Index" title="back"><i class="fa-solid fa-circle-left"></i> </a>
+        <a asp-action="Index" asp-controller="Report" title="back"><i class="fa-solid fa-circle-left"></i></a>
     </div>
     <h2>Individual Report - <strong>@DateTime.Parse(ViewBag.StartDate).ToString("MMMM yyyy")</strong> - @ViewBag.UserName</h2>
 </div>

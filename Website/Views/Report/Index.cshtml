@@ -29,7 +29,7 @@
             </div>
         }
     </div>
-    <div class="flex-fill main-box p-3">
+    <div class="flex-fill main-box p-3 mb-3">
         @using (Html.BeginForm("GenerateSummaryReport", "Report", FormMethod.Post))
         {
             var errorMessageSummary = ViewData.ModelState["summaryMonth"]?.Errors.FirstOrDefault()?.ErrorMessage;
