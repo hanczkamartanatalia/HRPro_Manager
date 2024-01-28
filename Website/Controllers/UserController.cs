@@ -345,6 +345,12 @@ namespace Website.Controllers
             {
                 LoginData editLoginData = _context.LoginData.FirstOrDefault(i => i.Id_User == Id);
 
+                if (editLoginData.Id == HttpContext.Session.GetInt32("LD_Id") && editLoginData.Id_Role == 1)
+                {
+                    ModelState.AddModelError(string.Empty, "You cannot revoke your admin role.");
+                    List<Tuple<User, LoginData, Role>> usersWithLoginDataAndRole = GetUsersWithLoginDataAndRole();
+                    return View("Index", usersWithLoginDataAndRole);
+                }
 
                 if (editLoginData.Id_Role == 1)
                 {
