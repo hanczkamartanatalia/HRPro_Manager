@@ -18,10 +18,18 @@ namespace Website.Controllers
 
         public IActionResult Index()
         {
-            int? id = HttpContext.Session.GetInt32("LD_Id");
+            int? id = HttpContext.Session.GetInt32("LD_Id") ?? null;
             if (id <= 0 || id == null) return RedirectToAction("Login");
             LoginData loginData = EntityService<LoginData>.GetById((int)id);
             ViewBag.Wall = AccountService.AccountWall(loginData);
+            int? accountId = HttpContext.Session.GetInt32("U_Id") ?? null;
+            if(accountId != null)
+            {
+                Employment? employment = EntityService<Employment>.GetBy("Id_User", accountId.ToString());
+                ViewBag.Employment = employment;
+                ViewBag.Manager = employment.Id_Manager != null ? EntityService<User>.GetById((int)employment.Id_Manager) : null;
+                ViewBag.Position =  EntityService<Position>.GetById((int)employment.Id_Position);
+            }
 
             return View();
         }

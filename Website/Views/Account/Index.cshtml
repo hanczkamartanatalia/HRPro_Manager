@@ -17,15 +17,34 @@
                 <p class="pb-5">@Context.Session.GetString("U_Name")</p>
                 <p class="border-bottom border-primary-subtle fw-bold pb-3">Last name: </p>
                 <p class="pb-5">@Context.Session.GetString("U_LastName")</p>
-                <p class="border-bottom border-primary-subtle fw-bold pb-3">Login: </p>
-                <p class="pb-5">@Context.Session.GetString("LD_Login")</p>
-    
             </div>
             <div class="main-box p-5 flex-fill me-3 mb-3">
                 <p class="border-bottom border-primary-subtle fw-bold pb-3">Email: </p>
                 <p class="pb-5">@Context.Session.GetString("U_Email")</p>
-                <p class="border-bottom border-primary-subtle fw-bold pb-3">Your role: </p>
+                <p class="border-bottom border-primary-subtle fw-bold pb-3">Login: </p>
+                <p class="pb-5">@Context.Session.GetString("LD_Login")</p>
+            </div>
+        </div>
+        <div class="main-box p-3 mb-3 me-3">
+            <h4 class="">Employment data</h4>
+        </div>
+        <div class="d-flex flex-wrap">
+            <div class="main-box p-5 flex-fill me-3 mb-3">
+                <p class="border-bottom border-primary-subtle fw-bold pb-3">Role: </p>
                 <p class="pb-5">@Context.Session.GetString("R_Name")</p>
+                <p class="border-bottom border-primary-subtle fw-bold pb-3">Rate: </p>
+                <p class="pb-5">@ViewBag.Employment.Rate.ToString("F2")</p>
+            </div>
+            <div class="main-box p-5 flex-fill me-3 mb-3">
+                <p class="border-bottom border-primary-subtle fw-bold pb-3">Position: </p>
+                <p class="pb-5">@ViewBag.Position.Name</p>
+                @{
+                    if (ViewBag.Manager != null)
+                    {
+                        <p class="border-bottom border-primary-subtle fw-bold pb-3">Manager: </p>
+                        <p class="pb-5">@ViewBag.Manager.Name @ViewBag.Manager.LastName</p>
+                    }
+                }
             </div>
         </div>
     </div>
@@ -37,8 +56,8 @@
                 <a asp-action="ChangePassword" class=" btn-gradient nav-link border-solid">Change Password</a>
             </div>
         </div>
-        
-        <div class="main-box p-5 flex-fill">
+
+        <div class="main-box p-5 flex-fill mb-3">
             @using (Html.BeginForm("GenerateUserReport", "Report", FormMethod.Post))
             {
                 <h4 class="pb-3">Generate Report</h4>
@@ -53,24 +72,25 @@
         </div>
     </div>
 </div>
-    @{
-        if (ViewBag.Wall != null)
-        {
-        <div class="d-sm-flex main-box p-4 mt-3 flex-wrap">
-                <div class="fw-bold flex-fill me-3">
-                    <div>Last application</div>
-                </div>
+@{
+    if (ViewBag.Wall != null)
+    {
+        <div class="d-sm-flex main-box p-4 flex-wrap">
+            <div class="fw-bold flex-fill me-3">
+                <div>Last application</div>
+            </div>
             <div class="flex-fill me-3">
-                    <div>Start: @ViewBag.Wall["Start"]</div>
-                </div>
+                <div>Start: @ViewBag.Wall["Start"]</div>
+            </div>
             <div class="flex-fill me-3">
                 <div>End: @ViewBag.Wall["End"]</div>
-                </div>
-            <div class="flex-fill me-3">
-                    <div>@ViewBag.Wall["Category"]</div>
-                </div>
             </div>
+            <div class="flex-fill me-3">
+                <div>@ViewBag.Wall["Category"]</div>
+            </div>
+        </div>
 
-        }
     }
-    
+}
+
+
