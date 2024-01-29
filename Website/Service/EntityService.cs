@@ -70,12 +70,10 @@ namespace Website.Service
               .OrderByDescending(x => x.Id)
               .FirstOrDefault();
 
-            _context.Entry(result).Reload();
+            if (result == null) return null;
 
+            _context.Entry(result).Reload();
             return result;
         }
-
-
-
     }
 }

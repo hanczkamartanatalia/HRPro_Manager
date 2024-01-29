@@ -32,6 +32,14 @@
                         {
                             await Html.RenderPartialAsync("MenuTypes/_employee.cshtml");
                         }
+
+                        if (role != null)
+                        {
+                            <li class="btn-gradient mb-2">
+                                <a class="nav-link text-dark w-100 " asp-area="" asp-controller="Account" asp-action="Index">Account</a>
+                            </li>
+
+                        }
                     }
                 </ul>
             </div>

@@ -8,31 +8,25 @@
     <a class="nav-link text-dark" asp-controller="Positions" asp-action="Index">Positions</a>
 </li>
 <li class="btn-gradient mb-2">
-    <a class="nav-link text-dark" asp-controller="Categories" asp-action="Index">Application categories</a>
-</li>
-<li class="btn-gradient mb-2">
     <a class="nav-link text-dark" asp-controller="Report" asp-action="Index">Reports</a>
 </li>
 <li data-bs-toggle="collapse" data-bs-target="#flush-worktime" aria-expanded="false" class="btn-gradient mb-2">
         <a class="nav-link text-dark">Work Time <i class="fa-solid fa-chevron-down"></i></a>
 </li>
 <ul id="flush-worktime" class="collapse">
-    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="WorkTimes" asp-action="IndexUser">Your History</a></li>
-    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="WorkTimes" asp-action="Create">Add employee time</a></li>
     <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="WorkTimes" asp-action="CreateUser">Add new</a></li>
-    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="WorkTimes" asp-action="Index">History</a></li>
+    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="WorkTimes" asp-action="IndexUser">Your time</a></li>
+    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="WorkTimes" asp-action="Create">Add employee time</a></li>
+    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="WorkTimes" asp-action="Index">Archives</a></li>
 </ul>
 
 <li data-bs-toggle="collapse" data-bs-target="#flush-app" aria-expanded="false" class="btn-gradient mb-2">
     <a class="nav-link text-dark">Applications <i class="fa-solid fa-chevron-down"></i> </a>
 </li>
 <ul id="flush-app" class="collapse">
-    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="Applications" asp-action="Create">Add</a></li>
+    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="Applications" asp-action="Create">Add new</a></li>
     <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="Approve" asp-action="AllApplications">All applications</a></li>
     <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="Applications" asp-action="Index">Your application</a></li>
+    <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="Categories" asp-action="Index">Categories</a></li>
     <li class="btn-gradient mb-2"><a class="nav-link text-dark" asp-controller="Approve" asp-action="Archives">Archives</a></li>
-
 </ul>
-<li class="nav-item btn-gradient mb-2">
-    <a class="nav-link text-dark" asp-area="" asp-controller="WorkTimes" asp-action="Index"> Time Entry</a>
-</li>
