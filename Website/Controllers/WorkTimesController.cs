@@ -79,6 +79,11 @@ namespace Website.Controllers
                     ModelState.AddModelError(string.Empty, "Invalid input parameters.");
                     return View();
                 }
+                if (WorkingHours > 24)
+                {
+                    ModelState.AddModelError(string.Empty, "The working day cannot be longer than 24 hours.");
+                    return View();
+                }
 
                 // Check if the WorkingDay is in the future
                 if (WorkingDay > DateTime.Now)
@@ -114,6 +119,11 @@ namespace Website.Controllers
         {
             try
             {
+                if (workTime.WorkingHours > 24)
+                {
+                    ModelState.AddModelError(string.Empty, "The working day cannot be longer than 24 hours.");
+                    return View();
+                }
                 _context.Add(workTime);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -183,8 +193,12 @@ namespace Website.Controllers
             {
                 return NotFound();
             }
+            if (workTime.WorkingHours > 24)
+            {
+                ModelState.AddModelError(string.Empty, "The working day cannot be longer than 24 hours.");
+                return View();
+            }
 
-            
             try
             {
                 _context.Update(workTime);
@@ -211,6 +225,11 @@ namespace Website.Controllers
             if (id != workTime.Id)
             {
                 return NotFound();
+            }
+            if (workTime.WorkingHours > 24)
+            {
+                ModelState.AddModelError(string.Empty, "The working day cannot be longer than 24 hours.");
+                return View();
             }
             if (workTime.WorkingDay > DateTime.Now)
             {
