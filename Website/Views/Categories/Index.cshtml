@@ -6,7 +6,7 @@
 
 <div class="main-box d-flex justify-content-between p-3">
     <h1>Categories</h1>
-    <a asp-action="Create" class="btn-gradient border-solid p-3">Create new</a>
+    @* <a asp-action="Create" class="btn-gradient border-solid p-3">Create new</a> *@
 </div>
 <div class="main-box mt-3 p-3 ">
     <table class="table sm-table">
@@ -27,7 +27,7 @@
                 <td>
                     <div class="d-flex flex-wrap justify-content-end">
                         <a asp-action="Edit" class="btn btn-outline-success me-1" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
-                            <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Delete</a>
+                            @* <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i> Delete</a> *@
                     </div>
                 </td>
             </tr>
