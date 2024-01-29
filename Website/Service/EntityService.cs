@@ -52,8 +52,10 @@ namespace Website.Service
 
             if (string.IsNullOrEmpty(property))
             {
-                return result = _context.Set<T>().OrderByDescending(x => x.Id)
+                result = _context.Set<T>().OrderByDescending(x => x.Id)
                               .FirstOrDefault();
+                _context.Entry(result).Reload();
+                return result;
             }
 
             PropertyInfo? propertyInfo = typeof(T).GetProperty(property);
@@ -63,13 +65,17 @@ namespace Website.Service
                 throw new ArgumentException($"Type {typeof(T)} does not contain a property named {property}.");
             }
 
-            return result = _context.Set<T>()
+            result = _context.Set<T>()
               .Where(x => EF.Property<string>(x, property) == value)
               .OrderByDescending(x => x.Id)
               .FirstOrDefault();
+
+            _context.Entry(result).Reload();
+
+            return result;
         }
 
-       
+
 
     }
 }
