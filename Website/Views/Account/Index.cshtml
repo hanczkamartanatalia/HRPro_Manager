@@ -2,11 +2,14 @@
     ViewData["Title"] = "Account";
 }
 
+@* fist row *@
 <div class="main-box p-3 mb-3">
     <h3>Your account</h3>
 </div>
 
+@* second column *@
 <div class="d-flex flex-wrap">
+    @* First column *@
     <div class="d-flex flex-column flex-fill">
         <div class="main-box p-3 mb-3 me-3">
             <h4 class="">Personal data</h4>
@@ -48,6 +51,8 @@
             </div>
         </div>
     </div>
+
+    @* second column *@
     <div class="d-flex flex-column flex-fill">
 
         <div class="main-box p-5 mb-3 flex-fill">
@@ -72,6 +77,8 @@
         </div>
     </div>
 </div>
+
+@* third row *@
 @{
     if (ViewBag.Wall != null)
     {
