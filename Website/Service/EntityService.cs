@@ -41,6 +41,8 @@ namespace Website.Service
                 throw new ArgumentNullException($"{nameof(entity)}");
             }
 
+            _context.Entry(entity).Reload();
+
             return entity as T;
         }
 
