@@ -23,7 +23,7 @@ namespace Website.Service
             return _context.Set<T>().ToList();
         }
 
-        public static T GetBy(string _fieldName, string _value)
+        public static T? GetBy(string _fieldName, string _value)
         {
             PropertyInfo? property = typeof(T).GetProperty(_fieldName);
 
@@ -38,7 +38,7 @@ namespace Website.Service
 
             if (entity == null)
             {
-                throw new ArgumentNullException($"{nameof(entity)}");
+                return null;
             }
 
             _context.Entry(entity).Reload();

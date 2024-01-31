@@ -24,12 +24,15 @@ namespace Website.Controllers
             LoginData loginData = EntityService<LoginData>.GetById((int)id);
             ViewBag.Wall = AccountService.AccountWall(loginData);
             int? accountId = HttpContext.Session.GetInt32("U_Id") ?? null;
-            if(accountId != null)
+            if (accountId != null)
             {
                 Employment? employment = EntityService<Employment>.GetBy("Id_User", accountId.ToString());
-                ViewBag.Employment = employment;
-                ViewBag.Manager = employment.Id_Manager != null ? EntityService<User>.GetById((int)employment.Id_Manager) : null;
-                ViewBag.Position =  EntityService<Position>.GetById((int)employment.Id_Position);
+                if (employment != null)
+                {
+                    ViewBag.Employment = employment;
+                    ViewBag.Manager = employment.Id_Manager != null ? EntityService<User>.GetById((int)employment.Id_Manager) : null;
+                    ViewBag.Position = EntityService<Position>.GetById((int)employment.Id_Position);
+                }
             }
 
             return View();
