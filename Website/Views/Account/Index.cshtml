@@ -28,28 +28,35 @@
                 <p class="pb-5">@Context.Session.GetString("LD_Login")</p>
             </div>
         </div>
-        <div class="main-box p-3 mb-3 me-3">
-            <h4 class="">Employment data</h4>
-        </div>
-        <div class="d-flex flex-wrap">
-            <div class="main-box p-5 flex-fill me-3 mb-3">
-                <p class="border-bottom border-primary-subtle fw-bold pb-3">Role: </p>
-                <p class="pb-5">@Context.Session.GetString("R_Name")</p>
-                <p class="border-bottom border-primary-subtle fw-bold pb-3">Rate: </p>
-                <p class="pb-5">@ViewBag.Employment.Rate.ToString("F2")</p>
+        @{
+            if(ViewBag.Employment != null)
+            {
+                
+            <div class="main-box p-3 mb-3 me-3">
+
+                <h4 class="">Employment data</h4>
             </div>
-            <div class="main-box p-5 flex-fill me-3 mb-3">
-                <p class="border-bottom border-primary-subtle fw-bold pb-3">Position: </p>
-                <p class="pb-5">@ViewBag.Position.Name</p>
-                @{
-                    if (ViewBag.Manager != null)
-                    {
-                        <p class="border-bottom border-primary-subtle fw-bold pb-3">Manager: </p>
-                        <p class="pb-5">@ViewBag.Manager.Name @ViewBag.Manager.LastName</p>
+            <div class="d-flex flex-wrap">
+                <div class="main-box p-5 flex-fill me-3 mb-3">
+                    <p class="border-bottom border-primary-subtle fw-bold pb-3">Role: </p>
+                    <p class="pb-5">@Context.Session.GetString("R_Name")</p>
+                    <p class="border-bottom border-primary-subtle fw-bold pb-3">Rate: </p>
+                    <p class="pb-5">@ViewBag.Employment.Rate.ToString("F2")</p>
+                </div>
+                <div class="main-box p-5 flex-fill me-3 mb-3">
+                    <p class="border-bottom border-primary-subtle fw-bold pb-3">Position: </p>
+                    <p class="pb-5">@ViewBag.Position.Name</p>
+                    @{
+                        if (ViewBag.Manager != null)
+                        {
+                            <p class="border-bottom border-primary-subtle fw-bold pb-3">Manager: </p>
+                            <p class="pb-5">@ViewBag.Manager.Name @ViewBag.Manager.LastName</p>
+                        }
                     }
-                }
+                </div>
             </div>
-        </div>
+            }
+        }
     </div>
 
     @* second column *@
