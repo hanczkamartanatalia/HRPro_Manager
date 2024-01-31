@@ -307,8 +307,6 @@ namespace Website.Controllers
                     Role role = _context.Roles.SingleOrDefault(i => i.Id == 2);
                     editLoginData.Id_Role = role.Id;
                     editLoginData.Role = role;
-                    //Employment employment = _context.Employments.FirstOrDefault(i => i.Id_User == editLoginData.Id_User);
-                    //employment.Id_Manager = null;
                 }
                 else if (editLoginData.Id_Role == 2)
                 {
@@ -324,8 +322,6 @@ namespace Website.Controllers
                     Role role = _context.Roles.SingleOrDefault(i => i.Id == 3);
                     editLoginData.Id_Role = role.Id;
                     editLoginData.Role = role;
-                    //Employment employment = _context.Employments.FirstOrDefault(i => i.Id_User == editLoginData.Id_User);
-                    //employment.Id_Manager = _context.LoginData.FirstOrDefault(i => i.Id_Role == 2).Id_User;
                 }
 
                 _context.SaveChanges();

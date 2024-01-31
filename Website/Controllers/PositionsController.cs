@@ -125,9 +125,10 @@ namespace Website.Controllers
             {
                 return NotFound();
             }
-
+            
             var position = await _context.Positions
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (position == null)
             {
                 return NotFound();
@@ -146,6 +147,15 @@ namespace Website.Controllers
                 return Problem("Entity set 'AppDbContext.Positions'  is null.");
             }
             var position = await _context.Positions.FindAsync(id);
+
+            bool hasPosition = _context.LoginData.Any(e => e.Id_Role == position.Id);
+
+            if (hasPosition)
+            {
+                ModelState.AddModelError(string.Empty, "Cannot delete a position that has been assigned to users.");
+                return View();
+            }
+            
             if (position != null)
             {
                 _context.Positions.Remove(position);
