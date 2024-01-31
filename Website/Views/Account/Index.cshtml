@@ -29,32 +29,32 @@
             </div>
         </div>
         @{
-            if(ViewBag.Employment != null)
+            if (ViewBag.Employment != null)
             {
-                
-            <div class="main-box p-3 mb-3 me-3">
 
-                <h4 class="">Employment data</h4>
-            </div>
-            <div class="d-flex flex-wrap">
-                <div class="main-box p-5 flex-fill me-3 mb-3">
-                    <p class="border-bottom border-primary-subtle fw-bold pb-3">Role: </p>
-                    <p class="pb-5">@Context.Session.GetString("R_Name")</p>
-                    <p class="border-bottom border-primary-subtle fw-bold pb-3">Rate: </p>
-                    <p class="pb-5">@ViewBag.Employment.Rate.ToString("F2")</p>
+                <div class="main-box p-3 mb-3 me-3">
+
+                    <h4 class="">Employment data</h4>
                 </div>
-                <div class="main-box p-5 flex-fill me-3 mb-3">
-                    <p class="border-bottom border-primary-subtle fw-bold pb-3">Position: </p>
-                    <p class="pb-5">@ViewBag.Position.Name</p>
-                    @{
-                        if (ViewBag.Manager != null)
-                        {
-                            <p class="border-bottom border-primary-subtle fw-bold pb-3">Manager: </p>
-                            <p class="pb-5">@ViewBag.Manager.Name @ViewBag.Manager.LastName</p>
+                <div class="d-flex flex-wrap">
+                    <div class="main-box p-5 flex-fill me-3 mb-3">
+                        <p class="border-bottom border-primary-subtle fw-bold pb-3">Role: </p>
+                        <p class="pb-5">@Context.Session.GetString("R_Name")</p>
+                        <p class="border-bottom border-primary-subtle fw-bold pb-3">Rate: </p>
+                        <p class="pb-5">@ViewBag.Employment.Rate.ToString("F2")</p>
+                    </div>
+                    <div class="main-box p-5 flex-fill me-3 mb-3">
+                        <p class="border-bottom border-primary-subtle fw-bold pb-3">Position: </p>
+                        <p class="pb-5">@ViewBag.Position.Name</p>
+                        @{
+                            if (ViewBag.Manager != null)
+                            {
+                                <p class="border-bottom border-primary-subtle fw-bold pb-3">Manager: </p>
+                                <p class="pb-5">@ViewBag.Manager.Name @ViewBag.Manager.LastName</p>
+                            }
                         }
-                    }
+                    </div>
                 </div>
-            </div>
             }
         }
     </div>
@@ -89,7 +89,7 @@
 @{
     if (ViewBag.Wall != null)
     {
-        <div class="d-sm-flex main-box p-4 flex-wrap">
+        <div class="d-sm-flex main-box p-4 flex-wrap" id="application-info">
             <div class="fw-bold flex-fill me-3">
                 <div>Last application</div>
             </div>
@@ -100,11 +100,26 @@
                 <div>End: @ViewBag.Wall["End"]</div>
             </div>
             <div class="flex-fill me-3">
-                <div>@ViewBag.Wall["Category"]</div>
+                <div id="category">@ViewBag.Wall["Category"]</div>
             </div>
         </div>
 
     }
 }
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if ($('#category').text() == 'Accepted') {
+            $('#application-info').addClass('border');
+            $('#application-info').addClass('border-success');
+            $('#application-info').addClass('border-3');
+        }
+        if ($('#category').text() == 'Rejected') {
+            $('#application-info').addClass('border');
+            $('#application-info').addClass('border-danger');
+            $('#application-info').addClass('border-3');
+        }
+    });
+</script>
 
