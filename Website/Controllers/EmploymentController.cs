@@ -48,19 +48,19 @@ namespace Website.Controllers
         public IActionResult Create()
         {
             List<User> userList = _context.Users
-    .Join(
-        _context.LoginData,
-        user => user.Id,
-        login => login.Id_User,
-        (user, login) => new { User = user, Login = login }
-    )
-    .Where(joinResult => joinResult.Login.Id_Role == 2)
-    .Select(u => new User { Id = u.User.Id, Name = u.User.Name, LastName = u.User.LastName })
-    .ToList();
+                    .Join(
+                        _context.LoginData,
+                        user => user.Id,
+                        login => login.Id_User,
+                        (user, login) => new { User = user, Login = login }
+                        )
+                    .Where(joinResult => joinResult.Login.Id_Role == 2)
+                    .Select(u => new User { Id = u.User.Id, Name = u.User.Name, LastName = u.User.LastName })
+                    .ToList();
 
             List<SelectListItem> usersListItems = userList
-                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
-                .ToList();
+                    .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
+                    .ToList();
 
             usersListItems.Insert(0, new SelectListItem { Value = "", Text = "-- No manager --" });
 
@@ -69,8 +69,8 @@ namespace Website.Controllers
             List<Position> positionList = _context.Positions.ToList();
 
             List<SelectListItem> positionsListItems = positionList
-                .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = $"{p.Name}" })
-                .ToList();
+                    .Select(p => new SelectListItem { Value = p.Id.ToString(), Text = $"{p.Name}" })
+                    .ToList();
 
             ViewData["Id_Position"] = new SelectList(positionsListItems, "Value", "Text");
 
@@ -90,9 +90,17 @@ namespace Website.Controllers
                 employment.User = user;
                 employment.Id_User = user.Id;
                 employment.Manager = manager;
-                employment.Id_Manager = manager.Id;
                 employment.Position = position;
                 employment.Id_Position = position.Id;
+
+                if (manager != null)
+                {
+                    employment.Id_Manager = manager.Id;
+                }
+                else
+                {
+                    employment.Id_Manager = null;
+                }
 
                 _context.Employments.Add(employment);
                 _context.SaveChanges();
@@ -115,19 +123,19 @@ namespace Website.Controllers
             try
             {
                 List<User> userList = _context.Users
-    .Join(
-        _context.LoginData,
-        user => user.Id,
-        login => login.Id_User,
-        (user, login) => new { User = user, Login = login }
-    )
-    .Where(joinResult => joinResult.Login.Id_Role == 2)
-    .Select(u => new User { Id = u.User.Id, Name = u.User.Name, LastName = u.User.LastName })
-    .ToList();
+                    .Join(
+                        _context.LoginData,
+                        user => user.Id,
+                        login => login.Id_User,
+                        (user, login) => new { User = user, Login = login }
+                        )
+                    .Where(joinResult => joinResult.Login.Id_Role == 2)
+                    .Select(u => new User { Id = u.User.Id, Name = u.User.Name, LastName = u.User.LastName })
+                    .ToList();
 
                 List<SelectListItem> usersListItems = userList
-                .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
-                .ToList();
+                    .Select(u => new SelectListItem { Value = u.Id.ToString(), Text = $"{u.Name} {u.LastName}" })
+                    .ToList();
 
                 usersListItems.Insert(0, new SelectListItem { Value = "", Text = "-- No manager --" });
 
@@ -177,10 +185,18 @@ namespace Website.Controllers
                 editEmployment.User = user;
                 editEmployment.Id_User = user.Id;
                 editEmployment.Manager = manager;
-                editEmployment.Id_Manager = manager.Id;
                 editEmployment.Position = position;
                 editEmployment.Id_Position = position.Id;
                 editEmployment.Rate = employment.Rate;
+
+                if (manager != null)
+                {
+                    editEmployment.Id_Manager = manager.Id;
+                }
+                else
+                {
+                    editEmployment.Id_Manager = null;
+                }
 
                 _context.SaveChanges();
                 return RedirectToAction("Index");
